@@ -1,0 +1,22 @@
+{
+    "internalAPI" : {
+        "port" : 8080,
+        "database" : {
+            "host" : "localhost",
+            "port" : 4306,
+            "username" : "internalAPI",
+            "password" : "IPAlanretni",
+            "database" : "guideme"
+        }
+    },
+    "adminAPI" : {
+        "port" : 8081,
+        "database" : {
+            "host" : "localhost",
+            "port" : 4306,
+            "username" : "adminAPI",
+            "password" : "IPAnimda",
+            "database" : "guideme"
+        }
+    }
+}
