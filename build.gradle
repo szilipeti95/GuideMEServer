@@ -33,6 +33,10 @@ repositories {
     jcenter()
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.2' //version required
+}
+
 dependencies {
     testCompile 'junit:junit:4.12'
 
