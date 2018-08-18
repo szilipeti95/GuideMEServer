@@ -18,7 +18,9 @@
             "username" : "internalAPI",
             "password" : "IPAlanretni",
             "database" : "donationapp"
-        }
+        },
+
+        "avatarFolder" : "avatars"
     },
     "adminAPI" : {
         "port" : 8081,

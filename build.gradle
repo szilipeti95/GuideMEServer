@@ -4,7 +4,7 @@ apply plugin: 'application'
 
 buildscript {
     ext{
-        kotlin_version = '1.2.20'
+        kotlin_version = '1.2.30'
         vertx_version = '3.5.0'
     }
 
@@ -33,16 +33,12 @@ repositories {
     jcenter()
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.2' //version required
-}
-
 dependencies {
     testCompile 'junit:junit:4.12'
 
     compile "org.slf4j:slf4j-api:1.7.5"
     compile "org.slf4j:slf4j-simple:1.6.4"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlin_version}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
 
     compile "io.vertx:vertx-core:$vertx_version"
@@ -50,8 +46,21 @@ dependencies {
     compile "io.vertx:vertx-web:$vertx_version"
     compile "io.vertx:vertx-jdbc-client:$vertx_version"
     compile "io.vertx:vertx-mysql-postgresql-client:$vertx_version"
+    compile "io.vertx:vertx-auth-jwt:$vertx_version"
 
-    compile project(':InternalAPI')
+    compile 'com.google.api-client:google-api-client-servlet:1.23.0'
+//    compile 'com.google.api-client:google-http-java-client:1.20.0'
 }
 
-mainClassName = 'hu.guideme.server.Main'
+mainClassName = 'hu.donationapp.server.Main'
+
+jar {
+    manifest {
+        attributes 'Main-Class': "$mainClassName"
+    }
+
+    from {
+        // copy dependencies
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}

@@ -1,4 +1,1 @@
-include ':InternalAPI'
-project(':InternalAPI').projectDir = new File('../InternalAPI')
-
 rootProject.name = 'Server'
