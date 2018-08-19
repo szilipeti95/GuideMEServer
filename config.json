@@ -1,6 +1,6 @@
 {
     "internalAPI" : {
-        "port" : 8080,
+        "port" : 8082,
 
         "facebookOAuth2" : {
             "clientId" : "1925937001036654",
@@ -17,17 +17,17 @@
             "port" : 4306,
             "username" : "internalAPI",
             "password" : "IPAlanretni",
-            "database" : "donationapp"
+            "database" : "guideme"
         }
     },
     "adminAPI" : {
-        "port" : 8081,
+        "port" : 8082,
         "database" : {
             "host" : "localhost",
             "port" : 4306,
             "username" : "adminAPI",
             "password" : "IPAnimda",
-            "database" : "donationapp"
+            "database" : "guideme"
         }
     }
 }

@@ -1,4 +1,4 @@
-package hu.donationapp.server
+package hu.guideme.server
 
 import io.vertx.core.DeploymentOptions
 import io.vertx.core.Vertx
@@ -18,7 +18,7 @@ object Main{
         val vertx = Vertx.vertx()
 
         val internalAPIOptions = DeploymentOptions().setConfig(conf.getJsonObject("internalAPI"))
-        vertx.deployVerticle("hu.donationapp.server.InternalAPIVerticle", internalAPIOptions) {
+        vertx.deployVerticle("hu.guideme.server.InternalAPIVerticle", internalAPIOptions) {
             if(it.failed()){
                 logger.error("starting InternalAPIVerticle failed\n" + it.cause())
                 it.cause().printStackTrace()
@@ -29,7 +29,7 @@ object Main{
         }
 
         val adminApiOptions = DeploymentOptions().setConfig(conf.getJsonObject("adminAPI"))
-        vertx.deployVerticle("hu.donationapp.server.AdminAPIVerticle", adminApiOptions) {
+        vertx.deployVerticle("hu.guideme.server.AdminAPIVerticle", adminApiOptions) {
             if(it.failed()){
                 logger.error("starting AdminAPIVerticle failed\n" + it.cause())
                 kotlin.system.exitProcess(1)

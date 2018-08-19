@@ -1,4 +1,4 @@
-package hu.donationapp.server
+package hu.guideme.server
 
 import io.vertx.ext.web.handler.BodyHandler
 import java.util.*

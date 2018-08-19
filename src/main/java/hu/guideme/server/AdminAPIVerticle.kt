@@ -1,4 +1,4 @@
-package hu.donationapp.server
+package hu.guideme.server
 
 import io.vertx.core.AbstractVerticle
 import io.vertx.core.Future

@@ -1,4 +1,4 @@
-package hu.donationapp.server
+package hu.guideme.server
 
 import java.nio.charset.Charset
 import java.security.SecureRandom
