@@ -15,6 +15,7 @@ CREATE TABLE `User` (
   UNIQUE KEY `email_UNIQUE` (`email`)
 );
 
+
 CREATE TABLE Category (
   `id` int(32) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
