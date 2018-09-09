@@ -51,5 +51,14 @@ Kitura.addHTTPServer(onPort: 8004, with: router, withSSL: mySSLConfig)
 Kitura.addHTTPServer(onPort: 8004, with: router)
 #endif
 
+let localRouter = Router()
+localRouter.get("/shutdown") {
+  request, response, next in
+  response.send("Stopping server!")
+  Kitura.stop()
+}
+
+Kitura.addHTTPServer(onPort: 8084, with: localRouter)
+
 // Start the Kitura runloop (this call never returns)
 Kitura.run()
