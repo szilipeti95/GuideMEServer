@@ -1,0 +1,55 @@
+import Kitura
+import SwiftKuery
+import SwiftKueryORM
+import SwiftKueryMySQL
+import Foundation
+
+let user = "app"
+let password = "ppa"
+let host = "localhost"
+let port = "3306"
+let database = "guideme"
+
+//let connection = MySQLConnection(url: URL(string: "mysql://\(user):\(password)@\(host):\(port)/\(database)")!)
+
+let pool = MySQLConnection.createPool(url: URL(string: "mysql://\(user):\(password)@\(host):\(port)/\(database)")!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
+Database.default = Database(pool)
+
+
+// Create a new router
+
+let router = Router()
+
+// Handle HTTP GET requests to /
+router.get("/") {
+  request, response, next in
+  response.send("Hello, World!")
+  next()
+}
+
+router.get("/kaka") {
+  request, response, next in
+  response.send("Hello Kaka!")
+  next()
+}
+
+
+// Add an HTTP server and connect it to the router
+#if os(Linux)
+let myCertFile = "/etc/letsencrypt/live/mylittlebackend.ml/cert.pem"
+let myKeyFile = "/etc/letsencrypt/live/mylittlebackend.ml/privkey.pem"
+
+let mySSLConfig =  SSLConfig(withCACertificateDirectory: nil,
+                             usingCertificateFile: myCertFile,
+                             withKeyFile: myKeyFile,
+                             usingSelfSignedCerts: true)
+
+
+Kitura.addHTTPServer(onPort: 8004, with: router, withSSL: mySSLConfig)
+#else // on macOS
+
+Kitura.addHTTPServer(onPort: 8004, with: router)
+#endif
+
+// Start the Kitura runloop (this call never returns)
+Kitura.run()
