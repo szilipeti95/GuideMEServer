@@ -10,10 +10,10 @@ let host = "localhost"
 let port = "3306"
 let database = "guideme"
 
-//let connection = MySQLConnection(url: URL(string: "mysql://\(user):\(password)@\(host):\(port)/\(database)")!)
+let connection = MySQLConnection(url: URL(string: "mysql://\(user):\(password)@\(host):\(port)/\(database)")!)
 
-let pool = MySQLConnection.createPool(url: URL(string: "mysql://\(user):\(password)@\(host):\(port)/\(database)")!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
-Database.default = Database(pool)
+//let pool = MySQLConnection.createPool(url: URL(string: "mysql://\(user):\(password)@\(host):\(port)/\(database)")!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
+//Database.default = Database(pool)
 
 
 // Create a new router
@@ -34,20 +34,18 @@ router.get("/kaka") {
   print("/kaka called")
   let user = Table(tableName: "User", columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)])
   let newUser: [[Any]] = [["Added", "From", 11111]]
-  if let connection = pool.getConnection() {
-    let insertQuery = Insert(into: user, rows: newUser)
-    connection.execute(query: insertQuery) { insertResult in
-      connection.execute(query: Select(from: user)) { selectResult in
-        if let resultSet = selectResult.asResultSet {
-          for row in resultSet.rows {
-            print("username: \(row[0]) email: \(row[1])")
-          }
+  let insertQuery = Insert(into: user, rows: newUser)
+  connection.execute(query: insertQuery) { insertResult in
+    connection.execute(query: Select(from: user)) { selectResult in
+      if let resultSet = selectResult.asResultSet {
+        for row in resultSet.rows {
+          print("username: \(row[0]) email: \(row[1])")
         }
-
       }
-      response.send("Kaka")
-      next()
+
     }
+    response.send("Kaka")
+    next()
   }
 
 }
