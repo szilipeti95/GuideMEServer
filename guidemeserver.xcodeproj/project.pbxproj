@@ -30,7 +30,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		C75E0EA7213EFE9A002247B0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75E0EA6213EFE9A002247B0 /* User.swift */; };
 		OBJ_248 /* http_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_203 /* http_parser.c */; };
 		OBJ_249 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_204 /* utils.c */; };
 		OBJ_260 /* CodableRouter+TypeSafeMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_82 /* CodableRouter+TypeSafeMiddleware.swift */; };
@@ -229,248 +228,249 @@
 		OBJ_584 /* OrderedDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_140 /* OrderedDictionary.swift */; };
 		OBJ_585 /* TypeDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_141 /* TypeDecoder.swift */; };
 		OBJ_592 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_142 /* Package.swift */; };
-		OBJ_598 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* main.swift */; };
-		OBJ_600 /* SwiftKueryMySQL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKueryMySQL::SwiftKueryMySQL::Product" /* SwiftKueryMySQL.framework */; };
-		OBJ_601 /* SwiftKueryORM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKueryORM::SwiftKueryORM::Product" /* SwiftKueryORM.framework */; };
-		OBJ_602 /* SwiftKuery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKuery::SwiftKuery::Product" /* SwiftKuery.framework */; };
-		OBJ_603 /* Kitura.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Kitura::Kitura::Product" /* Kitura.framework */; };
-		OBJ_604 /* TypeDecoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "TypeDecoder::TypeDecoder::Product" /* TypeDecoder.framework */; };
-		OBJ_605 /* KituraContracts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "KituraContracts::KituraContracts::Product" /* KituraContracts.framework */; };
-		OBJ_606 /* KituraTemplateEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Kitura-TemplateEngine::KituraTemplateEngine::Product" /* KituraTemplateEngine.framework */; };
-		OBJ_607 /* KituraNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Kitura-net::KituraNet::Product" /* KituraNet.framework */; };
-		OBJ_608 /* SSLService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SSLService::SSLService::Product" /* SSLService.framework */; };
-		OBJ_609 /* Socket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Socket::Socket::Product" /* Socket.framework */; };
-		OBJ_610 /* LoggerAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "LoggerAPI::LoggerAPI::Product" /* LoggerAPI.framework */; };
-		OBJ_611 /* CHTTPParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Kitura-net::CHTTPParser::Product" /* CHTTPParser.framework */; };
-		OBJ_629 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_598 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* User.swift */; };
+		OBJ_599 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* main.swift */; };
+		OBJ_601 /* SwiftKueryMySQL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKueryMySQL::SwiftKueryMySQL::Product" /* SwiftKueryMySQL.framework */; };
+		OBJ_602 /* SwiftKueryORM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKueryORM::SwiftKueryORM::Product" /* SwiftKueryORM.framework */; };
+		OBJ_603 /* SwiftKuery.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftKuery::SwiftKuery::Product" /* SwiftKuery.framework */; };
+		OBJ_604 /* Kitura.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Kitura::Kitura::Product" /* Kitura.framework */; };
+		OBJ_605 /* TypeDecoder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "TypeDecoder::TypeDecoder::Product" /* TypeDecoder.framework */; };
+		OBJ_606 /* KituraContracts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "KituraContracts::KituraContracts::Product" /* KituraContracts.framework */; };
+		OBJ_607 /* KituraTemplateEngine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Kitura-TemplateEngine::KituraTemplateEngine::Product" /* KituraTemplateEngine.framework */; };
+		OBJ_608 /* KituraNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Kitura-net::KituraNet::Product" /* KituraNet.framework */; };
+		OBJ_609 /* SSLService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SSLService::SSLService::Product" /* SSLService.framework */; };
+		OBJ_610 /* Socket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Socket::Socket::Product" /* Socket.framework */; };
+		OBJ_611 /* LoggerAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "LoggerAPI::LoggerAPI::Product" /* LoggerAPI.framework */; };
+		OBJ_612 /* CHTTPParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Kitura-net::CHTTPParser::Product" /* CHTTPParser.framework */; };
+		OBJ_630 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C7B1EEA6213EE62500FF71C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "Socket::Socket";
-			remoteInfo = Socket;
-		};
-		C7B1EEA7213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32480214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SwiftKueryMySQL::SwiftKueryMySQL";
 			remoteInfo = SwiftKueryMySQL;
 		};
-		C7B1EEA8213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32481214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SwiftKuery::SwiftKuery";
 			remoteInfo = SwiftKuery;
 		};
-		C7B1EEA9213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32482214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "LoggerAPI::LoggerAPI";
 			remoteInfo = LoggerAPI;
 		};
-		C7B1EEAA213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32483214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "LoggerAPI::LoggerAPI";
 			remoteInfo = LoggerAPI;
 		};
-		C7B1EEAB213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32484214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SwiftKueryORM::SwiftKueryORM";
 			remoteInfo = SwiftKueryORM;
 		};
-		C7B1EEAC213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32485214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "TypeDecoder::TypeDecoder";
 			remoteInfo = TypeDecoder;
 		};
-		C7B1EEAD213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32486214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "KituraContracts::KituraContracts";
 			remoteInfo = KituraContracts;
 		};
-		C7B1EEAE213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32487214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "LoggerAPI::LoggerAPI";
 			remoteInfo = LoggerAPI;
 		};
-		C7B1EEAF213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32488214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SwiftKuery::SwiftKuery";
 			remoteInfo = SwiftKuery;
 		};
-		C7B1EEB0213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32489214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "LoggerAPI::LoggerAPI";
 			remoteInfo = LoggerAPI;
 		};
-		C7B1EEB1213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3248A214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SwiftKuery::SwiftKuery";
 			remoteInfo = SwiftKuery;
 		};
-		C7B1EEB2213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3248B214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Kitura::Kitura";
 			remoteInfo = Kitura;
 		};
-		C7B1EEB3213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3248C214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "TypeDecoder::TypeDecoder";
 			remoteInfo = TypeDecoder;
 		};
-		C7B1EEB4213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3248D214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "KituraContracts::KituraContracts";
 			remoteInfo = KituraContracts;
 		};
-		C7B1EEB5213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3248E214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Kitura-TemplateEngine::KituraTemplateEngine";
 			remoteInfo = KituraTemplateEngine;
 		};
-		C7B1EEB6213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3248F214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Kitura-net::KituraNet";
 			remoteInfo = KituraNet;
 		};
-		C7B1EEB7213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32490214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SSLService::SSLService";
 			remoteInfo = SSLService;
 		};
-		C7B1EEB8213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32491214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Socket::Socket";
 			remoteInfo = Socket;
 		};
-		C7B1EEB9213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32492214BD50100349C3B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Socket::Socket";
+			remoteInfo = Socket;
+		};
+		C7E32493214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "LoggerAPI::LoggerAPI";
 			remoteInfo = LoggerAPI;
 		};
-		C7B1EEBA213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32494214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Kitura-net::CHTTPParser";
 			remoteInfo = CHTTPParser;
 		};
-		C7B1EEBB213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32495214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SSLService::SSLService";
 			remoteInfo = SSLService;
 		};
-		C7B1EEBC213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32496214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Socket::Socket";
 			remoteInfo = Socket;
 		};
-		C7B1EEBD213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32497214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "LoggerAPI::LoggerAPI";
 			remoteInfo = LoggerAPI;
 		};
-		C7B1EEBE213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32498214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Kitura-net::CHTTPParser";
 			remoteInfo = CHTTPParser;
 		};
-		C7B1EEBF213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E32499214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "TypeDecoder::TypeDecoder";
 			remoteInfo = TypeDecoder;
 		};
-		C7B1EEC0213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3249A214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "KituraContracts::KituraContracts";
 			remoteInfo = KituraContracts;
 		};
-		C7B1EEC1213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3249B214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Kitura-TemplateEngine::KituraTemplateEngine";
 			remoteInfo = KituraTemplateEngine;
 		};
-		C7B1EEC2213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3249C214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Kitura-net::KituraNet";
 			remoteInfo = KituraNet;
 		};
-		C7B1EEC3213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3249D214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "SSLService::SSLService";
 			remoteInfo = SSLService;
 		};
-		C7B1EEC4213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3249E214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "Socket::Socket";
 			remoteInfo = Socket;
 		};
-		C7B1EEC5213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E3249F214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = "LoggerAPI::LoggerAPI";
 			remoteInfo = LoggerAPI;
 		};
-		C7B1EEC6213EE62500FF71C1 /* PBXContainerItemProxy */ = {
+		C7E324A0214BD50100349C3B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
@@ -480,8 +480,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C75E0EA6213EFE9A002247B0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = User.swift; path = Sources/GuideMEServer/User.swift; sourceTree = SOURCE_ROOT; };
-		C7B1EEC8213EE73100FF71C1 /* dylib1.10.5.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = dylib1.10.5.o; path = usr/lib/dylib1.10.5.o; sourceTree = SDKROOT; };
 		"Kitura-TemplateEngine::KituraTemplateEngine::Product" /* KituraTemplateEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KituraTemplateEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Kitura-net::CHTTPParser::Product" /* CHTTPParser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CHTTPParser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Kitura-net::KituraNet::Product" /* KituraNet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KituraNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -522,11 +520,11 @@
 		OBJ_134 /* ResourcePathHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcePathHandler.swift; sourceTree = "<group>"; };
 		OBJ_135 /* ResponseHeadersSetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseHeadersSetter.swift; sourceTree = "<group>"; };
 		OBJ_136 /* StaticFileServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticFileServer.swift; sourceTree = "<group>"; };
-		OBJ_137 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/Kitura.git-6522211175291160341/Package.swift"; sourceTree = "<group>"; };
+		OBJ_137 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/Kitura.git-6522211175291160341/Package.swift"; sourceTree = "<group>"; };
 		OBJ_14 /* MySQLConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySQLConnection.swift; sourceTree = "<group>"; };
 		OBJ_140 /* OrderedDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderedDictionary.swift; sourceTree = "<group>"; };
 		OBJ_141 /* TypeDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeDecoder.swift; sourceTree = "<group>"; };
-		OBJ_142 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/TypeDecoder.git--195674398754790144/Package.swift"; sourceTree = "<group>"; };
+		OBJ_142 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/TypeDecoder.git--195674398754790144/Package.swift"; sourceTree = "<group>"; };
 		OBJ_145 /* BodyDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyDecoder.swift; sourceTree = "<group>"; };
 		OBJ_146 /* BodyEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyEncoder.swift; sourceTree = "<group>"; };
 		OBJ_147 /* BodyFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyFormat.swift; sourceTree = "<group>"; };
@@ -537,9 +535,9 @@
 		OBJ_152 /* QueryDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryDecoder.swift; sourceTree = "<group>"; };
 		OBJ_153 /* QueryEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryEncoder.swift; sourceTree = "<group>"; };
 		OBJ_154 /* Contracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contracts.swift; sourceTree = "<group>"; };
-		OBJ_155 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/KituraContracts.git--3897699854862625585/Package.swift"; sourceTree = "<group>"; };
+		OBJ_155 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/KituraContracts.git--3897699854862625585/Package.swift"; sourceTree = "<group>"; };
 		OBJ_158 /* TemplateEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEngine.swift; sourceTree = "<group>"; };
-		OBJ_159 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/Kitura-TemplateEngine.git--5059963620657797085/Package.swift"; sourceTree = "<group>"; };
+		OBJ_159 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/Kitura-TemplateEngine.git--5059963620657797085/Package.swift"; sourceTree = "<group>"; };
 		OBJ_16 /* MySQLResultFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySQLResultFetcher.swift; sourceTree = "<group>"; };
 		OBJ_162 /* BufferList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BufferList.swift; sourceTree = "<group>"; };
 		OBJ_163 /* ClientRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientRequest.swift; sourceTree = "<group>"; };
@@ -558,7 +556,7 @@
 		OBJ_177 /* HTTPServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServer.swift; sourceTree = "<group>"; };
 		OBJ_178 /* HTTPServerRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerRequest.swift; sourceTree = "<group>"; };
 		OBJ_179 /* HTTPServerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPServerResponse.swift; sourceTree = "<group>"; };
-		OBJ_18 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/SwiftKueryMySQL.git-7601298671331203969/Package.swift"; sourceTree = "<group>"; };
+		OBJ_18 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/SwiftKueryMySQL.git-7601298671331203969/Package.swift"; sourceTree = "<group>"; };
 		OBJ_180 /* IncomingHTTPSocketProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingHTTPSocketProcessor.swift; sourceTree = "<group>"; };
 		OBJ_181 /* KeepAliveState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepAliveState.swift; sourceTree = "<group>"; };
 		OBJ_183 /* HTTPParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPParser.swift; sourceTree = "<group>"; };
@@ -584,23 +582,23 @@
 		OBJ_206 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		OBJ_207 /* http_parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = http_parser.h; sourceTree = "<group>"; };
 		OBJ_208 /* CHTTPParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CHTTPParser.h; sourceTree = "<group>"; };
-		OBJ_209 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = /Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/guidemeserver.xcodeproj/GeneratedModuleMap/CHTTPParser/module.modulemap; sourceTree = "<group>"; };
+		OBJ_209 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = /Users/peti/Documents/GitHub/GuideMEServer/guidemeserver.xcodeproj/GeneratedModuleMap/CHTTPParser/module.modulemap; sourceTree = "<group>"; };
 		OBJ_21 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
-		OBJ_210 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/Kitura-net.git--7410958935072501107/Package.swift"; sourceTree = "<group>"; };
+		OBJ_210 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/Kitura-net.git--7410958935072501107/Package.swift"; sourceTree = "<group>"; };
 		OBJ_213 /* SSLService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSLService.swift; sourceTree = "<group>"; };
-		OBJ_214 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/BlueSSLService.git--6577639804771281610/Package.swift"; sourceTree = "<group>"; };
+		OBJ_214 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/BlueSSLService.git--6577639804771281610/Package.swift"; sourceTree = "<group>"; };
 		OBJ_217 /* Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
 		OBJ_218 /* SocketProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketProtocols.swift; sourceTree = "<group>"; };
 		OBJ_219 /* SocketUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketUtils.swift; sourceTree = "<group>"; };
 		OBJ_22 /* DatabaseDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseDecoder.swift; sourceTree = "<group>"; };
-		OBJ_220 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/BlueSocket.git-3162807777605905816/Package.swift"; sourceTree = "<group>"; };
+		OBJ_220 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/BlueSocket.git-3162807777605905816/Package.swift"; sourceTree = "<group>"; };
 		OBJ_223 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		OBJ_224 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/LoggerAPI.git--6449715459278086880/Package.swift"; sourceTree = "<group>"; };
+		OBJ_224 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/LoggerAPI.git--6449715459278086880/Package.swift"; sourceTree = "<group>"; };
 		OBJ_23 /* DatabaseEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseEncoder.swift; sourceTree = "<group>"; };
 		OBJ_24 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		OBJ_25 /* TableInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableInfo.swift; sourceTree = "<group>"; };
 		OBJ_26 /* TypeAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeAliases.swift; sourceTree = "<group>"; };
-		OBJ_27 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/Swift-Kuery-ORM.git--4645031233402468077/Package.swift"; sourceTree = "<group>"; };
+		OBJ_27 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/Swift-Kuery-ORM.git--4645031233402468077/Package.swift"; sourceTree = "<group>"; };
 		OBJ_30 /* AggregateColumnExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AggregateColumnExpression.swift; sourceTree = "<group>"; };
 		OBJ_31 /* AuxiliaryTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuxiliaryTable.swift; sourceTree = "<group>"; };
 		OBJ_32 /* Buildable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buildable.swift; sourceTree = "<group>"; };
@@ -651,7 +649,8 @@
 		OBJ_76 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 		OBJ_77 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		OBJ_78 /* With.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = With.swift; sourceTree = "<group>"; };
-		OBJ_79 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideME/KituraServer/GuideMEServer/.build/checkouts/Swift-Kuery.git-1645988340584907058/Package.swift"; sourceTree = "<group>"; };
+		OBJ_79 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/peti/Documents/GitHub/GuideMEServer/.build/checkouts/Swift-Kuery.git-1645988340584907058/Package.swift"; sourceTree = "<group>"; };
+		OBJ_8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		OBJ_82 /* CodableRouter+TypeSafeMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CodableRouter+TypeSafeMiddleware.swift"; sourceTree = "<group>"; };
 		OBJ_83 /* CodableRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableRouter.swift; sourceTree = "<group>"; };
 		OBJ_84 /* DecodingError+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DecodingError+Extensions.swift"; sourceTree = "<group>"; };
@@ -677,7 +676,7 @@
 		"SwiftKueryMySQL::SwiftKueryMySQL::Product" /* SwiftKueryMySQL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftKueryMySQL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"SwiftKueryORM::SwiftKueryORM::Product" /* SwiftKueryORM.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftKueryORM.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"TypeDecoder::TypeDecoder::Product" /* TypeDecoder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TypeDecoder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"guidemeserver::guidemeserver::Product" /* guidemeserver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = guidemeserver; sourceTree = BUILT_PRODUCTS_DIR; };
+		"guidemeserver::guidemeserver::Product" /* guidemeserver */ = {isa = PBXFileReference; lastKnownFileType = text; path = guidemeserver; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -786,36 +785,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_599 /* Frameworks */ = {
+		OBJ_600 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_600 /* SwiftKueryMySQL.framework in Frameworks */,
-				OBJ_601 /* SwiftKueryORM.framework in Frameworks */,
-				OBJ_602 /* SwiftKuery.framework in Frameworks */,
-				OBJ_603 /* Kitura.framework in Frameworks */,
-				OBJ_604 /* TypeDecoder.framework in Frameworks */,
-				OBJ_605 /* KituraContracts.framework in Frameworks */,
-				OBJ_606 /* KituraTemplateEngine.framework in Frameworks */,
-				OBJ_607 /* KituraNet.framework in Frameworks */,
-				OBJ_608 /* SSLService.framework in Frameworks */,
-				OBJ_609 /* Socket.framework in Frameworks */,
-				OBJ_610 /* LoggerAPI.framework in Frameworks */,
-				OBJ_611 /* CHTTPParser.framework in Frameworks */,
+				OBJ_601 /* SwiftKueryMySQL.framework in Frameworks */,
+				OBJ_602 /* SwiftKueryORM.framework in Frameworks */,
+				OBJ_603 /* SwiftKuery.framework in Frameworks */,
+				OBJ_604 /* Kitura.framework in Frameworks */,
+				OBJ_605 /* TypeDecoder.framework in Frameworks */,
+				OBJ_606 /* KituraContracts.framework in Frameworks */,
+				OBJ_607 /* KituraTemplateEngine.framework in Frameworks */,
+				OBJ_608 /* KituraNet.framework in Frameworks */,
+				OBJ_609 /* SSLService.framework in Frameworks */,
+				OBJ_610 /* Socket.framework in Frameworks */,
+				OBJ_611 /* LoggerAPI.framework in Frameworks */,
+				OBJ_612 /* CHTTPParser.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C7B1EEC7213EE73000FF71C1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C7B1EEC8213EE73100FF71C1 /* dylib1.10.5.o */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		OBJ_10 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1163,19 +1154,19 @@
 		OBJ_225 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"Socket::Socket::Product" /* Socket.framework */,
-				"SSLService::SSLService::Product" /* SSLService.framework */,
-				"guidemeserver::guidemeserver::Product" /* guidemeserver */,
 				"SwiftKueryMySQL::SwiftKueryMySQL::Product" /* SwiftKueryMySQL.framework */,
+				"Kitura::Kitura::Product" /* Kitura.framework */,
 				"Kitura-TemplateEngine::KituraTemplateEngine::Product" /* KituraTemplateEngine.framework */,
+				"SwiftKueryORM::SwiftKueryORM::Product" /* SwiftKueryORM.framework */,
+				"SSLService::SSLService::Product" /* SSLService.framework */,
+				"TypeDecoder::TypeDecoder::Product" /* TypeDecoder.framework */,
+				"KituraContracts::KituraContracts::Product" /* KituraContracts.framework */,
 				"LoggerAPI::LoggerAPI::Product" /* LoggerAPI.framework */,
 				"Kitura-net::CHTTPParser::Product" /* CHTTPParser.framework */,
-				"TypeDecoder::TypeDecoder::Product" /* TypeDecoder.framework */,
+				"guidemeserver::guidemeserver::Product" /* guidemeserver */,
+				"Socket::Socket::Product" /* Socket.framework */,
 				"SwiftKuery::SwiftKuery::Product" /* SwiftKuery.framework */,
 				"Kitura-net::KituraNet::Product" /* KituraNet.framework */,
-				"SwiftKueryORM::SwiftKueryORM::Product" /* SwiftKueryORM.framework */,
-				"Kitura::Kitura::Product" /* Kitura.framework */,
-				"KituraContracts::KituraContracts::Product" /* KituraContracts.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -1246,7 +1237,7 @@
 			path = ".build/checkouts/Swift-Kuery.git-1645988340584907058/Sources/SwiftKuery";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 = {
+		OBJ_5 /*  */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -1254,26 +1245,18 @@
 				OBJ_10 /* Tests */,
 				OBJ_11 /* Dependencies */,
 				OBJ_225 /* Products */,
-				C7B1EEC7213EE73000FF71C1 /* Frameworks */,
 			);
+			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_8 /* guidemeserver */,
+				OBJ_8 /* User.swift */,
+				OBJ_9 /* main.swift */,
 			);
 			name = Sources;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_8 /* guidemeserver */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_9 /* main.swift */,
-				C75E0EA6213EFE9A002247B0 /* User.swift */,
-			);
-			name = guidemeserver;
-			path = Sources/guidemeserver;
+			path = Sources/GuideMEServer;
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_80 /* Kitura 2.5.0 */ = {
@@ -1701,9 +1684,9 @@
 		};
 		"guidemeserver::SwiftPMPackageDescription" /* guidemeserverPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_625 /* Build configuration list for PBXNativeTarget "guidemeserverPackageDescription" */;
+			buildConfigurationList = OBJ_626 /* Build configuration list for PBXNativeTarget "guidemeserverPackageDescription" */;
 			buildPhases = (
-				OBJ_628 /* Sources */,
+				OBJ_629 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -1718,12 +1701,11 @@
 			buildConfigurationList = OBJ_594 /* Build configuration list for PBXNativeTarget "guidemeserver" */;
 			buildPhases = (
 				OBJ_597 /* Sources */,
-				OBJ_599 /* Frameworks */,
+				OBJ_600 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_612 /* PBXTargetDependency */,
 				OBJ_613 /* PBXTargetDependency */,
 				OBJ_614 /* PBXTargetDependency */,
 				OBJ_615 /* PBXTargetDependency */,
@@ -1735,6 +1717,7 @@
 				OBJ_621 /* PBXTargetDependency */,
 				OBJ_622 /* PBXTargetDependency */,
 				OBJ_623 /* PBXTargetDependency */,
+				OBJ_624 /* PBXTargetDependency */,
 			);
 			name = guidemeserver;
 			productName = guidemeserver;
@@ -1748,11 +1731,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
-				TargetAttributes = {
-					"Kitura-net::CHTTPParser" = {
-						LastSwiftMigration = 0930;
-					};
-				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "guidemeserver" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1761,7 +1739,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5;
+			mainGroup = OBJ_5 /*  */;
 			productRefGroup = OBJ_225 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1804,7 +1782,6 @@
 			files = (
 				OBJ_248 /* http_parser.c in Sources */,
 				OBJ_249 /* utils.c in Sources */,
-				C75E0EA7213EFE9A002247B0 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2141,15 +2118,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_598 /* main.swift in Sources */,
+				OBJ_598 /* User.swift in Sources */,
+				OBJ_599 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_628 /* Sources */ = {
+		OBJ_629 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_629 /* Package.swift in Sources */,
+				OBJ_630 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2159,167 +2137,167 @@
 		OBJ_321 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "TypeDecoder::TypeDecoder" /* TypeDecoder */;
-			targetProxy = C7B1EEB3213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E3248C214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_323 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "KituraContracts::KituraContracts" /* KituraContracts */;
-			targetProxy = C7B1EEB4213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E3248D214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_325 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Kitura-TemplateEngine::KituraTemplateEngine" /* KituraTemplateEngine */;
-			targetProxy = C7B1EEB5213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E3248E214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_327 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Kitura-net::KituraNet" /* KituraNet */;
-			targetProxy = C7B1EEB6213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E3248F214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_329 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "SSLService::SSLService" /* SSLService */;
-			targetProxy = C7B1EEBB213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32495214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_331 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Socket::Socket" /* Socket */;
-			targetProxy = C7B1EEBC213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32496214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_333 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "LoggerAPI::LoggerAPI" /* LoggerAPI */;
-			targetProxy = C7B1EEBD213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32497214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_335 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Kitura-net::CHTTPParser" /* CHTTPParser */;
-			targetProxy = C7B1EEBE213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32498214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_363 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "LoggerAPI::LoggerAPI" /* LoggerAPI */;
-			targetProxy = C7B1EEAE213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32487214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_415 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "SSLService::SSLService" /* SSLService */;
-			targetProxy = C7B1EEB7213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32490214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_416 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Socket::Socket" /* Socket */;
-			targetProxy = C7B1EEB8213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32492214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_417 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "LoggerAPI::LoggerAPI" /* LoggerAPI */;
-			targetProxy = C7B1EEB9213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32493214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_418 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Kitura-net::CHTTPParser" /* CHTTPParser */;
-			targetProxy = C7B1EEBA213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32494214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_450 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Socket::Socket" /* Socket */;
-			targetProxy = C7B1EEA6213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32491214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_527 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "LoggerAPI::LoggerAPI" /* LoggerAPI */;
-			targetProxy = C7B1EEA9213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32482214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_540 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "SwiftKuery::SwiftKuery" /* SwiftKuery */;
-			targetProxy = C7B1EEA8213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32481214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_541 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "LoggerAPI::LoggerAPI" /* LoggerAPI */;
-			targetProxy = C7B1EEAA213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32483214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_564 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "TypeDecoder::TypeDecoder" /* TypeDecoder */;
-			targetProxy = C7B1EEAC213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32485214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_565 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "KituraContracts::KituraContracts" /* KituraContracts */;
-			targetProxy = C7B1EEAD213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32486214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_566 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "SwiftKuery::SwiftKuery" /* SwiftKuery */;
-			targetProxy = C7B1EEAF213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32488214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_567 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "LoggerAPI::LoggerAPI" /* LoggerAPI */;
-			targetProxy = C7B1EEB0213EE62500FF71C1 /* PBXContainerItemProxy */;
-		};
-		OBJ_612 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "SwiftKueryMySQL::SwiftKueryMySQL" /* SwiftKueryMySQL */;
-			targetProxy = C7B1EEA7213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E32489214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_613 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "SwiftKueryORM::SwiftKueryORM" /* SwiftKueryORM */;
-			targetProxy = C7B1EEAB213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "SwiftKueryMySQL::SwiftKueryMySQL" /* SwiftKueryMySQL */;
+			targetProxy = C7E32480214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_614 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "SwiftKuery::SwiftKuery" /* SwiftKuery */;
-			targetProxy = C7B1EEB1213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "SwiftKueryORM::SwiftKueryORM" /* SwiftKueryORM */;
+			targetProxy = C7E32484214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_615 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "Kitura::Kitura" /* Kitura */;
-			targetProxy = C7B1EEB2213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "SwiftKuery::SwiftKuery" /* SwiftKuery */;
+			targetProxy = C7E3248A214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_616 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "TypeDecoder::TypeDecoder" /* TypeDecoder */;
-			targetProxy = C7B1EEBF213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "Kitura::Kitura" /* Kitura */;
+			targetProxy = C7E3248B214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_617 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "KituraContracts::KituraContracts" /* KituraContracts */;
-			targetProxy = C7B1EEC0213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "TypeDecoder::TypeDecoder" /* TypeDecoder */;
+			targetProxy = C7E32499214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_618 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "Kitura-TemplateEngine::KituraTemplateEngine" /* KituraTemplateEngine */;
-			targetProxy = C7B1EEC1213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "KituraContracts::KituraContracts" /* KituraContracts */;
+			targetProxy = C7E3249A214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_619 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "Kitura-net::KituraNet" /* KituraNet */;
-			targetProxy = C7B1EEC2213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "Kitura-TemplateEngine::KituraTemplateEngine" /* KituraTemplateEngine */;
+			targetProxy = C7E3249B214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_620 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "SSLService::SSLService" /* SSLService */;
-			targetProxy = C7B1EEC3213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "Kitura-net::KituraNet" /* KituraNet */;
+			targetProxy = C7E3249C214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_621 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "Socket::Socket" /* Socket */;
-			targetProxy = C7B1EEC4213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "SSLService::SSLService" /* SSLService */;
+			targetProxy = C7E3249D214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_622 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = "LoggerAPI::LoggerAPI" /* LoggerAPI */;
-			targetProxy = C7B1EEC5213EE62500FF71C1 /* PBXContainerItemProxy */;
+			target = "Socket::Socket" /* Socket */;
+			targetProxy = C7E3249E214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 		OBJ_623 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			target = "LoggerAPI::LoggerAPI" /* LoggerAPI */;
+			targetProxy = C7E3249F214BD50100349C3B /* PBXContainerItemProxy */;
+		};
+		OBJ_624 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
 			target = "Kitura-net::CHTTPParser" /* CHTTPParser */;
-			targetProxy = C7B1EEC6213EE62500FF71C1 /* PBXContainerItemProxy */;
+			targetProxy = C7E324A0214BD50100349C3B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2339,8 +2317,7 @@
 		OBJ_245 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2360,8 +2337,6 @@
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 				TARGET_NAME = CHTTPParser;
 			};
 			name = Debug;
@@ -2369,8 +2344,7 @@
 		OBJ_246 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2390,7 +2364,6 @@
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
 				TARGET_NAME = CHTTPParser;
 			};
 			name = Release;
@@ -3194,7 +3167,6 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/.build/checkouts/CMySQL.git-3001417495195486492",
@@ -3221,7 +3193,6 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/.build/checkouts/CMySQL.git-3001417495195486492",
@@ -3241,7 +3212,7 @@
 			};
 			name = Release;
 		};
-		OBJ_626 /* Debug */ = {
+		OBJ_627 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -3250,7 +3221,7 @@
 			};
 			name = Debug;
 		};
-		OBJ_627 /* Release */ = {
+		OBJ_628 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
@@ -3505,11 +3476,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_625 /* Build configuration list for PBXNativeTarget "guidemeserverPackageDescription" */ = {
+		OBJ_626 /* Build configuration list for PBXNativeTarget "guidemeserverPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_626 /* Debug */,
-				OBJ_627 /* Release */,
+				OBJ_627 /* Debug */,
+				OBJ_628 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

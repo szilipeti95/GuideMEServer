@@ -35,6 +35,14 @@ router.get("/kaka") {
   if let connection = pool.getConnection() {
     let insertQuery = Insert(into: user, rows: newUser)
     connection.execute(query: insertQuery) { insertResult in
+      connection.execute(query: Select(from: user)) { selectResult in
+        if let resultSet = selectResult.asResultSet {
+          for row in resultSet.rows {
+            print("username: \(row[0]) email: \(row[1])")
+          }
+        }
+
+      }
       response.send("Kaka")
       next()
     }
