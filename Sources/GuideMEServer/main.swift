@@ -31,27 +31,7 @@ router.get("/kaka") {
   request, response, next in
 
   print("/kaka called")
-  //let user = Table(tableName: "User", columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)])
   /*
-  let user = User()
-  let newUser: [[Any]] = [["Added", "From", 11111]]
-  if let connection = pool.getConnection() {
-    let insertQuery = Insert(into: user, columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)], rows: newUser, returnID: false)
-    connection.execute(query: insertQuery) { insertResult in
-      connection.execute(query: Select(from: user)) { selectResult in
-        if let resultSet = selectResult.asResultSet {
-          for row in resultSet.rows {
-            print("username: \(row[0]) email: \(row[1])")
-          }
-        }
-        connection.commit { _ in
-          response.send("Kaka")
-          next()
-        }
-      }
-    }
-  }
- */
   Database.default = Database(pool)
   let user = User(id: 2, username: "Added1", password: "From", salt: "Kitura", email: "Server", fistName: "Swift", lastLame: "Backend", regDate: 11111, avatar: "asdf", backgroundAvatar: "asdf")
   user.save { _ , error in
@@ -59,6 +39,17 @@ router.get("/kaka") {
       print(error)
     }
   }
+   */
+  guard let jsonBody = request.body?.asJSON else {
+    next()
+    return
+  }
+  let name = jsonBody["username"] as? String ?? ""
+  let email = jsonBody["email"] as? String ?? ""
+  let password = jsonBody["password"] as? String ?? ""
+  try response.send("Hello \(name) \(email) \(password)").end()
+
+  next()
 }
 
 
