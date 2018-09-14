@@ -1,4 +1,5 @@
 import Kitura
+import SwiftJWT
 import SwiftKuery
 import SwiftKueryMySQL
 import SwiftKueryORM
