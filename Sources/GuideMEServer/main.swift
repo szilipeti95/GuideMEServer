@@ -1,6 +1,5 @@
 import Kitura
 import SwiftKuery
-import SwiftKueryORM
 import SwiftKueryMySQL
 import Foundation
 
@@ -13,7 +12,6 @@ let database = "guideme"
 //let connection = MySQLConnection(host: host, user: user, password: password, database: database, port: port, characterSet: "UTF-8")
 
 let pool = MySQLConnection.createPool(url: URL(string: "mysql://\(user):\(password)@\(host):\(port)/\(database)")!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
-Database.default = Database(pool)
 
 
 // Create a new router
