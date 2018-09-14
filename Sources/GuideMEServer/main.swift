@@ -7,10 +7,11 @@ import Foundation
 let user = "app"
 let password = "ppa"
 let host = "localhost"
-let port = "3306"
+let port = 3306
 let database = "guideme"
 
-let connection = MySQLConnection(url: URL(string: "mysql://\(user):\(password)@\(host):\(port)/\(database)")!)
+let connection = MySQLConnection(host: host, user: user, password: password, database: database,
+                                 port: port, characterSet: "UTF-8")
 
 //let pool = MySQLConnection.createPool(url: URL(string: "mysql://\(user):\(password)@\(host):\(port)/\(database)")!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
 //Database.default = Database(pool)
