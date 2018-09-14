@@ -36,7 +36,7 @@ router.get("/kaka") {
   let user = User()
   let newUser: [[Any]] = [["Added", "From", 11111]]
   if let connection = pool.getConnection() {
-    let insertQuery = Insert(into: user, columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)], values: newUser)
+    let insertQuery = Insert(into: user, columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)], rows: newUser, returnID: false)
     connection.execute(query: insertQuery) { insertResult in
       connection.execute(query: Select(from: user)) { selectResult in
         if let resultSet = selectResult.asResultSet {
