@@ -23,6 +23,7 @@ let router = Router()
 // Handle HTTP GET requests to /
 router.get("/") {
   request, response, next in
+  print("/")
   response.send("Hello, World!")
   next()
 }
@@ -30,6 +31,7 @@ router.get("/") {
 router.get("/kaka") {
   request, response, next in
 
+  print("/kaka called")
   let user = Table(tableName: "User", columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)])
   let newUser: [[Any]] = [["Added", "From", 11111]]
   if let connection = pool.getConnection() {
@@ -79,6 +81,7 @@ Kitura.addHTTPServer(onPort: 8084, with: localRouter)
 
 // Start the Kitura runloop (this call never returns)
 Kitura.run()
+
 
 class User : Table {
   let tableName = "User"
