@@ -34,10 +34,10 @@ router.get("/kaka") {
   print("/kaka called")
   //let user = Table(tableName: "User", columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)])
   let user = User()
-  let newUser: [[Any]] = [[nil, "Added", nil, nil, "From", nil, nil, 11111, nil, nil]]
+  let newUser: [[Any]] = [["Added", "From", 11111]]
   if let connection = pool.getConnection() {
     let insertQuery = Insert(into: user, rows: newUser)
-    connection.execute(query: insertQuery) { insertResult in
+    connection.execute(query: insertQuery, parameters: [user.username.alias, user.email.alias, user.regDate.alias]) { insertResult in
       connection.execute(query: Select(from: user)) { selectResult in
         if let resultSet = selectResult.asResultSet {
           for row in resultSet.rows {
