@@ -1,6 +1,7 @@
 import Kitura
 import SwiftKuery
 import SwiftKueryMySQL
+import SwiftKueryORM
 import Foundation
 
 let user = "app"
@@ -31,6 +32,7 @@ router.get("/kaka") {
 
   print("/kaka called")
   //let user = Table(tableName: "User", columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)])
+  /*
   let user = User()
   let newUser: [[Any]] = [["Added", "From", 11111]]
   if let connection = pool.getConnection() {
@@ -47,6 +49,14 @@ router.get("/kaka") {
           next()
         }
       }
+    }
+  }
+ */
+  Database.default = Database(pool)
+  let user = User(id: 2, username: "Added", password: "From", salt: "Kitura", email: "Server", fistName: "Swift", lastLame: "Backend", regDate: 11111, avatar: "asdf", backgroundAvatar: "asdf")
+  user.save { _ , error in
+    if let error = error {
+      print(error)
     }
   }
 }
