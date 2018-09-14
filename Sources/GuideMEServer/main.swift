@@ -43,7 +43,7 @@ router.get("/kaka") {
           print("username: \(row[0]) email: \(row[1])")
         }
       }
-      connection.commit {
+      connection.commit { _ in
         response.send("Kaka")
         next()
       }
