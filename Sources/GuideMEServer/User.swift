@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 struct User : Codable {
   var id: Int
   var username: String
@@ -19,3 +20,4 @@ struct User : Codable {
   var avatar: String?
   var background_avatar: String?
 }
+*/
