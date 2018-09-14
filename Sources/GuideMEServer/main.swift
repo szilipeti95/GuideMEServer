@@ -58,6 +58,7 @@ router.post("/kaka") {
   }
    */
   guard let jsonBody = request.body?.asJSON else {
+    print("failed json")
     next()
     return
   }
