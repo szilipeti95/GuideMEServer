@@ -10,7 +10,7 @@ import SwiftKuery
 import SwiftKueryMySQL
 import SwiftKueryORM
 
-struct User : Model {
+struct User : Codable {
   static let tableName = "User"
   var id: Int
   var username: String
@@ -22,6 +22,23 @@ struct User : Model {
   var regDate: Int
   var avatar: String
   var backgroundAvatar: String
+
+  enum CodingKeys: String, CodingKey {
+    case id = "id"
+    case username = "username"
+    case password = "password"
+    case salt = "salt"
+    case email = "email"
+    case fistName = "first_name"
+    case lastLame = "last_name"
+    case regDate = "reg_date"
+    case avatar = "avatar"
+    case backgroundAvatar = "background_avatar"
+  }
+}
+
+extension User: Model {
+
 }
 
 
