@@ -32,8 +32,9 @@ router.get("/kaka") {
   request, response, next in
 
   print("/kaka called")
-  let user = Table(tableName: "User", columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)])
-  let newUser: [[Any]] = [["Added", "From", 11111]]
+  //let user = Table(tableName: "User", columns: [Column("username", String.self), Column("email", String.self), Column("reg_date", Int64.self)])
+  let user = User()
+  let newUser: [[Any]] = [[nil, "Added", nil, nil, "From", nil, nil, 11111, nil, nil]]
   if let connection = pool.getConnection() {
     let insertQuery = Insert(into: user, rows: newUser)
     connection.execute(query: insertQuery) { insertResult in
@@ -50,7 +51,6 @@ router.get("/kaka") {
       }
     }
   }
-
 }
 
 
@@ -84,17 +84,3 @@ Kitura.addHTTPServer(onPort: 8084, with: localRouter)
 Kitura.run()
 
 
-class User : Table {
-  let tableName = "User"
-  let id = Column("id", Int64.self, primaryKey: true)
-  var username = Column("username", String.self)
-  var password = Column("password", String.self)
-  var salt = Column("salt", String.self)
-  var email = Column("email", String.self)
-  var fistName = Column("first_name", String.self)
-  var lastLame = Column("last_name", String.self)
-  var regDate = Column("reg_date", Int64.self)
-  var avatar = Column("avatar", String.self)
-  var backgroundAvatar = Column("background_avatar", String.self)
-
-}

@@ -6,18 +6,18 @@
 //
 
 import Foundation
+import SwiftKuery
 
-/*
-struct User : Codable {
-  var id: Int
-  var username: String
-  var password: String?
-  var salt: String?
-  var email: String
-  var fist_name: String?
-  var last_name: String?
-  var reg_date: Int
-  var avatar: String?
-  var background_avatar: String?
+class User : Table {
+  let tableName = "User"
+  let id = Column("id", Int64.self, primaryKey: true)
+  let username = Column("username", String.self)
+  let password = Column("password", String.self)
+  let salt = Column("salt", String.self)
+  let email = Column("email", String.self)
+  let fistName = Column("first_name", String.self)
+  let lastLame = Column("last_name", String.self)
+  let regDate = Column("reg_date", Int64.self)
+  let avatar = Column("avatar", String.self)
+  let backgroundAvatar = Column("background_avatar", String.self)
 }
-*/
