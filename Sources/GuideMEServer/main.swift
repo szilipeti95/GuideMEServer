@@ -53,7 +53,7 @@ router.get("/kaka") {
   }
  */
   Database.default = Database(pool)
-  let user = User(id: 2, username: "Added", password: "From", salt: "Kitura", email: "Server", fistName: "Swift", lastLame: "Backend", regDate: 11111, avatar: "asdf", backgroundAvatar: "asdf")
+  let user = User(id: 2, username: "Added1", password: "From", salt: "Kitura", email: "Server", fistName: "Swift", lastLame: "Backend", regDate: 11111, avatar: "asdf", backgroundAvatar: "asdf")
   user.save { _ , error in
     if let error = error {
       print(error)
