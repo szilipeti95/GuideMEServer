@@ -44,6 +44,8 @@ router.get("/kaka") {
   next()
 }
 
+router.all("/kaka", middleware: BodyParser())
+
 router.post("/kaka") {
   request, response, next in
 
@@ -57,7 +59,6 @@ router.post("/kaka") {
     }
   }
    */
-
   guard let jsonBody = request.body?.asJSON else {
     response.send(request.body?.asText)
     next()
