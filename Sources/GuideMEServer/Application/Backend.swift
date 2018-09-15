@@ -192,7 +192,7 @@ public class Backend {
         return
       }
       print(encodedAndSignedJWT)
-      let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key.pub")
+      let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/publicKey.key")
       print(keyPath.absoluteString)
       let key: Data = try Data(contentsOf: keyPath, options: .alwaysMapped)
       if try !JWT.verify(encodedAndSignedJWT, using: .rs256(key, .publicKey)) {
