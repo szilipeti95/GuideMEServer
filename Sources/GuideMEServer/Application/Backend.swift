@@ -143,6 +143,11 @@ public class Backend {
             let key = try PKCS5.PBKDF2.init(password: passwordArray, salt: saltArray, iterations: 4096, keyLength: 32, variant: .sha256).calculate().toHexString()
 
             if key == user.password {
+              var jwt = JWT(header: Header([.typ:"JWT"]), claims: Claims([.name:"Kitura"]))
+              let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "pritaKey.key")
+              print(keyPath.absoluteString)
+              //let key: Data = try Data(contentsOf: keyPath, options: )
+              //let signedJWT = jwt.sign(using: .rs256("asdf", .privateKey))
               response.send("authorized: \(user.username)")
               next()
               return
