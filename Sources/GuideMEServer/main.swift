@@ -37,6 +37,9 @@ router.get("/kaka") {
   user.save { _ , error in
     if let error = error {
       print(error)
+      response.send("error")
+      next()
+      return
     }
   }
 
@@ -91,13 +94,15 @@ router.post("/auth/register") {
     next()
   }
 
+  let regDate = Int(Date().timeIntervalSince1970
+  print(regDate)
   let user = User(username: username,
                   password: password,
                   salt: "kitura",
                   email: email,
                   fistName: nil,
                   lastLame: nil,
-                  regDate: Int(Date().timeIntervalSince1970*1000),
+                  regDate: regDate),
                   avatar: nil,
                   backgroundAvatar: nil)
   user.save { _ , error in
