@@ -40,7 +40,25 @@ extension User: Model {
 
 }
 
+struct SendUser : Codable {
+  var username: String
+  var email: String
+  var fistName: String?
+  var lastLame: String?
+  var regDate: Int
+  var avatar: String?
+  var backgroundAvatar: String?
 
+  enum CodingKeys: String, CodingKey {
+    case username = "username"
+    case email = "email"
+    case fistName = "first_name"
+    case lastLame = "last_name"
+    case regDate = "reg_date"
+    case avatar = "avatar"
+    case backgroundAvatar = "background_avatar"
+  }
+}
 /*
 class User : Table {
   let tableName = "User"

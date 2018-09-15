@@ -143,14 +143,31 @@ public class Backend {
             let key = try PKCS5.PBKDF2.init(password: passwordArray, salt: saltArray, iterations: 4096, keyLength: 32, variant: .sha256).calculate().toHexString()
 
             if key == user.password {
-              var jwt = JWT(header: Header([.typ:"JWT"]), claims: Claims([.name:"Kitura"]))
-              let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key")
-              print(keyPath.absoluteString)
-              let key: Data = try Data(contentsOf: keyPath, options: .alwaysMapped)
-              let signedJWT = try jwt.sign(using: .rs256(key, .privateKey))
-              response.send("authorized: \(user.username) signedJWT: \(signedJWT ?? "nincs")")
-              next()
-              return
+              let jsonEncoder = JSONEncoder()
+              do {
+                let sendUser = SendUser(username: user.username,
+                                        email: user.email,
+                                        fistName: user.fistName,
+                                        lastLame: user.lastLame,
+                                        regDate: user.regDate,
+                                        avatar: user.avatar,
+                                        backgroundAvatar: user.backgroundAvatar)
+                let jsonData = try jsonEncoder.encode(sendUser)
+                let jsonString = String(data: jsonData, encoding: .utf8)
+                var jwt = JWT(header: Header([.typ:"JWT"]),
+                              claims: Claims([.aud: jsonString!]))
+                let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key")
+                print(keyPath.absoluteString)
+                let key: Data = try Data(contentsOf: keyPath, options: .alwaysMapped)
+                let signedJWT = try jwt.sign(using: .rs256(key, .privateKey))
+                response.send("authorized: \(user.username) signedJWT: \(signedJWT ?? "nincs")")
+                next()
+                return
+              }
+              catch {
+              }
+
+
             } else {
               response.send("wrong pass")
               next()
