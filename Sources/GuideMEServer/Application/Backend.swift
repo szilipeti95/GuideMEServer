@@ -184,6 +184,26 @@ public class Backend {
         }
       }
     }
+    router.get("/photos/self") {
+      request, response, next in
+      guard let encodedAndSignedJWT = request.headers["Authorization"] else {
+        response.send("No Authorization Header")
+        next()
+        return
+      }
+      let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key.pub")
+      print(keyPath.absoluteString)
+      let key: Data = try Data(contentsOf: keyPath, options: .alwaysMapped)
+      if try !JWT.verify(encodedAndSignedJWT, using: .rs256(key, .publicKey)) {
+        response.send("Authorization Error")
+        next()
+        return
+      }
+
+
+      response.send("Auth success")
+      next()
+    }
   }
 
   public func run() throws {

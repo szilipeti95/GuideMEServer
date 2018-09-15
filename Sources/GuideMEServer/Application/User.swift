@@ -59,6 +59,7 @@ struct SendUser : Codable {
     case backgroundAvatar = "background_avatar"
   }
 }
+
 /*
 class User : Table {
   let tableName = "User"
