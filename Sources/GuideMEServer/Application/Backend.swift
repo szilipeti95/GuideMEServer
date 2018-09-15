@@ -223,7 +223,7 @@ public class Backend {
       let rand =  arc4random_uniform(len)
       #endif
       var nextChar = letters.character(at: Int(rand))
-      randomString += NSString(characters: &nextChar, length: 1) as String
+      randomString += String(describing: NSString(characters: &nextChar, length: 1))
     }
 
     return randomString
