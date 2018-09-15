@@ -144,11 +144,11 @@ public class Backend {
 
             if key == user.password {
               var jwt = JWT(header: Header([.typ:"JWT"]), claims: Claims([.name:"Kitura"]))
-              let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/pritaKey.key")
+              let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key")
               print(keyPath.absoluteString)
               let key: Data = try Data(contentsOf: keyPath, options: .alwaysMapped)
               let signedJWT = try jwt.sign(using: .rs256(key, .privateKey))
-              response.send("authorized: \(user.username) signedJWT: \(signedJWT)")
+              response.send("authorized: \(user.username) signedJWT: \(signedJWT ?? "nincs")")
               next()
               return
             } else {
