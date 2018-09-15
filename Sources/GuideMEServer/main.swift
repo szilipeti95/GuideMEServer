@@ -94,7 +94,7 @@ router.post("/auth/register") {
     next()
   }
 
-  let regDate = Int(Date().timeIntervalSince1970
+  let regDate = Int(Date().timeIntervalSince1970)
   print(regDate)
   let user = User(username: username,
                   password: password,
@@ -102,7 +102,7 @@ router.post("/auth/register") {
                   email: email,
                   fistName: nil,
                   lastLame: nil,
-                  regDate: regDate),
+                  regDate: regDate,
                   avatar: nil,
                   backgroundAvatar: nil)
   user.save { _ , error in
