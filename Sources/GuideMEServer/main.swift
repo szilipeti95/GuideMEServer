@@ -14,7 +14,7 @@ let sqlDatabase = "guideme"
 //let connection = MySQLConnection(host: host, user: user, password: password, database: database, port: port, characterSet: "UTF-8")
 
 let pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
-
+Database.default = Database(pool)
 
 // Create a new router
 
@@ -33,7 +33,6 @@ router.get("/kaka") {
 
   print("/kaka called")
 
-  Database.default = Database(pool)
   let user = User(username: "Added1", password: "From", salt: "Kitura", email: "Server", fistName: "Swift", lastLame: "Backend", regDate: 11111, avatar: "asdf", backgroundAvatar: "asdf")
   user.save { _ , error in
     if let error = error {
@@ -82,7 +81,7 @@ router.post("/auth/register") {
     next()
     return
   }
-  
+
   let username = jsonBody["username"] as? String ?? ""
   let email = jsonBody["email"] as? String ?? ""
   let password = jsonBody["password"] as? String ?? ""
