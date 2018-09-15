@@ -1,3 +1,4 @@
+import CryptoSwift
 import Foundation
 import Kitura
 import SwiftJWT
@@ -95,6 +96,10 @@ router.post("/auth/register") {
   }
 
   let regDate = Int(Date().timeIntervalSince1970)
+  let passwordHash: Array<UInt8> = Array(password.utf8)
+  let salt: Array<UInt8> = Array("nacllcan".utf8)
+  print(passwordHash)
+  print(salt)
   print(regDate)
   let user = User(username: username,
                   password: password,
