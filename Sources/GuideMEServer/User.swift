@@ -12,19 +12,17 @@ import SwiftKueryORM
 
 struct User : Codable {
   static let tableName = "User"
-  var id: Int
   var username: String
   var password: String
   var salt: String
   var email: String
-  var fistName: String
-  var lastLame: String
+  var fistName: String?
+  var lastLame: String?
   var regDate: Int
-  var avatar: String
-  var backgroundAvatar: String
+  var avatar: String?
+  var backgroundAvatar: String?
 
   enum CodingKeys: String, CodingKey {
-    case id = "id"
     case username = "username"
     case password = "password"
     case salt = "salt"
