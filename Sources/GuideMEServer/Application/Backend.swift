@@ -136,42 +136,31 @@ public class Backend {
       let passwordHash = password.sha256()
       let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
 
-      User.findAll { array, error in
-        if let array = array {
-          var selectedUser: User?
-          for user in array {
-            if user.username == username {
-              selectedUser = user
+      User.find(id: username) { user, error in
+        if let user = user {
+          let saltArray: Array<UInt8> = Array(user.salt.utf8)
+          do {
+            let key = try PKCS5.PBKDF2.init(password: passwordArray, salt: saltArray, iterations: 4096, keyLength: 32, variant: .sha256).calculate().toHexString()
+
+            if key == user.password {
+              response.send("good pass")
+              next()
+              return
+            } else {
+              response.send("wrong pass")
+              next()
+              return
             }
-          }
-          if selectedUser != nil {
-            let saltArray: Array<UInt8> = Array(selectedUser!.salt.utf8)
-            do {
-              let key = try PKCS5.PBKDF2.init(password: passwordArray, salt: saltArray, iterations: 4096, keyLength: 32, variant: .sha256).calculate().toHexString()
-
-              if key == selectedUser!.password {
-                response.send("good pass")
-                next()
-                return
-              } else {
-                response.send("wrong pass")
-                next()
-                return
-              }
-
-            } catch _ {
-
-            }
-          }
-          else {
-            response.send("no user")
-            next()
-            return
+          } catch _ {
+            response.send("error during key generation")
           }
         }
-
+        else {
+          response.send("no user")
+          next()
+          return
+        }
       }
-
     }
   }
 

@@ -12,6 +12,7 @@ import SwiftKueryORM
 
 struct User : Codable {
   static let tableName = "User"
+  static let idColumnName = "username"
   var username: String
   var password: String
   var salt: String
