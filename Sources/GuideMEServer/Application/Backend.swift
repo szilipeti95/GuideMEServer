@@ -191,6 +191,7 @@ public class Backend {
         next()
         return
       }
+      print(encodedAndSignedJWT)
       let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key.pub")
       print(keyPath.absoluteString)
       let key: Data = try Data(contentsOf: keyPath, options: .alwaysMapped)
