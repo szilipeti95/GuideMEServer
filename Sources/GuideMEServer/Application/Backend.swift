@@ -217,13 +217,18 @@ public class Backend {
     var randomString = ""
 
     for _ in 0 ..< length {
-      let rand = arc4random_uniform(len)
+      #if os(Linux)
+      let rand = Int(random() % len)
+      #else
+      let rand =  arc4random_uniform(len)
+      #endif
       var nextChar = letters.character(at: Int(rand))
       randomString += NSString(characters: &nextChar, length: 1) as String
     }
 
     return randomString
   }
+
 }
 
 //let connection = MySQLConnection(host: host, user: user, password: password, database: database, port: port, characterSet: "UTF-8")
