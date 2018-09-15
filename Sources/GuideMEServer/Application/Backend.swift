@@ -218,7 +218,7 @@ public class Backend {
 
     for _ in 0 ..< length {
       #if os(Linux)
-      let rand = Int(random() % len)
+      let rand = Int(random() % Int(len))
       #else
       let rand =  arc4random_uniform(len)
       #endif
