@@ -17,8 +17,12 @@ let package = Package(
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
-            name: "guidemeserver",
+            name: "GuideME-Server",
+            dependencies: [ .target(name: "Application"), "Kitura"],
+            path: "./Sources/GuideMEServer/GuideMEServer"),
+        .target(
+            name: "Application",
             dependencies: ["Kitura", "SwiftKueryORM", "SwiftKueryMySQL", "SwiftJWT", "CryptoSwift"],
-            path: "./Sources/GuideMEServer/"),
+            path: "./Sources/GuideMEServer/Application"),
     ]
 )
