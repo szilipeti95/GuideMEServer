@@ -33,6 +33,7 @@ public class Backend {
   func postInit() throws {
     addAdminRoutes(app: self)
     addAuthRoutes(app: self)
+    addUserRoutes(app: self)
 
     router.get("/photos/self") {
       request, response, next in
