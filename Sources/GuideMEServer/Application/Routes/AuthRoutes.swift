@@ -52,31 +52,15 @@ func addAuthRoutes(app: Backend) {
       connection.execute(query: insertQuery) { insertResult in
         if let error = insertResult.asError {
           print(error)
+          response.send("error")
+          next()
           return
         } else {
-          print(insertResult.success)
+          response.send("siker")
+          next()
         }
       }
     }
-    /*
-    let user = User(username: username,
-                    password: key,
-                    salt: saltHash,
-                    email: email,
-                    fistName: nil,
-                    lastLame: nil,
-                    regDate: regDate,
-                    avatar: nil,
-                    backgroundAvatar: nil)
-    user.save { _ , error in
-      if let error = error {
-        print(error)
-      }
-
-      response.send("siker")
-      next()
-    }
-     */
   }
 
   //MARK: AUTH LOGIN
@@ -96,6 +80,22 @@ func addAuthRoutes(app: Backend) {
 
     let passwordHash = password.sha256()
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
+
+    let user = User()
+    let selectQuery = Select(from: user).where(user.username == username)
+    if let connection = app.pool.getConnection() {
+      connection.execute(query: selectQuery) { selectResult in
+        guard selectResult.success else {
+          print(selectResult.asError)
+          return
+        }
+        selectResult.asRows?.forEach {
+          print($0)
+        }
+
+      }
+    }
+
     /*
     User.find(id: username) { user, error in
       if let user = user {
