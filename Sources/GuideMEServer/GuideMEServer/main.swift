@@ -12,7 +12,6 @@ import Application
 do {
   let app = try Backend()
   try app.run()
-
 } catch _ {
 }
 

@@ -4,7 +4,6 @@ import Kitura
 import SwiftJWT
 import SwiftKuery
 import SwiftKueryMySQL
-import SwiftKueryORM
 
 public class Backend {
   let router = Router()
@@ -14,11 +13,11 @@ public class Backend {
   let sqlHost = "localhost"
   let sqlPort = 3306
   let sqlDatabase = "guideme"
+  let pool: ConnectionPool!
 
   public init() throws {
     // Run the metrics initializer
-    let pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
-    Database.default = Database(pool)
+    pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!, poolOptions: ConnectionPoolOptions(initialCapacity: 10, maxCapacity: 50, timeout: 10000))
   }
 
   func postInit() throws {
@@ -33,6 +32,7 @@ public class Backend {
       request, response, next in
 
       print("/kaka called")
+      /*
 
       let user = User(username: "Added1", password: "From", salt: "Kitura", email: "Server", fistName: "Swift", lastLame: "Backend", regDate: 11111, avatar: "asdf", backgroundAvatar: "asdf")
       user.save { _ , error in
@@ -46,6 +46,7 @@ public class Backend {
 
       response.send("Kaka")
       next()
+       */
     }
 
     router.all("/kaka", middleware: BodyParser())
@@ -54,15 +55,6 @@ public class Backend {
       request, response, next in
 
       print("/kaka called")
-      /*
-       Database.default = Database(pool)
-       let user = User(id: 2, username: "Added1", password: "From", salt: "Kitura", email: "Server", fistName: "Swift", lastLame: "Backend", regDate: 11111, avatar: "asdf", backgroundAvatar: "asdf")
-       user.save { _ , error in
-       if let error = error {
-       print(error)
-       }
-       }
-       */
       guard let jsonBody = request.body?.asJSON else {
         response.send(request.body?.asText)
         next()
@@ -76,114 +68,7 @@ public class Backend {
       next()
     }
 
-    router.all("/auth/register", middleware: BodyParser())
-    router.post("/auth/register") {
-      request, response, next in
-
-      guard let jsonBody = request.body?.asJSON else {
-        response.send(request.body?.asText)
-        next()
-        return
-      }
-
-      let username = jsonBody["username"] as? String ?? ""
-      let email = jsonBody["email"] as? String ?? ""
-      let password = jsonBody["password"] as? String ?? ""
-
-      if username == "" || email == "" || password == "" {
-        response.send("error")
-        next()
-      }
-
-      let regDate = Int(Date().timeIntervalSince1970)
-      let passwordHash = password.sha256()
-      let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
-      let saltHash = self.randomString(length: 64)
-      let saltArray: Array<UInt8> = Array(saltHash.utf8)
-      let key = try PKCS5.PBKDF2.init(password: passwordArray, salt: saltArray, iterations: 4096, keyLength: 32, variant: .sha256).calculate().toHexString()
-      print(key)
-      let user = User(username: username,
-                      password: key,
-                      salt: saltHash,
-                      email: email,
-                      fistName: nil,
-                      lastLame: nil,
-                      regDate: regDate,
-                      avatar: nil,
-                      backgroundAvatar: nil)
-      user.save { _ , error in
-        if let error = error {
-          print(error)
-        }
-
-        response.send("siker")
-        next()
-      }
-    }
-    router.all("/auth/login", middleware: BodyParser())
-    router.post("/auth/login") {
-      request, response, next in
-
-      guard let jsonBody = request.body?.asJSON else {
-        response.send(request.body?.asText)
-        next()
-        return
-      }
-
-      let username = jsonBody["username"] as? String ?? ""
-      let password = jsonBody["password"] as? String ?? ""
-
-      let passwordHash = password.sha256()
-      let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
-
-      User.find(id: username) { user, error in
-        if let user = user {
-          let saltArray: Array<UInt8> = Array(user.salt.utf8)
-          do {
-            let key = try PKCS5.PBKDF2.init(password: passwordArray, salt: saltArray, iterations: 4096, keyLength: 32, variant: .sha256).calculate().toHexString()
-
-            if key == user.password {
-              let jsonEncoder = JSONEncoder()
-              do {
-                let sendUser = SendUser(username: user.username,
-                                        email: user.email,
-                                        fistName: user.fistName,
-                                        lastLame: user.lastLame,
-                                        regDate: user.regDate,
-                                        avatar: user.avatar,
-                                        backgroundAvatar: user.backgroundAvatar)
-                let jsonData = try jsonEncoder.encode(sendUser)
-                let jsonString = String(data: jsonData, encoding: .utf8)
-                var jwt = JWT(header: Header([.typ:"JWT"]),
-                              claims: Claims([.aud: jsonString!]))
-                let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key")
-                print(keyPath.absoluteString)
-                let key: Data = try Data(contentsOf: keyPath, options: .alwaysMapped)
-                let signedJWT = try jwt.sign(using: .rs256(key, .privateKey))
-                response.send("authorized: \(user.username) signedJWT: \(signedJWT ?? "nincs")")
-                next()
-                return
-              }
-              catch {
-              }
-
-
-            } else {
-              response.send("wrong pass")
-              next()
-              return
-            }
-          } catch _ {
-            response.send("error during key generation")
-          }
-        }
-        else {
-          response.send("no user")
-          next()
-          return
-        }
-      }
-    }
+    addAuthRoutes(app: self)
     router.get("/photos/self") {
       request, response, next in
       guard let encodedAndSignedJWT = request.headers["Authorization"] else {
@@ -240,27 +125,6 @@ public class Backend {
     Kitura.run()
 
   }
-
-  func randomString(length: Int) -> String {
-
-    let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    let len = UInt32(letters.length)
-
-    var randomString = ""
-
-    for _ in 0 ..< length {
-      #if os(Linux)
-      let rand = Int(random() % Int(len))
-      #else
-      let rand =  arc4random_uniform(len)
-      #endif
-      var nextChar = letters.character(at: Int(rand))
-      randomString += String(describing: NSString(characters: &nextChar, length: 1))
-    }
-
-    return randomString
-  }
-
 }
 
 //let connection = MySQLConnection(host: host, user: user, password: password, database: database, port: port, characterSet: "UTF-8")

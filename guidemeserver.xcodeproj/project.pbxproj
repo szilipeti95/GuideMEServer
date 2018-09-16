@@ -40,6 +40,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		C7FE6C24214D556F00384B99 /* AuthRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FE6C23214D556F00384B99 /* AuthRoutes.swift */; };
 		OBJ_373 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Backend.swift */; };
 		OBJ_374 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Paths.swift */; };
 		OBJ_375 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* User.swift */; };
@@ -821,6 +822,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C7FE6C23214D556F00384B99 /* AuthRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRoutes.swift; sourceTree = "<group>"; };
 		"CryptoSwift::CryptoSwift::Product" /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Cryptor::Cryptor::Product" /* Cryptor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cryptor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CryptorRSA::CryptorRSA::Product" /* CryptorRSA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptorRSA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1331,6 +1333,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C7FE6C22214D555400384B99 /* Routes */ = {
+			isa = PBXGroup;
+			children = (
+				C7FE6C23214D556F00384B99 /* AuthRoutes.swift */,
+			);
+			path = Routes;
+			sourceTree = "<group>";
+		};
 		OBJ_108 /* CryptorRSA 1.0.5 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2047,6 +2057,7 @@
 		OBJ_8 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				C7FE6C22214D555400384B99 /* Routes */,
 				OBJ_9 /* Backend.swift */,
 				OBJ_10 /* Paths.swift */,
 				OBJ_11 /* User.swift */,
@@ -2760,6 +2771,7 @@
 				OBJ_373 /* Backend.swift in Sources */,
 				OBJ_374 /* Paths.swift in Sources */,
 				OBJ_375 /* User.swift in Sources */,
+				C7FE6C24214D556F00384B99 /* AuthRoutes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
