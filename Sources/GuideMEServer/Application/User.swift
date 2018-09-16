@@ -42,6 +42,21 @@ extension User: Model {
 
 }
 
+*/
+class User : Table {
+  let tableName = "User"
+  let id = Column("id", Int64.self, primaryKey: true, notNull: true)
+  let username = Column("username", String.self, notNull: true)
+  let password = Column("password", String.self, notNull: true)
+  let salt = Column("salt", String.self, notNull: true)
+  let email = Column("email", String.self, notNull: true)
+  let firstName = Column("first_name", String.self, notNull: false)
+  let lastLame = Column("last_name", String.self, notNull: false)
+  let regDate = Column("reg_date", Int64.self, notNull: true)
+  let avatar = Column("avatar", String.self, notNull: false)
+  let backgroundAvatar = Column("background_avatar", String.self, notNull: false)
+}
+
 struct SendUser : Codable {
   var username: String
   var email: String
@@ -60,18 +75,4 @@ struct SendUser : Codable {
     case avatar = "avatar"
     case backgroundAvatar = "background_avatar"
   }
-}
-*/
-class User : Table {
-  let tableName = "User"
-  let id = Column("id", Int64.self, primaryKey: true)
-  let username = Column("username", String.self)
-  let password = Column("password", String.self)
-  let salt = Column("salt", String.self)
-  let email = Column("email", String.self)
-  let firstName = Column("first_name", String.self, notNull: false)
-  let lastLame = Column("last_name", String.self, notNull: false)
-  let regDate = Column("reg_date", Int64.self)
-  let avatar = Column("avatar", String.self, notNull: false)
-  let backgroundAvatar = Column("background_avatar", String.self, notNull: false)
 }

@@ -44,10 +44,10 @@ func addAuthRoutes(app: Backend) {
     print(key)
     let user = User()
     let insertQuery = Insert(into: user, valueTuples: (user.username, username),
-                                                      (user.password, key),
-                                                      (user.salt, saltHash),
-                                                      (user.email, email),
-                                                      (user.regDate, regDate))
+                             (user.password, key),
+                             (user.salt, saltHash),
+                             (user.email, email),
+                             (user.regDate, regDate))
     if let connection = app.pool.getConnection() {
       connection.execute(query: insertQuery) { insertResult in
         if let error = insertResult.asError {
@@ -74,45 +74,48 @@ func addAuthRoutes(app: Backend) {
       next()
       return
     }
-
     let username = jsonBody["username"] as? String ?? ""
     let password = jsonBody["password"] as? String ?? ""
-
     let passwordHash = password.sha256()
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
 
     let user = User()
     let selectQuery = Select(from: user).where(user.username == username)
+
     if let connection = app.pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
         guard selectResult.success else {
           print(selectResult.asError)
           return
         }
-        selectResult.asRows?.forEach {
-          print($0)
+        guard let selected = selectResult.asRows?.first else {
+          print("internal error")
+          return
         }
+        let userUsername = selected["username"] as! String
+        let userEmail = selected["email"] as! String
+        let userPassword = selected["password"] as! String
+        let userSalt = selected["salt"] as! String
+        let userFirstName = selected["first_name"] as! String
+        let userLastName = selected["last_name"] as! String
+        let userRegDate = selected["reg_date"] as! Int
+        let userAvatar = selected["avatar"] as! String
+        let userBackgroundAvatar = selected["background_avatar"] as! String
 
-      }
-    }
-
-    /*
-    User.find(id: username) { user, error in
-      if let user = user {
-        let saltArray: Array<UInt8> = Array(user.salt.utf8)
+        let saltArray: Array<UInt8> = Array(userSalt.utf8)
         do {
           let key = try PKCS5.PBKDF2.init(password: passwordArray, salt: saltArray, iterations: 4096, keyLength: 32, variant: .sha256).calculate().toHexString()
 
-          if key == user.password {
+          if key == userPassword {
             let jsonEncoder = JSONEncoder()
             do {
-              let sendUser = SendUser(username: user.username,
-                                      email: user.email,
-                                      fistName: user.fistName,
-                                      lastLame: user.lastLame,
-                                      regDate: user.regDate,
-                                      avatar: user.avatar,
-                                      backgroundAvatar: user.backgroundAvatar)
+              let sendUser = SendUser(username: userUsername,
+                                      email: userEmail,
+                                      fistName: userFirstName,
+                                      lastLame: userLastName,
+                                      regDate: userRegDate,
+                                      avatar: userAvatar,
+                                      backgroundAvatar: userBackgroundAvatar)
               let jsonData = try jsonEncoder.encode(sendUser)
               let jsonString = String(data: jsonData, encoding: .utf8)
               var jwt = JWT(header: Header([.typ:"JWT"]),
@@ -136,13 +139,7 @@ func addAuthRoutes(app: Backend) {
           response.send("error during key generation")
         }
       }
-      else {
-        response.send("no user")
-        next()
-        return
-      }
     }
-     */
   }
 }
 
