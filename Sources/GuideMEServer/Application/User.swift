@@ -31,7 +31,7 @@ extension User {
     let userLastName = user["last_name"] as? String
     let userRegDate = user["reg_date"] as! Int32
     let userAvatar = user["avatar"] as? String
-    let userBackgroundAvatar = user["background_avatar"] as! String
+    let userBackgroundAvatar = user["background_avatar"] as? String
 
     return SendUser(username: userUsername,
                     email: userEmail,
