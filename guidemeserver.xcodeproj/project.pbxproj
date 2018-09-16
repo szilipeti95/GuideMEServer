@@ -2072,7 +2072,6 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				C7FE6C25214E597F00384B99 /* Extensions */,
 				OBJ_8 /* Application */,
 				OBJ_12 /* GuideMEServer */,
 			);
@@ -2082,6 +2081,7 @@
 		OBJ_8 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				C7FE6C25214E597F00384B99 /* Extensions */,
 				C7FE6C2B214E6D5000384B99 /* Model */,
 				C7FE6C22214D555400384B99 /* Routes */,
 				OBJ_9 /* Backend.swift */,
