@@ -92,15 +92,9 @@ func addAuthRoutes(app: Backend) {
           print("internal error")
           return
         }
-        let userUsername = selected["username"] as! String
-        let userEmail = selected["email"] as! String
+
         let userPassword = selected["password"] as! String
         let userSalt = selected["salt"] as! String
-        let userFirstName = selected["first_name"] as? String
-        let userLastName = selected["last_name"] as? String
-        let userRegDate = selected["reg_date"] as! Int64
-        let userAvatar = selected["avatar"] as? String
-        let userBackgroundAvatar = selected["background_avatar"] as! String
 
         let saltArray: Array<UInt8> = Array(userSalt.utf8)
         do {
@@ -109,13 +103,9 @@ func addAuthRoutes(app: Backend) {
           if key == userPassword {
             let jsonEncoder = JSONEncoder()
             do {
-              let sendUser = SendUser(username: userUsername,
-                                      email: userEmail,
-                                      fistName: userFirstName,
-                                      lastLame: userLastName,
-                                      regDate: userRegDate,
-                                      avatar: userAvatar,
-                                      backgroundAvatar: userBackgroundAvatar)
+              print("converting")
+              let sendUser = User.convertForSend(user: selected)
+              print("convert ended")
               let jsonData = try jsonEncoder.encode(sendUser)
               let jsonString = String(data: jsonData, encoding: .utf8)
               var jwt = JWT(header: Header([.typ:"JWT"]),

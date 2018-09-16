@@ -57,11 +57,31 @@ class User : Table {
   let backgroundAvatar = Column("background_avatar", String.self, notNull: false)
 }
 
+extension User {
+  class func convertForSend(user: [String: Any?]) -> SendUser {
+    let userUsername = user["username"] as! String
+    let userEmail = user["email"] as! String
+    let userFirstName = user["first_name"] as? String
+    let userLastName = user["last_name"] as? String
+    let userRegDate = user["reg_date"] as! Int64
+    let userAvatar = user["avatar"] as? String
+    let userBackgroundAvatar = user["background_avatar"] as! String
+
+    return SendUser(username: userUsername,
+                    email: userEmail,
+                    firstName: userFirstName,
+                    lastName: userLastName,
+                    regDate: userRegDate,
+                    avatar: userAvatar,
+                    backgroundAvatar: userBackgroundAvatar)
+  }
+}
+
 struct SendUser : Codable {
   var username: String
   var email: String
-  var fistName: String?
-  var lastLame: String?
+  var firstName: String?
+  var lastName: String?
   var regDate: Int64
   var avatar: String?
   var backgroundAvatar: String?
@@ -69,8 +89,8 @@ struct SendUser : Codable {
   enum CodingKeys: String, CodingKey {
     case username = "username"
     case email = "email"
-    case fistName = "first_name"
-    case lastLame = "last_name"
+    case firstName = "first_name"
+    case lastName = "last_name"
     case regDate = "reg_date"
     case avatar = "avatar"
     case backgroundAvatar = "background_avatar"
