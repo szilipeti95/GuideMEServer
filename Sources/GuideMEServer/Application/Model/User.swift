@@ -62,3 +62,16 @@ struct SendUser : Codable {
     case backgroundAvatar = "background_avatar"
   }
 }
+
+extension SendUser {
+  func toJson() -> String {
+    do {
+      let jsonEncoder = JSONEncoder()
+      let jsonData = try jsonEncoder.encode(self)
+      return String(data: jsonData, encoding: .utf8)!
+    } catch let decodeError {
+      print("Error during JSON decoding: \(decodeError.localizedDescription)")
+      return ""
+    }
+  }
+}

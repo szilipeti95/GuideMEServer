@@ -7,6 +7,7 @@
 
 import Foundation
 
-struct Pahts {
+class Paths {
   static let authRegister = "/auth/register"
+  static let authLogin = "/auth/login"
 }

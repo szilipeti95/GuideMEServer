@@ -12,14 +12,19 @@ import SwiftJWT
 import SwiftKuery
 import SwiftKueryMySQL
 
+
 func addAuthRoutes(app: Backend) {
+  app.router.all(Paths.authRegister, middleware: BodyParser())
+  app.router.post(Paths.authRegister, handler: app.registerHandler)
 
-  //MARK: AUTH REGISTER
+  app.router.all(Paths.authLogin, middleware: BodyParser())
+  app.router.post(Paths.authLogin, handler: app.loginHandler)
+}
 
-  app.router.all("/auth/register", middleware: BodyParser())
-  app.router.post("/auth/register") {
-    request, response, next in
+extension Backend {
 
+  //MARK: Register
+  fileprivate func registerHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) {
     guard let jsonBody = request.body?.asJSON else {
       response.send(request.body?.asText)
       next()
@@ -40,15 +45,14 @@ func addAuthRoutes(app: Backend) {
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
     let saltHash = randomString(length: 64)
     let saltArray: Array<UInt8> = Array(saltHash.utf8)
-    let key = try PKCS5.PBKDF2.init(password: passwordArray, salt: saltArray, iterations: 4096, keyLength: 32, variant: .sha256).calculate().toHexString()
-    print(key)
+    let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
     let user = User()
     let insertQuery = Insert(into: user, valueTuples: (user.username, username),
                              (user.password, key),
                              (user.salt, saltHash),
                              (user.email, email),
                              (user.regDate, regDate))
-    if let connection = app.pool.getConnection() {
+    if let connection = pool.getConnection() {
       connection.execute(query: insertQuery) { insertResult in
         if let error = insertResult.asError {
           print(error)
@@ -63,12 +67,8 @@ func addAuthRoutes(app: Backend) {
     }
   }
 
-  //MARK: AUTH LOGIN
-
-  app.router.all("/auth/login", middleware: BodyParser())
-  app.router.post("/auth/login") {
-    request, response, next in
-
+  //MARK: Login
+  fileprivate func loginHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) {
     guard let jsonBody = request.body?.asJSON else {
       response.send(request.body?.asText)
       next()
@@ -82,14 +82,10 @@ func addAuthRoutes(app: Backend) {
     let user = User()
     let selectQuery = Select(from: user).where(user.username == username)
 
-    if let connection = app.pool.getConnection() {
+    if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
-        guard selectResult.success else {
-          print(selectResult.asError)
-          return
-        }
-        guard let selected = selectResult.asRows?.first else {
-          print("internal error")
+        guard selectResult.success, let selected = selectResult.asRows?.first else {
+          print(selectResult.asError as Any)
           return
         }
 
@@ -98,28 +94,14 @@ func addAuthRoutes(app: Backend) {
 
         let saltArray: Array<UInt8> = Array(userSalt.utf8)
         do {
-          let key = try PKCS5.PBKDF2.init(password: passwordArray, salt: saltArray, iterations: 4096, keyLength: 32, variant: .sha256).calculate().toHexString()
-
+          let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
           if key == userPassword {
-            let jsonEncoder = JSONEncoder()
-            do {
-              print("converting")
-              let sendUser = User.convertForSend(user: selected)
-              print("convert ended")
-              let jsonData = try jsonEncoder.encode(sendUser)
-              let jsonString = String(data: jsonData, encoding: .utf8)
-              var jwt = JWT(header: Header([.typ:"JWT"]),
-                            claims: Claims([.aud: jsonString!]))
-              let keyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key")
-              print(keyPath.absoluteString)
-              let key: Data = try Data(contentsOf: keyPath, options: .alwaysMapped)
-              let signedJWT = try jwt.sign(using: .rs256(key, .privateKey))
-              response.send("authorized: \(user.username) signedJWT: \(signedJWT ?? "nincs")")
-              next()
-              return
-            }
-            catch {
-            }
+            var jwt = JWT(header: Header([.typ:"JWT"]),
+                          claims: Claims([.nickname: username]))
+            let signedJWT = try jwt.sign(using: .rs256(self.privateKey, .privateKey))
+            response.send("authorized: \(user.username) signedJWT: \(signedJWT ?? "nincs")")
+            next()
+            return
           } else {
             response.send("wrong pass")
             next()

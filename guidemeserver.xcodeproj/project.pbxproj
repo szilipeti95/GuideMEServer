@@ -41,6 +41,9 @@
 
 /* Begin PBXBuildFile section */
 		C7FE6C24214D556F00384B99 /* AuthRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FE6C23214D556F00384B99 /* AuthRoutes.swift */; };
+		C7FE6C27214E599500384B99 /* PKCS5Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FE6C26214E599500384B99 /* PKCS5Extension.swift */; };
+		C7FE6C2A214E695200384B99 /* AdminRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FE6C29214E695200384B99 /* AdminRoutes.swift */; };
+		C7FE6C2D214E782000384B99 /* UserRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7FE6C2C214E782000384B99 /* UserRoutes.swift */; };
 		OBJ_373 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Backend.swift */; };
 		OBJ_374 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Paths.swift */; };
 		OBJ_375 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* User.swift */; };
@@ -823,6 +826,9 @@
 
 /* Begin PBXFileReference section */
 		C7FE6C23214D556F00384B99 /* AuthRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRoutes.swift; sourceTree = "<group>"; };
+		C7FE6C26214E599500384B99 /* PKCS5Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKCS5Extension.swift; sourceTree = "<group>"; };
+		C7FE6C29214E695200384B99 /* AdminRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminRoutes.swift; sourceTree = "<group>"; };
+		C7FE6C2C214E782000384B99 /* UserRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoutes.swift; sourceTree = "<group>"; };
 		"CryptoSwift::CryptoSwift::Product" /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Cryptor::Cryptor::Product" /* Cryptor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cryptor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CryptorRSA::CryptorRSA::Product" /* CryptorRSA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptorRSA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1337,8 +1343,26 @@
 			isa = PBXGroup;
 			children = (
 				C7FE6C23214D556F00384B99 /* AuthRoutes.swift */,
+				C7FE6C29214E695200384B99 /* AdminRoutes.swift */,
+				C7FE6C2C214E782000384B99 /* UserRoutes.swift */,
 			);
 			path = Routes;
+			sourceTree = "<group>";
+		};
+		C7FE6C25214E597F00384B99 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C7FE6C26214E599500384B99 /* PKCS5Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C7FE6C2B214E6D5000384B99 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* User.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		OBJ_108 /* CryptorRSA 1.0.5 */ = {
@@ -2048,6 +2072,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C7FE6C25214E597F00384B99 /* Extensions */,
 				OBJ_8 /* Application */,
 				OBJ_12 /* GuideMEServer */,
 			);
@@ -2057,10 +2082,10 @@
 		OBJ_8 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				C7FE6C2B214E6D5000384B99 /* Model */,
 				C7FE6C22214D555400384B99 /* Routes */,
 				OBJ_9 /* Backend.swift */,
 				OBJ_10 /* Paths.swift */,
-				OBJ_11 /* User.swift */,
 			);
 			name = Application;
 			path = Sources/GuideMEServer/Application;
@@ -2768,6 +2793,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				C7FE6C27214E599500384B99 /* PKCS5Extension.swift in Sources */,
+				C7FE6C2D214E782000384B99 /* UserRoutes.swift in Sources */,
+				C7FE6C2A214E695200384B99 /* AdminRoutes.swift in Sources */,
 				OBJ_373 /* Backend.swift in Sources */,
 				OBJ_374 /* Paths.swift in Sources */,
 				OBJ_375 /* User.swift in Sources */,
