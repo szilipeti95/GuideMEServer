@@ -98,7 +98,7 @@ func addAuthRoutes(app: Backend) {
         let userSalt = selected["salt"] as! String
         let userFirstName = selected["first_name"] as? String
         let userLastName = selected["last_name"] as? String
-        let userRegDate = selected["reg_date"] as! Int
+        let userRegDate = selected["reg_date"] as! Int64
         let userAvatar = selected["avatar"] as? String
         let userBackgroundAvatar = selected["background_avatar"] as! String
 

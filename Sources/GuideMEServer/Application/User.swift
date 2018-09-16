@@ -62,7 +62,7 @@ struct SendUser : Codable {
   var email: String
   var fistName: String?
   var lastLame: String?
-  var regDate: Int
+  var regDate: Int64
   var avatar: String?
   var backgroundAvatar: String?
 
