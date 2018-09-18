@@ -9,7 +9,7 @@ import Foundation
 import Kitura
 
 func addAdminRoutes(app: Backend) {
-  app.adminRouter.get("/shutdown") {
+  app.adminRouter.get(Paths.shutdown) {
     request, response, next in
     response.send("Stopping server!")
     Kitura.stop()

@@ -31,9 +31,9 @@ extension Backend {
       return
     }
 
-    let username = jsonBody["username"] as? String ?? ""
-    let email = jsonBody["email"] as? String ?? ""
-    let password = jsonBody["password"] as? String ?? ""
+    let username = jsonBody[DBUserColumnNames.username] as? String ?? ""
+    let email = jsonBody[DBUserColumnNames.email] as? String ?? ""
+    let password = jsonBody[DBUserColumnNames.password] as? String ?? ""
 
     if username == "" || email == "" || password == "" {
       response.send("error")
@@ -46,7 +46,7 @@ extension Backend {
     let saltHash = randomString(length: 64)
     let saltArray: Array<UInt8> = Array(saltHash.utf8)
     let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
-    let user = User()
+    let user = DBUser()
     let insertQuery = Insert(into: user, valueTuples: (user.username, username),
                              (user.password, key),
                              (user.salt, saltHash),
@@ -79,7 +79,7 @@ extension Backend {
     let passwordHash = password.sha256()
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
 
-    let user = User()
+    let user = DBUser()
     let selectQuery = Select(from: user).where(user.username == username)
 
     if let connection = pool.getConnection() {
