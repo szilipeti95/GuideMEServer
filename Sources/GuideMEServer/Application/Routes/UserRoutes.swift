@@ -13,6 +13,7 @@ import SwiftKueryMySQL
 
 func addUserRoutes(app: Backend) {
   app.router.get(Paths.userSelf, handler: app.getUserHandler)
+  app.router.all("user/self/update", middleware: BodyParser())
   app.router.put("user/self/update", handler: app.updateUserInfoHandler)
 }
 
