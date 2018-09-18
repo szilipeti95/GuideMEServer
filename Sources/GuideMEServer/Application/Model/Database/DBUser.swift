@@ -42,26 +42,26 @@ extension DBUser {
 }
 
 struct DBUserObject {
-  var id: Int
+  var id: Int32
   var username: String
   var password: String
   var salt: String
   var email: String
   var firstName: String?
   var lastName: String?
-  var regDate: Int
+  var regDate: Int32
   var avatar: String?
   var backgroundAvatar: String?
 
   static func convertFrom(dict: [String: Any?]) -> DBUserObject {
-    return DBUserObject(id: dict[DBUserColumnNames.id] as! Int,
+    return DBUserObject(id: dict[DBUserColumnNames.id] as! Int32,
                         username: dict[DBUserColumnNames.username] as! String,
                         password: dict[DBUserColumnNames.password] as! String,
                         salt: dict[DBUserColumnNames.salt] as! String,
                         email: dict[DBUserColumnNames.email] as! String,
                         firstName: dict[DBUserColumnNames.firstName] as? String,
                         lastName: dict[DBUserColumnNames.lastName] as? String,
-                        regDate: dict[DBUserColumnNames.regDate] as! Int,
+                        regDate: dict[DBUserColumnNames.regDate] as! Int32,
                         avatar: dict[DBUserColumnNames.avatar] as? String,
                         backgroundAvatar: dict[DBUserColumnNames.backgroundAvatar] as? String)
   }
