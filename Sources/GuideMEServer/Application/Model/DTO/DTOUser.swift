@@ -62,7 +62,7 @@ extension SendUser {
     let userEmail = user["email"] as! String
     let userFirstName = user["first_name"] as? String
     let userLastName = user["last_name"] as? String
-    let userRegDate = user["reg_date"] as! Int
+    let userRegDate = Int(user["reg_date"] as! Int32)
     let userAvatar = user["avatar"] as? String
     let userBackgroundAvatar = user["background_avatar"] as? String
 
