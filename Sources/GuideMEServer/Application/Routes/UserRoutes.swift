@@ -56,8 +56,9 @@ extension Backend {
       next()
       return
     }
+    print("create..")
     let updateUser = SendUser.createFrom(dict: body)
-
+    print("create success")
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
         guard selectResult.success, let selected = selectResult.asRows?.first else {
@@ -65,7 +66,9 @@ extension Backend {
           next()
           return
         }
+        print("convert")
         var user = DBUserObject.convertFrom(dict: selected)
+        print("convert success")
         user.firstName = updateUser.firstName
         user.lastName = updateUser.lastName
         let updateQuery = Update(userTable, set: user.foo()).where(userTable.username == username)
