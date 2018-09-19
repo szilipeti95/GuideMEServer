@@ -15,7 +15,7 @@ class SendUser : Codable {
   var email: String
   var firstName: String?
   var lastName: String?
-  var regDate: Int32
+  var regDate: Int
   var avatar: String?
   var backgroundAvatar: String?
 
@@ -23,7 +23,7 @@ class SendUser : Codable {
        email: String,
        firstName: String?,
        lastName: String?,
-       regDate: Int32,
+       regDate: Int,
        avatar: String?,
        backgroundAvatar: String?) {
     self.username = username
@@ -62,7 +62,7 @@ extension SendUser {
     let userEmail = user["email"] as! String
     let userFirstName = user["first_name"] as? String
     let userLastName = user["last_name"] as? String
-    let userRegDate = user["reg_date"] as! Int32
+    let userRegDate = user["reg_date"] as! Int
     let userAvatar = user["avatar"] as? String
     let userBackgroundAvatar = user["background_avatar"] as? String
 
