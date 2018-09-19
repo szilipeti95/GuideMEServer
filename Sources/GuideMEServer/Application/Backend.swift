@@ -8,10 +8,15 @@ import SwiftKueryMySQL
 public class Backend {
   let router = Router()
   let adminRouter = Router()
-
+  #if os(Linux)
+  let sqlUser = "app"
+  let sqlPassword = "ppa"
+  let sqlHost = "localhost"
+  #else
   let sqlUser = "internalAPI"
   let sqlPassword = "IPAlanretni"
   let sqlHost = "127.0.0.1"
+  #endif
   let sqlPort = 4306
   let sqlDatabase = "guideme"
   let pool: ConnectionPool!
