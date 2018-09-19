@@ -9,10 +9,10 @@ public class Backend {
   let router = Router()
   let adminRouter = Router()
 
-  let sqlUser = "app"
-  let sqlPassword = "ppa"
-  let sqlHost = "localhost"
-  let sqlPort = 3306
+  let sqlUser = "internalAPI"
+  let sqlPassword = "IPAlanretni"
+  let sqlHost = "127.0.0.1"
+  let sqlPort = 4306
   let sqlDatabase = "guideme"
   let pool: ConnectionPool!
   let publicKeyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/publicKey.key")

@@ -68,7 +68,7 @@ extension Backend {
         var user = DBUserObject.convertFrom(dict: selected)
         user.firstName = updateUser.firstName
         user.lastName = updateUser.lastName
-        let updateQuery = Update(userTable, set: user.foo())
+        let updateQuery = Update(userTable, set: user.foo()).where(userTable.username == username)
         connection.execute(query: updateQuery) { updateResult in
           guard selectResult.success else {
             response.send("Update failed")
