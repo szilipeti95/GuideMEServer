@@ -40,6 +40,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		B5097D9E21583F080022438C /* JWTMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5097D9D21583F080022438C /* JWTMiddleware.swift */; };
+		B5097DA1215846F20022438C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5097DA0215846F20022438C /* Login.swift */; };
 		B5FB8C652150E9F400CD19CF /* DBUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FB8C642150E9F400CD19CF /* DBUser.swift */; };
 		B5FB8C672150EA5400CD19CF /* DBUserPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FB8C662150EA5400CD19CF /* DBUserPhotos.swift */; };
 		OBJ_381 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Backend.swift */; };
@@ -827,6 +829,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B5097D9D21583F080022438C /* JWTMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTMiddleware.swift; sourceTree = "<group>"; };
+		B5097DA0215846F20022438C /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		B5FB8C642150E9F400CD19CF /* DBUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUser.swift; sourceTree = "<group>"; };
 		B5FB8C662150EA5400CD19CF /* DBUserPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUserPhotos.swift; sourceTree = "<group>"; };
 		"CryptoSwift::CryptoSwift::Product" /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1344,6 +1348,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B5097D9C21583EE10022438C /* Middleware */ = {
+			isa = PBXGroup;
+			children = (
+				B5097D9D21583F080022438C /* JWTMiddleware.swift */,
+			);
+			path = Middleware;
+			sourceTree = "<group>";
+		};
 		B5FB8C622150E9DD00CD19CF /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -1357,6 +1369,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_13 /* DTOUser.swift */,
+				B5097DA0215846F20022438C /* Login.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -2080,7 +2093,7 @@
 			path = BlockMode;
 			sourceTree = "<group>";
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -2090,7 +2103,6 @@
 				OBJ_23 /* Dependencies */,
 				OBJ_356 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_60 /* Foundation */ = {
@@ -2133,6 +2145,7 @@
 		OBJ_8 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				B5097D9C21583EE10022438C /* Middleware */,
 				OBJ_9 /* Backend.swift */,
 				OBJ_10 /* Extensions */,
 				OBJ_12 /* Model */,
@@ -2764,7 +2777,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_356 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -2822,9 +2835,11 @@
 				B5FB8C672150EA5400CD19CF /* DBUserPhotos.swift in Sources */,
 				OBJ_383 /* DTOUser.swift in Sources */,
 				OBJ_384 /* Paths.swift in Sources */,
+				B5097D9E21583F080022438C /* JWTMiddleware.swift in Sources */,
 				B5FB8C652150E9F400CD19CF /* DBUser.swift in Sources */,
 				OBJ_385 /* AdminRoutes.swift in Sources */,
 				OBJ_386 /* AuthRoutes.swift in Sources */,
+				B5097DA1215846F20022438C /* Login.swift in Sources */,
 				OBJ_387 /* UserRoutes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

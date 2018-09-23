@@ -12,14 +12,16 @@ import SwiftKuery
 import SwiftKueryMySQL
 
 func addUserRoutes(app: Backend) {
-  app.router.get(Paths.userSelf, handler: app.getUserHandler)
-  app.router.all("user/self/update", middleware: BodyParser())
-  app.router.put("user/self/update", handler: app.updateUserInfoHandler)
+    app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: JWTMiddleware())
+    app.router.get(Paths.userSelf, handler: app.getUserHandler)
+//  app.router.all("user/self/update", middleware: BodyParser())
+//  app.router.put("user/self/update", handler: app.updateUserInfoHandler)
 }
 
 extension Backend {
+
   fileprivate func getUserHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard try validateJwtIn(request: request), let header = request.headers["Authorization"] else {
+    guard let header = request.headers["Authorization"] else {
       response.send("Authorization Error")
       next()
       return
@@ -40,6 +42,7 @@ extension Backend {
       }
     }
   }
+  /*
 
   fileprivate func updateUserInfoHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard try validateJwtIn(request: request), let header = request.headers["Authorization"] else {
@@ -56,9 +59,7 @@ extension Backend {
       next()
       return
     }
-    print("create..")
     let updateUser = SendUser.createFrom(dict: body)
-    print("create success")
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
         guard selectResult.success, let selected = selectResult.asRows?.first else {
@@ -66,9 +67,7 @@ extension Backend {
           next()
           return
         }
-        print("convert")
         var user = DBUserObject.convertFrom(dict: selected)
-        print("convert success")
         user.firstName = updateUser.firstName
         user.lastName = updateUser.lastName
         let updateQuery = Update(userTable, set: user.foo()).where(userTable.username == username)
@@ -102,4 +101,5 @@ extension Backend {
     let user = DBUser()
     let selectQuery = Select(from: user).where(user.username == username)
   }
+ */
 }
