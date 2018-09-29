@@ -99,7 +99,7 @@ extension Backend {
             var jwt = JWT(header: Header([.typ:"JWT"]),
                           claims: Claims([.nickname: username]))
             let signedJWT = try jwt.sign(using: .rs256(self.privateKey, .privateKey))
-            response.send("authorized: \(user.username) signedJWT: \(signedJWT ?? "nincs")")
+            response.send("\(signedJWT ?? "")")
             next()
             return
           } else {

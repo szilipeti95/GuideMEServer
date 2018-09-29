@@ -47,7 +47,7 @@ class JWTMiddleware: RouterMiddleware {
     }
 
     if try !JWT.verify(encodedAndSignedJWT, using: .rs256(Backend.publicKey, .publicKey)) {
-      response.send("Error").status(HTTPStatusCode(rawValue: 400)!)
+      response.send("Error").status(HTTPStatusCode(rawValue: 401)!)
       next()
     }
   }

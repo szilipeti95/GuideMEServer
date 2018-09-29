@@ -12,7 +12,7 @@ import SwiftKuery
 import SwiftKueryMySQL
 
 func addUserRoutes(app: Backend) {
-    app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: JWTMiddleware())
+    app.router.all(Paths.userSelf, middleware: JWTMiddleware())
     app.router.get(Paths.userSelf, handler: app.getUserHandler)
 //  app.router.all("user/self/update", middleware: BodyParser())
 //  app.router.put("user/self/update", handler: app.updateUserInfoHandler)
@@ -23,6 +23,7 @@ extension Backend {
     guard let header = request.headers["Authorization"] else {
       return
     }
+
     let username = try JWT.decode(header)?.claims[.nickname] as! String
     let user = DBUser()
     let selectQuery = Select(from: user).where(user.username == username)
