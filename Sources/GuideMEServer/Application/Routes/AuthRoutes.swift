@@ -14,81 +14,58 @@ import SwiftKueryMySQL
 
 
 func addAuthRoutes(app: Backend) {
-  app.router.all(Paths.authRegister, middleware: BodyParser())
   app.router.post(Paths.authRegister, handler: app.registerHandler)
-
-  app.router.all(Paths.authLogin, middleware: BodyParser())
   app.router.post(Paths.authLogin, handler: app.loginHandler)
 }
 
 extension Backend {
 
   //MARK: Register
-  fileprivate func registerHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) {
-    guard let jsonBody = request.body?.asJSON else {
-      response.send(request.body?.asText)
-      next()
-      return
+  fileprivate func registerHandler(register: RegisterRequest, respondWith: @escaping (User?, RequestError?) -> Void) {
+    if register.username == "" ||
+       register.email == "" ||
+      register.password == "" {
+      respondWith(nil, .badRequest)
     }
-
-    let username = jsonBody[DBUserColumnNames.username] as? String ?? ""
-    let email = jsonBody[DBUserColumnNames.email] as? String ?? ""
-    let password = jsonBody[DBUserColumnNames.password] as? String ?? ""
-
-    if username == "" || email == "" || password == "" {
-      response.send("error")
-      next()
-    }
-
     let regDate = Int(Date().timeIntervalSince1970)
-    let passwordHash = password.sha256()
+    let passwordHash = register.password.sha256()
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
     let saltHash = randomString(length: 64)
     let saltArray: Array<UInt8> = Array(saltHash.utf8)
     let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
     let user = DBUser()
-    let insertQuery = Insert(into: user, valueTuples: (user.username, username),
+    let insertQuery = Insert(into: user, valueTuples: (user.username, register.username),
                              (user.password, key),
                              (user.salt, saltHash),
-                             (user.email, email),
+                             (user.email, register.email),
                              (user.regDate, regDate))
     if let connection = pool.getConnection() {
       connection.execute(query: insertQuery) { insertResult in
         if let error = insertResult.asError {
           print(error)
-          response.send("error")
-          next()
-          return
+          respondWith(nil, .internalServerError)
         } else {
-          response.send("siker")
-          next()
+          respondWith(nil, nil)
         }
       }
     }
   }
 
-  //MARK: Login
-  fileprivate func loginHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) {
-    guard let jsonBody = request.body?.asJSON else {
-      response.send(request.body?.asText)
-      next()
-      return
-    }
-    let username = jsonBody["username"] as? String ?? ""
-    let password = jsonBody["password"] as? String ?? ""
-    let passwordHash = password.sha256()
+  fileprivate func loginHandler(login: LoginRequest, respondWith: @escaping (LoginResponse?, RequestError?) -> Void) {
+    let passwordHash = login.password.sha256()
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
 
-    let user = DBUser()
-    let selectQuery = Select(from: user).where(user.username == username)
+    let userTable = DBUser()
+    let selectQuery = Select(from: userTable).where(userTable.username == login.username)
 
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
+        print(selectResult)
         guard selectResult.success, let selected = selectResult.asRows?.first else {
           print(selectResult.asError as Any)
           return
         }
-
+        print(selected)
         let userPassword = selected["password"] as! String
         let userSalt = selected["salt"] as! String
 
@@ -97,18 +74,18 @@ extension Backend {
           let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
           if key == userPassword {
             var jwt = JWT(header: Header([.typ:"JWT"]),
-                          claims: Claims([.nickname: username]))
-            let signedJWT = try jwt.sign(using: .rs256(self.privateKey, .privateKey))
-            response.send("\(signedJWT ?? "")")
-            next()
-            return
+                          claims: Claims([.nickname: login.username]))
+            guard let signedJWT = try jwt.sign(using: .rs256(self.privateKey, .privateKey)) else {
+              respondWith(nil, .internalServerError)
+              return
+            }
+            respondWith(LoginResponse(jwt: signedJWT), nil)
           } else {
-            response.send("wrong pass")
-            next()
+            respondWith(nil, .badRequest)
             return
           }
         } catch _ {
-          response.send("error during key generation")
+          respondWith(nil, .internalServerError)
         }
       }
     }
