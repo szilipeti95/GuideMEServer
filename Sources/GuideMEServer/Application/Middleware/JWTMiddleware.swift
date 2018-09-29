@@ -13,7 +13,8 @@ import SwiftJWT
 private let AUTHENTICATED_USER_USER_INFO_KEY = "KITURA_AUTHENTICATED_USER"
 
 class JWTMiddleware: RouterMiddleware {
-func handle(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
+  func handle(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
+    print("middleware")
     guard let encodedAndSignedJWT = request.headers["Authorization"] else {
       response.send("Error").status(.badRequest)
       next()
@@ -29,6 +30,7 @@ func handle(request: RouterRequest, response: RouterResponse, next: @escaping ()
       return
     }
     request.authenticatedUser = user?.claims[.nickname] as? String
+    next()
   }
 }
 
