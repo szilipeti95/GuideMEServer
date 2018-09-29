@@ -13,47 +13,18 @@ import SwiftJWT
 private let AUTHENTICATED_USER_USER_INFO_KEY = "KITURA_AUTHENTICATED_USER"
 
 class JWTMiddleware: RouterMiddleware {
-  /*
-  let token: String
-
-  init(token: String) {
-    self.token = token
-  }
-
-  init() {
-    self.token = ""
-  }
- */
-  /*
-  static func handle(request: RouterRequest, response: RouterResponse, completion: @escaping (JWTMiddleware?, RequestError?) -> Void) {
+func handle(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
     guard let encodedAndSignedJWT = request.headers["Authorization"] else {
-      completion(nil, RequestError(httpCode: 404))
-      return
-    }
-    do {
-      if try !JWT.verify(encodedAndSignedJWT, using: .rs256(Backend.publicKey, .publicKey)) {
-        completion(nil, RequestError(httpCode: 404))
-      }
-    } catch(_) {
-      completion(nil, RequestError(httpCode: 500))
-    }
-    let instance = JWTMiddleware(token: encodedAndSignedJWT)
-    completion(instance, nil)
-  }
-  */
-
-  func handle(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
-    guard let encodedAndSignedJWT = request.headers["Authorization"] else {
-      response.send("Error").status(HTTPStatusCode(rawValue: 400)!)
+      response.send("Error").status(.badRequest)
       next()
       return
     }
     if try !JWT.verify(encodedAndSignedJWT, using: .rs256(Backend.publicKey, .publicKey)) {
-      response.send("Error").status(HTTPStatusCode(rawValue: 401)!)
+      response.send("Error").status(.unauthorized)
       next()
     }
     guard let user = try? JWT.decode(encodedAndSignedJWT) else {
-      response.send("Error").status(HTTPStatusCode(rawValue: 500)!)
+      response.send("Error").status(.internalServerError)
       next()
       return
     }

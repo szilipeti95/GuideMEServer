@@ -29,6 +29,7 @@ extension Backend {
 
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
+        print(selectResult)
         guard selectResult.success, let selected = selectResult.asRows?.first else {
           print(selectResult.asError as Any)
           return
@@ -37,6 +38,9 @@ extension Backend {
         response.send(sendUser.toJson())
         next()
       }
+    } else {
+      response.send("Error").status(.internalServerError)
+      next()
     }
   }
   /*
