@@ -20,11 +20,10 @@ func addUserRoutes(app: Backend) {
 
 extension Backend {
   fileprivate func getUserHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let header = request.headers["Authorization"] else {
+    guard let username = request.authenticatedUser else {
       return
     }
 
-    let username = try JWT.decode(header)?.claims[.nickname] as! String
     let user = DBUser()
     let selectQuery = Select(from: user).where(user.username == username)
 
