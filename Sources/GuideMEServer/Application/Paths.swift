@@ -12,6 +12,7 @@ class Paths {
   static let authRegister = "/auth/register"
   static let authLogin = "/auth/login"
   static let userSelf = "/user/self"
+  static let userSelfUpdate = "/user/self/update"
 
   //Admin
   static let shutdown = "/shutdown"

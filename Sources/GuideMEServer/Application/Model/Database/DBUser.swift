@@ -69,6 +69,8 @@ struct DBUserObject {
   func foo() -> [(Column, Any)] {
     let userTable = DBUser()
     var update = [(Column, Any)]()
+    update.append((userTable.username, username))
+    update.append((userTable.email, email))
     if let firstName = self.firstName {
       update.append((userTable.firstName, firstName))
     }

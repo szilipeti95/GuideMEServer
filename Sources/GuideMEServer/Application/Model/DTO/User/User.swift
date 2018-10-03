@@ -1,16 +1,14 @@
 //
-//  User.swift
-//  CHTTPParser
+//  UserResponse.swift
+//  Application
 //
-//  Created by Szili Péter on 2018. 09. 04..
+//  Created by Szili Péter on 2018. 09. 29..
 //
 
 import Foundation
-import SwiftKuery
-import SwiftKueryMySQL
 
 
-class SendUser : Codable {
+class User : Codable {
   var username: String
   var email: String
   var firstName: String?
@@ -46,7 +44,7 @@ class SendUser : Codable {
   }
 }
 
-extension SendUser {
+extension User {
   func toJson() -> String {
     do {
       let jsonEncoder = JSONEncoder()
@@ -57,7 +55,7 @@ extension SendUser {
       return ""
     }
   }
-  class func createFrom(dict user: [String: Any?]) -> SendUser {
+  class func createFrom(dict user: [String: Any?]) -> User {
     let userUsername = user["username"] as! String
     let userEmail = user["email"] as! String
     let userFirstName = user["first_name"] as? String
@@ -66,7 +64,7 @@ extension SendUser {
     let userAvatar = user["avatar"] as? String
     let userBackgroundAvatar = user["background_avatar"] as? String
 
-    return SendUser(username: userUsername,
+    return User(username: userUsername,
                     email: userEmail,
                     firstName: userFirstName,
                     lastName: userLastName,
@@ -74,19 +72,5 @@ extension SendUser {
                     avatar: userAvatar,
                     backgroundAvatar: userBackgroundAvatar)
   }
-  /*
-  static func from(json: [String: Any]?) -> SendUser? {
-    guard let json = json else {
-      return nil
-    }
-
-    return SendUser(username: json["username"] as? String,
-                    email: json["email"] as? String,
-                    firstName: json["first_name"] as? String,
-                    lastName: json["last_name"] as? String,
-                    regDate: json["reg_date"] as? Int32,
-                    avatar: json["avatar"] as? String,
-                    backgroundAvatar: json["background_avatar"] as? String)
-  }
- */
 }
+

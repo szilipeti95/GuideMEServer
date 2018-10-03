@@ -14,9 +14,9 @@ import SwiftKueryMySQL
 func addUserRoutes(app: Backend) {
   app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: JWTMiddleware())
   app.router.get(Paths.userSelf, handler: app.getUserHandler)
-  app.router.put("user/self/update", middleware: BodyParser())
-  app.router.put("user/self/update", allowPartialMatch: false, middleware: JWTMiddleware())
-  app.router.put("user/self/update", handler: app.updateUserInfoHandler)
+  app.router.put(Paths.userSelfUpdate, middleware: BodyParser())
+  app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: JWTMiddleware())
+  app.router.put(Paths.userSelfUpdate, handler: app.updateUserInfoHandler)
 }
 
 extension Backend {
@@ -33,8 +33,8 @@ extension Backend {
           print(selectResult.asError as Any)
           return
         }
-        let sendUser = SendUser.createFrom(dict: selected)
-        try? response.send(sendUser.toJson()).end()
+        let userResponse = User.createFrom(dict: selected)
+        try? response.send(userResponse.toJson()).end()
       }
     } else {
       try? response.send("Error").status(.internalServerError).end()
@@ -49,12 +49,11 @@ extension Backend {
     let selectQuery = Select(from: userTable).where(userTable.username == username)
 
     guard let body = request.body?.asJSON else {
-      print("body")
       response.send("Error").status(.badRequest)
       next()
       return
     }
-    let updateUser = SendUser.createFrom(dict: body)
+    let updateUser = User.createFrom(dict: body)
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
         guard selectResult.success, let selected = selectResult.asRows?.first else {
@@ -64,6 +63,8 @@ extension Backend {
         var user = DBUserObject.convertFrom(dict: selected)
         user.firstName = updateUser.firstName
         user.lastName = updateUser.lastName
+        user.username = updateUser.username
+        user.email = updateUser.email
         let updateQuery = Update(userTable, set: user.foo()).where(userTable.username == username)
         connection.execute(query: updateQuery) { updateResult in
           guard updateResult.success else {
