@@ -29,7 +29,7 @@ class JWTMiddleware: RouterMiddleware {
       next()
       return
     }
-    request.authenticatedUser = user?.claims[.nickname] as? String
+    request.authenticatedUser = user?.claims[.email] as? String
     next()
   }
 }

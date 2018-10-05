@@ -8,12 +8,14 @@
 import Foundation
 
 class RegisterRequest: Codable {
-  var username: String
+  var firstName: String
+  var lastName: String
   var email: String
   var password: String
 
   enum CodingKeys: String, CodingKey {
-    case username
+    case firstName = "first_name"
+    case lastName = "last_name"
     case email
     case password
   }

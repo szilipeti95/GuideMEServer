@@ -22,7 +22,8 @@ extension Backend {
 
   //MARK: Register
   fileprivate func registerHandler(register: RegisterRequest, respondWith: @escaping (User?, RequestError?) -> Void) {
-    if register.username == "" ||
+    if register.firstName == "" ||
+       register.lastName == "" ||
        register.email == "" ||
       register.password == "" {
       respondWith(nil, .badRequest)
@@ -34,10 +35,14 @@ extension Backend {
     let saltArray: Array<UInt8> = Array(saltHash.utf8)
     let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
     let user = DBUser()
-    let insertQuery = Insert(into: user, valueTuples: (user.username, register.username),
+    let username = generateUsernameFromName(firstName: register.firstName, lastName: register.lastName)
+    print("Generated username: \(username)")
+    let insertQuery = Insert(into: user, valueTuples: (user.username, username),
                              (user.password, key),
                              (user.salt, saltHash),
                              (user.email, register.email),
+                             (user.firstName, register.firstName),
+                             (user.lastName, register.lastName),
                              (user.regDate, regDate))
     if let connection = pool.getConnection() {
       connection.execute(query: insertQuery) { insertResult in
@@ -51,12 +56,26 @@ extension Backend {
     }
   }
 
+  private func generateUsernameFromName(firstName: String, lastName: String) -> String {
+    let userTable = DBUser()
+    var username = "\(firstName.lowercased())_\(lastName.lowercased())"
+    let selectQuery = Select(from: userTable).where(userTable.firstName == firstName && userTable.lastName == userTable.lastName)
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectQuery) { selectResult in
+        if let number = selectResult.asRows?.count {
+          username = "\(username)\(number+1)"
+        }
+      }
+    }
+    return username
+  }
+
   fileprivate func loginHandler(login: LoginRequest, respondWith: @escaping (LoginResponse?, RequestError?) -> Void) {
     let passwordHash = login.password.sha256()
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
 
     let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.username == login.username)
+    let selectQuery = Select(from: userTable).where(userTable.email == login.email)
 
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
@@ -74,7 +93,7 @@ extension Backend {
           let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
           if key == userPassword {
             var jwt = JWT(header: Header([.typ:"JWT"]),
-                          claims: Claims([.nickname: login.username]))
+                          claims: Claims([.email: login.email]))
             guard let signedJWT = try jwt.sign(using: .rs256(self.privateKey, .privateKey)) else {
               respondWith(nil, .internalServerError)
               return

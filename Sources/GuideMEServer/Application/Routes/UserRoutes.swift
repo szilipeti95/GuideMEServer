@@ -21,11 +21,11 @@ func addUserRoutes(app: Backend) {
 
 extension Backend {
   fileprivate func getUserHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let username = request.authenticatedUser else {
+    guard let email = request.authenticatedUser else {
       return
     }
     let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.username == username)
+    let selectQuery = Select(from: userTable).where(userTable.email == email)
 
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
@@ -33,7 +33,7 @@ extension Backend {
           print(selectResult.asError as Any)
           return
         }
-        let userResponse = User.createFrom(dict: selected)
+        let userResponse = User(dict: selected)
         try? response.send(userResponse.toJson()).end()
       }
     } else {
@@ -42,18 +42,18 @@ extension Backend {
   }
 
   fileprivate func updateUserInfoHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let username = request.authenticatedUser else {
+    guard let email = request.authenticatedUser else {
       return
     }
     let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.username == username)
+    let selectQuery = Select(from: userTable).where(userTable.email == email)
 
     guard let body = request.body?.asJSON else {
       response.send("Error").status(.badRequest)
       next()
       return
     }
-    let updateUser = User.createFrom(dict: body)
+    let updateUser = User(dict: body)
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
         guard selectResult.success, let selected = selectResult.asRows?.first else {
@@ -65,7 +65,7 @@ extension Backend {
         user.lastName = updateUser.lastName
         user.username = updateUser.username
         user.email = updateUser.email
-        let updateQuery = Update(userTable, set: user.foo()).where(userTable.username == username)
+        let updateQuery = Update(userTable, set: user.foo()).where(userTable.email == email)
         connection.execute(query: updateQuery) { updateResult in
           guard updateResult.success else {
             response.send("Error").status(.internalServerError)

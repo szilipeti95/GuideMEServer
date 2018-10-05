@@ -31,6 +31,7 @@ public class Backend {
                                       poolOptions: ConnectionPoolOptions(initialCapacity: 10,
                                                                          maxCapacity: 50,
                                                                          timeout: 10000))
+    print(publicKeyPath)
     Backend.publicKey = try Data(contentsOf: publicKeyPath, options: .alwaysMapped)
     privateKey = try Data(contentsOf: privateKeyPath, options: .alwaysMapped)
   }

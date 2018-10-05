@@ -8,11 +8,11 @@
 import Foundation
 
 class LoginRequest: Codable {
-  var username: String
+  var email: String
   var password: String
 
   enum CodingKeys: String, CodingKey {
-    case username
+    case email
     case password
   }
 }

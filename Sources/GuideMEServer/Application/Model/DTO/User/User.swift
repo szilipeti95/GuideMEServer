@@ -11,16 +11,16 @@ import Foundation
 class User : Codable {
   var username: String
   var email: String
-  var firstName: String?
-  var lastName: String?
+  var firstName: String
+  var lastName: String
   var regDate: Int32
   var avatar: String?
   var backgroundAvatar: String?
 
   init(username: String,
        email: String,
-       firstName: String?,
-       lastName: String?,
+       firstName: String,
+       lastName: String,
        regDate: Int32,
        avatar: String?,
        backgroundAvatar: String?) {
@@ -55,22 +55,23 @@ extension User {
       return ""
     }
   }
-  class func createFrom(dict user: [String: Any?]) -> User {
-    let userUsername = user["username"] as! String
-    let userEmail = user["email"] as! String
-    let userFirstName = user["first_name"] as? String
-    let userLastName = user["last_name"] as? String
-    let userRegDate = user["reg_date"] as! Int32
-    let userAvatar = user["avatar"] as? String
-    let userBackgroundAvatar = user["background_avatar"] as? String
 
-    return User(username: userUsername,
-                    email: userEmail,
-                    firstName: userFirstName,
-                    lastName: userLastName,
-                    regDate: userRegDate,
-                    avatar: userAvatar,
-                    backgroundAvatar: userBackgroundAvatar)
+  convenience init(dict: [String: Any?]) {
+    let userUsername = dict["username"] as! String
+    let userEmail = dict["email"] as! String
+    let userFirstName = dict["first_name"] as! String
+    let userLastName = dict["last_name"] as! String
+    let userRegDate = dict["reg_date"] as! Int32
+    let userAvatar = dict["avatar"] as? String
+    let userBackgroundAvatar = dict["background_avatar"] as? String
+
+    self.init(username: userUsername,
+                email: userEmail,
+                firstName: userFirstName,
+                lastName: userLastName,
+                regDate: userRegDate,
+                avatar: userAvatar,
+                backgroundAvatar: userBackgroundAvatar)
   }
 }
 
