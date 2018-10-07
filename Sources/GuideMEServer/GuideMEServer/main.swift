@@ -11,9 +11,9 @@ import Application
 import KituraWebSocket
 
 do {
+  WebSocket.register(service: ChatService(), onPath: "chat-service")
   let app = try Backend()
   try app.run()
-  WebSocket.register(service: ChatService(), onPath: "chat-service")
 } catch _ {
 }
 

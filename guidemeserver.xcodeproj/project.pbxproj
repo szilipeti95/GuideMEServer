@@ -51,9 +51,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		B51C5702216A27AF0022F0F9 /* CheckRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C5701216A27AF0022F0F9 /* CheckRequest.swift */; };
-		B51C5704216A27C40022F0F9 /* CheckResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C5703216A27C40022F0F9 /* CheckResponse.swift */; };
 		B51C5706216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C5705216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift */; };
+		B51C5708216AA1800022F0F9 /* DBMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C5707216AA1800022F0F9 /* DBMessage.swift */; };
 		OBJ_1002 /* BufferList.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_366 /* BufferList.swift */; };
 		OBJ_1003 /* ClientRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_367 /* ClientRequest.swift */; };
 		OBJ_1004 /* ClientResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_368 /* ClientResponse.swift */; };
@@ -1391,9 +1390,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B51C5701216A27AF0022F0F9 /* CheckRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckRequest.swift; sourceTree = "<group>"; };
-		B51C5703216A27C40022F0F9 /* CheckResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckResponse.swift; sourceTree = "<group>"; };
 		B51C5705216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RouterRequest+AuthorizedUser.swift"; sourceTree = "<group>"; };
+		B51C5707216AA1800022F0F9 /* DBMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBMessage.swift; sourceTree = "<group>"; };
 		"CryptoSwift::CryptoSwift::Product" /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Cryptor::Cryptor::Product" /* Cryptor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cryptor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CryptorRSA::CryptorRSA::Product" /* CryptorRSA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptorRSA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2283,8 +2281,6 @@
 				OBJ_20 /* LoginRequest.swift */,
 				OBJ_21 /* LoginResponse.swift */,
 				OBJ_22 /* RegisterRequest.swift */,
-				B51C5701216A27AF0022F0F9 /* CheckRequest.swift */,
-				B51C5703216A27C40022F0F9 /* CheckResponse.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -2472,6 +2468,7 @@
 			children = (
 				OBJ_26 /* DBUser.swift */,
 				OBJ_27 /* DBUserPhotos.swift */,
+				B51C5707216AA1800022F0F9 /* DBMessage.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -4241,13 +4238,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				B51C5708216AA1800022F0F9 /* DBMessage.swift in Sources */,
 				OBJ_459 /* Backend.swift in Sources */,
 				OBJ_460 /* ChatService.swift in Sources */,
 				OBJ_461 /* PKCS5Extension.swift in Sources */,
 				OBJ_462 /* JWTMiddleware.swift in Sources */,
 				B51C5706216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift in Sources */,
-				B51C5702216A27AF0022F0F9 /* CheckRequest.swift in Sources */,
-				B51C5704216A27C40022F0F9 /* CheckResponse.swift in Sources */,
 				OBJ_463 /* CredentialsJWTToken.swift in Sources */,
 				OBJ_464 /* LoginRequest.swift in Sources */,
 				OBJ_465 /* LoginResponse.swift in Sources */,

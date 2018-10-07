@@ -38,13 +38,13 @@ public class ChatService: WebSocketService {
                                                                          timeout: 10000))
   }
 
-  private enum MessageType: Character {
-    case clientInChat = "c"
-    case connected = "C"
-    case disconnected = "D"
-    case sentMessage = "M"
-    case stoppedTyping = "S"
-    case startedTyping = "T"
+  private enum MessageType: String {
+    case online = "onl"
+    case connect = "con"
+    case write = "wri"
+    case delete = "del"
+    case disconnect = "dis"
+    case message = "mes"
   }
 
   /// Called when a WebSocket client connects to the server and is connected to a specific
@@ -67,9 +67,10 @@ public class ChatService: WebSocketService {
 
     }
     connection.send(message: connection.id)
-    print(connection.id)
     // Ignored
     */
+
+    print(connection.id)
   }
 
   /// Called when a WebSocket client disconnects from the server.
@@ -81,33 +82,41 @@ public class ChatService: WebSocketService {
     lockConnectionsLock()
     if let disconnectedConnectionData = connections.removeValue(forKey: connection.id) {
       for (_, (_,_, from)) in connections {
-        from.send(message: "\(MessageType.disconnected.rawValue):" + disconnectedConnectionData.0)
+//        from.send(message: "\(MessageType.disconnected.rawValue):" + disconnectedConnectionData.0)
       }
     }
     unlockConnectionsLock()
   }
 
-  /// Called when a WebSocket client sent a binary message to the server to this `WebSocketService`.
-  ///
-  /// - Parameter message: A Data struct containing the bytes of the binary message sent by the client.
-  /// - Parameter client: The `WebSocketConnection` object that represents the connection over which
-  ///                    the client sent the message to this `WebSocketService`
   public func received(message: Data, from: WebSocketConnection) {
-    invalidData(from: from, description: "Kitura-Chat-Server only accepts text messages")
+    invalidData(from: from, description: "Only text messages")
   }
 
-  /// Called when a WebSocket client sent a text message to the server to this `WebSocketService`.
-  ///
-  /// - Parameter message: A String containing the text message sent by the client.
-  /// - Parameter client: The `WebSocketConnection` object that represents the connection over which
-  ///                    the client sent the message to this `WebSocketService`
   public func received(message: String, from: WebSocketConnection) {
-    guard message.count > 1 else { return }
+    guard !message.isEmpty else { return }
 
-    guard let messageType = message.first else { return }
+    let messageType = String(message.prefix(3))
+    if messageType.count < 3 { return }
 
-    let displayName = String(message.dropFirst(2))
+    let payload = String(message.dropFirst(4))
 
+    switch messageType {
+      case MessageType.online.rawValue:
+        onlineMessage(email: payload, from: from)
+      case MessageType.connect.rawValue:
+        connectMessage(otherEmail: payload, from: from)
+    case MessageType.write.rawValue:
+      writeMessage(from: from)
+    case MessageType.delete.rawValue:
+      deleteMessage(from: from)
+    case MessageType.disconnect.rawValue:
+      disconnectMessage(from: from)
+    case MessageType.message.rawValue:
+      messageMessage(message: payload, from: from)
+    default:
+      invalidData(from: from, description: "Invalid message")
+    }
+    /*
     if messageType == MessageType.sentMessage.rawValue || messageType == MessageType.startedTyping.rawValue ||
       messageType == MessageType.stoppedTyping.rawValue {
       lockConnectionsLock()
@@ -137,6 +146,87 @@ public class ChatService: WebSocketService {
     else {
       invalidData(from: from, description: "First character of the message must be a C, M, S, or T")
     }
+     */
+  }
+
+  private func onlineMessage(email: String, from: WebSocketConnection) {
+    lockConnectionsLock()
+    /*
+    for (_, (clientName,_, _)) in connections {
+      //from.send(message: "\(MessageType.clientInChat.rawValue):" + clientName)
+    }
+    */
+    connections[from.id] = (email, "", from)
+    unlockConnectionsLock()
+  }
+
+  private func connectMessage(otherEmail: String, from: WebSocketConnection) {
+    guard let email = connections[from.id]?.0 else {
+      return
+    }
+
+    lockConnectionsLock()
+    connections[from.id] = (email, otherEmail, from)
+    unlockConnectionsLock()
+  }
+
+  private func writeMessage(from: WebSocketConnection) {
+    guard let otherEmail = connections[from.id]?.1 else {
+      return
+    }
+    let otherConnection = getConnectionIdByEmail(email: otherEmail)
+    if otherConnection != nil {
+      otherConnection?.send(message: "wri")
+    }
+  }
+
+  private func deleteMessage(from: WebSocketConnection) {
+    guard let otherEmail = connections[from.id]?.1 else {
+      return
+    }
+
+    let otherConnection = getConnectionIdByEmail(email: otherEmail)
+    if otherConnection != nil {
+      otherConnection?.send(message: "del")
+    }
+  }
+
+  private func disconnectMessage(from: WebSocketConnection) {
+    guard let email = connections[from.id]?.0 else {
+      return
+    }
+
+    lockConnectionsLock()
+    connections[from.id] = (email, "", from)
+    unlockConnectionsLock()
+  }
+
+  private func messageMessage(message: String, from: WebSocketConnection) {
+    guard let otherEmail = connections[from.id]?.1 else {
+      return
+    }
+    guard let senderEmail = connections[from.id]?.0 else {
+      return
+    }
+
+    let otherConnection = getConnectionIdByEmail(email: otherEmail)
+
+    let messageTable = DBMessage()
+    let insertQuery = Insert(into: messageTable,
+                             valueTuples: (messageTable.senderEmail, senderEmail),
+                             (messageTable.receiverEmail, otherEmail),
+                             (messageTable.messageBody, message),
+                             (messageTable.timestamp, Int(Date().timeIntervalSince1970)))
+    if let connection = pool.getConnection() {
+      connection.execute(query: insertQuery) { insertResult in
+        print(insertResult)
+      }
+    }
+    if otherConnection != nil {
+      otherConnection?.send(message: message)
+    } else {
+      //pushnotification
+    }
   }
 
   private func echo(message: String) {
@@ -154,8 +244,20 @@ public class ChatService: WebSocketService {
     unlockConnectionsLock()
 
     if let (clientName,_, _) = connectionInfo {
-      echo(message: "\(MessageType.disconnected.rawValue):\(clientName)")
+      //echo(message: "\(MessageType.disconnected.rawValue):\(clientName)")
     }
+  }
+
+  private func getConnectionIdByEmail(email: String) -> WebSocketConnection? {
+    lockConnectionsLock()
+    for(_, (_email, _, connection)) in connections {
+      if email == _email {
+        unlockConnectionsLock()
+        return connection
+      }
+    }
+    unlockConnectionsLock()
+    return nil
   }
 
   private func lockConnectionsLock() {
