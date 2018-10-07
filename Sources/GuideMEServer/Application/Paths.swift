@@ -11,6 +11,7 @@ class Paths {
   //Internal
   static let authRegister = "/auth/register"
   static let authLogin = "/auth/login"
+  static let authThirdParty = "/auth/thirdParty"
   static let userSelf = "/user/self"
   static let userSelfUpdate = "/user/self/update"
 

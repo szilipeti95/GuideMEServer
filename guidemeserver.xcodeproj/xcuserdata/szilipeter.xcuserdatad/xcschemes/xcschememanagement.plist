@@ -42,82 +42,112 @@
 		<key>CryptorRSAPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>7</integer>
 		</dict>
 		<key>GuideME-Server.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>8</integer>
 		</dict>
 		<key>HeliumLoggerPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>9</integer>
 		</dict>
 		<key>JWTPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
-		<key>Kitura-TemplateEnginePackageDescription.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>7</integer>
-		</dict>
-		<key>Kitura-netPackageDescription.xcscheme</key>
+		<key>Kitura-CredentialsFacebookPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>6</integer>
 		</dict>
-		<key>KituraContractsPackageDescription.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>13</integer>
-		</dict>
-		<key>KituraPackageDescription.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>14</integer>
-		</dict>
-		<key>LoggerAPIPackageDescription.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>15</integer>
-		</dict>
-		<key>SSLServicePackageDescription.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>12</integer>
-		</dict>
-		<key>SocketPackageDescription.xcscheme</key>
+		<key>Kitura-CredentialsGooglePackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>11</integer>
 		</dict>
-		<key>SwiftJWTPackageDescription.xcscheme</key>
+		<key>Kitura-CredentialsPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
+		<key>Kitura-SessionPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
+		<key>Kitura-TemplateEnginePackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
+		<key>Kitura-WebSocket.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
+		<key>Kitura-WebSocketPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>16</integer>
 		</dict>
-		<key>SwiftKueryMySQLPackageDescription.xcscheme</key>
+		<key>Kitura-netPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
+		<key>KituraContractsPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>17</integer>
 		</dict>
-		<key>SwiftKueryORMPackageDescription.xcscheme</key>
+		<key>KituraPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>18</integer>
 		</dict>
-		<key>SwiftKueryPackageDescription.xcscheme</key>
+		<key>LoggerAPIPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>19</integer>
 		</dict>
-		<key>TypeDecoderPackageDescription.xcscheme</key>
+		<key>SSLServicePackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>20</integer>
+		</dict>
+		<key>SocketPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>21</integer>
+		</dict>
+		<key>SwiftJWTPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>22</integer>
+		</dict>
+		<key>SwiftKueryMySQLPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>23</integer>
+		</dict>
+		<key>SwiftKueryORMPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>24</integer>
+		</dict>
+		<key>SwiftKueryPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>25</integer>
+		</dict>
+		<key>TypeDecoderPackageDescription.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>26</integer>
 		</dict>
 		<key>guidemeserver-Package.xcscheme_^#shared#^_</key>
 		<dict>
@@ -132,7 +162,7 @@
 		<key>guidemeserverPackageDescription.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>21</integer>
+			<integer>27</integer>
 		</dict>
 		<key>swift-nio-sslPackageDescription.xcscheme</key>
 		<dict>

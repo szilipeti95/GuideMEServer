@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "HeliumLogger::HeliumLogger"
-               BuildableName = "HeliumLogger.framework"
-               BlueprintName = "HeliumLogger"
+               BlueprintIdentifier = "Cryptor::Cryptor"
+               BuildableName = "Cryptor.framework"
+               BlueprintName = "Cryptor"
                ReferencedContainer = "container:guidemeserver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -56,65 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Kitura-net::CHTTPParser"
-               BuildableName = "CHTTPParser.framework"
-               BlueprintName = "CHTTPParser"
-               ReferencedContainer = "container:guidemeserver.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CryptorRSA::CryptorRSA"
-               BuildableName = "CryptorRSA.framework"
-               BlueprintName = "CryptorRSA"
-               ReferencedContainer = "container:guidemeserver.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CryptoSwift::CryptoSwift"
-               BuildableName = "CryptoSwift.framework"
-               BlueprintName = "CryptoSwift"
-               ReferencedContainer = "container:guidemeserver.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftJWT::SwiftJWT"
-               BuildableName = "SwiftJWT.framework"
-               BlueprintName = "SwiftJWT"
-               ReferencedContainer = "container:guidemeserver.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "guidemeserver::Application"
-               BuildableName = "Application.framework"
-               BlueprintName = "Application"
+               BlueprintIdentifier = "Kitura-WebSocket::KituraWebSocket"
+               BuildableName = "KituraWebSocket.framework"
+               BlueprintName = "KituraWebSocket"
                ReferencedContainer = "container:guidemeserver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -140,34 +84,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Kitura-net::KituraNet"
-               BuildableName = "KituraNet.framework"
-               BlueprintName = "KituraNet"
-               ReferencedContainer = "container:guidemeserver.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Socket::Socket"
-               BuildableName = "Socket.framework"
-               BlueprintName = "Socket"
-               ReferencedContainer = "container:guidemeserver.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "LoggerAPI::LoggerAPI"
                BuildableName = "LoggerAPI.framework"
                BlueprintName = "LoggerAPI"
@@ -182,9 +98,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Cryptor::Cryptor"
-               BuildableName = "Cryptor.framework"
-               BlueprintName = "Cryptor"
+               BlueprintIdentifier = "SwiftJWT::SwiftJWT"
+               BuildableName = "SwiftJWT.framework"
+               BlueprintName = "SwiftJWT"
                ReferencedContainer = "container:guidemeserver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -210,9 +126,93 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "KituraContracts::KituraContracts"
-               BuildableName = "KituraContracts.framework"
-               BlueprintName = "KituraContracts"
+               BlueprintIdentifier = "Kitura-CredentialsFacebook::CredentialsFacebook"
+               BuildableName = "CredentialsFacebook.framework"
+               BlueprintName = "CredentialsFacebook"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Kitura-TemplateEngine::KituraTemplateEngine"
+               BuildableName = "KituraTemplateEngine.framework"
+               BlueprintName = "KituraTemplateEngine"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CryptorRSA::CryptorRSA"
+               BuildableName = "CryptorRSA.framework"
+               BlueprintName = "CryptorRSA"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "guidemeserver::Application"
+               BuildableName = "Application.framework"
+               BlueprintName = "Application"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Kitura-net::KituraNet"
+               BuildableName = "KituraNet.framework"
+               BlueprintName = "KituraNet"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Kitura-Session::KituraSession"
+               BuildableName = "KituraSession.framework"
+               BlueprintName = "KituraSession"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Socket::Socket"
+               BuildableName = "Socket.framework"
+               BlueprintName = "Socket"
                ReferencedContainer = "container:guidemeserver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -252,9 +252,37 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Kitura-TemplateEngine::KituraTemplateEngine"
-               BuildableName = "KituraTemplateEngine.framework"
-               BlueprintName = "KituraTemplateEngine"
+               BlueprintIdentifier = "Kitura-CredentialsGoogle::CredentialsGoogle"
+               BuildableName = "CredentialsGoogle.framework"
+               BlueprintName = "CredentialsGoogle"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "HeliumLogger::HeliumLogger"
+               BuildableName = "HeliumLogger.framework"
+               BlueprintName = "HeliumLogger"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "KituraContracts::KituraContracts"
+               BuildableName = "KituraContracts.framework"
+               BlueprintName = "KituraContracts"
                ReferencedContainer = "container:guidemeserver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -269,6 +297,48 @@
                BlueprintIdentifier = "SwiftKueryORM::SwiftKueryORM"
                BuildableName = "SwiftKueryORM.framework"
                BlueprintName = "SwiftKueryORM"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Kitura-net::CHTTPParser"
+               BuildableName = "CHTTPParser.framework"
+               BlueprintName = "CHTTPParser"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CryptoSwift::CryptoSwift"
+               BuildableName = "CryptoSwift.framework"
+               BlueprintName = "CryptoSwift"
+               ReferencedContainer = "container:guidemeserver.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Kitura-Credentials::Credentials"
+               BuildableName = "Credentials.framework"
+               BlueprintName = "Credentials"
                ReferencedContainer = "container:guidemeserver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -297,9 +367,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "HeliumLogger::HeliumLogger"
-            BuildableName = "HeliumLogger.framework"
-            BlueprintName = "HeliumLogger"
+            BlueprintIdentifier = "Cryptor::Cryptor"
+            BuildableName = "Cryptor.framework"
+            BlueprintName = "Cryptor"
             ReferencedContainer = "container:guidemeserver.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

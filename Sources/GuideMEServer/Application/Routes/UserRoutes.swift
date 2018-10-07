@@ -10,9 +10,11 @@ import Kitura
 import SwiftJWT
 import SwiftKuery
 import SwiftKueryMySQL
+import Credentials
+import CredentialsGoogle
 
 func addUserRoutes(app: Backend) {
-  app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: JWTMiddleware())
+  app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.userSelf, handler: app.getUserHandler)
   app.router.put(Paths.userSelfUpdate, middleware: BodyParser())
   app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: JWTMiddleware())
@@ -21,7 +23,7 @@ func addUserRoutes(app: Backend) {
 
 extension Backend {
   fileprivate func getUserHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authenticatedUser else {
+    guard let email = request.authorizedUser else {
       return
     }
     let userTable = DBUser()
@@ -38,6 +40,13 @@ extension Backend {
       }
     } else {
       try? response.send("Error").status(.internalServerError).end()
+    }
+  }
+
+  fileprivate func findUserByNameContaining(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authenticatedUser else {
+      return
+
     }
   }
 

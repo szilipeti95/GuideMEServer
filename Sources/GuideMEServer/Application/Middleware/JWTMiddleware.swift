@@ -32,6 +32,8 @@ class JWTMiddleware: RouterMiddleware {
     request.authenticatedUser = user?.claims[.email] as? String
     next()
   }
+
+  
 }
 
 public extension RouterRequest {

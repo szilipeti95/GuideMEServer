@@ -16,17 +16,15 @@ import SwiftKueryMySQL
 func addAuthRoutes(app: Backend) {
   app.router.post(Paths.authRegister, handler: app.registerHandler)
   app.router.post(Paths.authLogin, handler: app.loginHandler)
+  app.router.post(Paths.authThirdParty, handler: app.checkHandler)
 }
 
 extension Backend {
 
   //MARK: Register
   fileprivate func registerHandler(register: RegisterRequest, respondWith: @escaping (User?, RequestError?) -> Void) {
-    if register.firstName == "" ||
-       register.lastName == "" ||
-       register.email == "" ||
-      register.password == "" {
-      respondWith(nil, .badRequest)
+    guard register.isValid else {
+      return
     }
     let regDate = Int(Date().timeIntervalSince1970)
     let passwordHash = register.password.sha256()
@@ -51,6 +49,26 @@ extension Backend {
           respondWith(nil, .internalServerError)
         } else {
           respondWith(nil, nil)
+        }
+      }
+    }
+  }
+
+  fileprivate func checkHandler(check: RegisterRequest, respondWith: @escaping (User?, RequestError?) -> Void) {
+    let userTable = DBUser()
+    let selectQuery = Select(from: userTable).where(userTable.email == check.email)
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectQuery) { selectResult in
+        guard let rowCount = selectResult.asRows?.count else {
+          respondWith(nil, .internalServerError)
+          return
+        }
+        if rowCount == 0 {
+          self.registerHandler(register: check, respondWith: respondWith)
+          return
+        } else {
+          respondWith(nil, nil)
+          return
         }
       }
     }

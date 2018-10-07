@@ -4,6 +4,10 @@ import Kitura
 import SwiftJWT
 import SwiftKuery
 import SwiftKueryMySQL
+import KituraWebSocket
+import Credentials
+import CredentialsGoogle
+import CredentialsFacebook
 
 public class Backend {
   let router = Router()
@@ -24,13 +28,17 @@ public class Backend {
   static var publicKey: Data!
   let privateKeyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key")
   let privateKey: Data!
-
+  let tokenCredentials: Credentials!
   public init() throws {
     // Run the metrics initializer
     pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!,
                                       poolOptions: ConnectionPoolOptions(initialCapacity: 10,
                                                                          maxCapacity: 50,
                                                                          timeout: 10000))
+    tokenCredentials = Credentials()
+    tokenCredentials.register(plugin: CredentialsJWTToken())
+    tokenCredentials.register(plugin: CredentialsGoogleToken())
+    tokenCredentials.register(plugin: CredentialsFacebookToken())
     print(publicKeyPath)
     Backend.publicKey = try Data(contentsOf: publicKeyPath, options: .alwaysMapped)
     privateKey = try Data(contentsOf: privateKeyPath, options: .alwaysMapped)
