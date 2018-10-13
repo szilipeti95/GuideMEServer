@@ -48,27 +48,9 @@ public class Backend {
     addAdminRoutes(app: self)
     addAuthRoutes(app: self)
     addUserRoutes(app: self)
-
-    router.get("/photos/self") {
-      request, response, next in
-      guard let encodedAndSignedJWT = request.headers["Authorization"] else {
-        response.send("No Authorization Header")
-        next()
-        return
-      }
-      print(encodedAndSignedJWT)
-      if try !JWT.verify(encodedAndSignedJWT, using: .rs256(Backend.publicKey, .publicKey)) {
-        response.send("Authorization Error")
-        next()
-        return
-      }
-
-
-      response.send("Auth success")
-      next()
-    }
+    addMessageRoutes(app: self)
   }
-
+  
   public func run() throws {
     try postInit()
 
