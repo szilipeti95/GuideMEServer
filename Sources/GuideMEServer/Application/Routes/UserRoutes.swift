@@ -10,8 +10,6 @@ import Kitura
 import SwiftJWT
 import SwiftKuery
 import SwiftKueryMySQL
-import Credentials
-import CredentialsGoogle
 
 func addUserRoutes(app: Backend) {
   app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: app.tokenCredentials)
