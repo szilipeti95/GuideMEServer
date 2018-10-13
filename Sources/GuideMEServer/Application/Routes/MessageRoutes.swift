@@ -39,11 +39,11 @@ extension Backend {
         if let rows = selectResult.asRows {
           var conversations = [Conversation]()
           for row in rows {
-            guard let conversationId = row["conversation_id"] as? String,
+            guard let conversationId = row["conversation_id"] as? Int32,
                   let user1 = row["user_1"] as? String else {
               return
             }
-            let selectMessageQuery = Select(from: messageTable).where(messageTable.conversationId == conversationId).order(by: .DESC(messageTable.timestamp)).limit(to: 1)
+            let selectMessageQuery = Select(from: messageTable).where(messageTable.conversationId == Int(conversationId)).order(by: .DESC(messageTable.timestamp)).limit(to: 1)
             guard let otherEmail = (user1 == email ? row[DBConversationColumnNames.user2] : row[DBConversationColumnNames.user1]) as? String else {
               return
             }

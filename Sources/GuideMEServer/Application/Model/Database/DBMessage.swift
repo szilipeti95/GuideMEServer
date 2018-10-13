@@ -24,3 +24,7 @@ class DBMessage : Table {
   let messageBody = Column(DBMessageColumnNames.messageBody, String.self, notNull: true)
   let timestamp = Column(DBMessageColumnNames.timestamp, Int32.self, notNull: true)
 }
+
+extension DBMessage {
+  
+}

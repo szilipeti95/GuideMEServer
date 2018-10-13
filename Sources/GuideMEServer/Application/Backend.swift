@@ -22,7 +22,7 @@ public class Backend {
   let sqlHost = "127.0.0.1"
   #endif
   let sqlPort = 4306
-  let sqlDatabase = "guideme"
+  let sqlDatabase = "guideme_new"
   let pool: ConnectionPool!
   let publicKeyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/publicKey.key")
   static var publicKey: Data!
