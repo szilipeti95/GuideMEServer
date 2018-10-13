@@ -20,7 +20,7 @@ struct DBConversationColumnNames {
 class DBConversation : Table {
   let tableName = "Conversation"
   let conversationId = Column(DBConversationColumnNames.conversationId, Int32.self, primaryKey: true, notNull: true)
-  let user1 = Column(DBConversationColumnNames.user1, Int32.self, notNull: true)
-  let user2 = Column(DBConversationColumnNames.user2, Int32.self, notNull: true)
+  let user1 = Column(DBConversationColumnNames.user1, String.self, notNull: true)
+  let user2 = Column(DBConversationColumnNames.user2, String.self, notNull: true)
   let approved = Column(DBConversationColumnNames.approved, Int32.self, notNull: true)
 }

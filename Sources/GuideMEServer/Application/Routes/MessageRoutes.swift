@@ -19,6 +19,8 @@ func addMessageRoutes(app: Backend) {
   app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: JWTMiddleware())
   app.router.put(Paths.userSelfUpdate, handler: app.updateUserInfoHandler)
  */
+  app.router.get(Paths.conversation, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.get(Paths.conversation, handler: app.getConversetions)
 }
 
 extension Backend {

@@ -18,6 +18,7 @@ class Paths {
   static let userSelfUpdate = "/user/self/update"
   // MARK: Message
   static let message = "/message/from=%d"
+  static let conversation = "/conversations"
 
   //Admin
   static let shutdown = "/shutdown"
