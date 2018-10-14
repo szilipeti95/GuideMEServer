@@ -20,13 +20,88 @@ func addMessageRoutes(app: Backend) {
   app.router.put(Paths.userSelfUpdate, handler: app.updateUserInfoHandler)
  */
   app.router.get(Paths.conversation, allowPartialMatch: false, middleware: app.tokenCredentials)
-  app.router.get(Paths.conversation, handler: app.getConversetions)
+  app.router.get(Paths.conversation, handler: app.getConversations)
+
+  app.router.get(Paths.message, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.get(Paths.message, handler: app.getMessages)
 }
 
 extension Backend {
 
+  fileprivate func getMessages(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser,
+          let conversationId = request.parameters["conversationId"] else {
+      return
+    }
+    //ELLENŐRZÉS HOGY A SAJÁT CONVOJA E AZ EMAILNEK
+    let messageTable = DBMessage()
+    let selectQuery = Select(from: messageTable).where(messageTable.conversationId == conversationId).order(by: .DESC(messageTable.timestamp))
 
-  fileprivate func getConversetions(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectQuery) { selectResult in
+        guard let messages = Message.arrayFrom(queryResult: selectResult) else {
+          response.send("").status(.internalServerError); next()
+          return
+        }
+        guard let jsonData = try? JSONEncoder().encode(messages) else {
+          print("Error during JSON decoding")
+          response.send("").status(.internalServerError); next()
+          return
+        }
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        response.send(jsonString); next()
+      }
+    }
+  }
+
+  fileprivate func newConvos(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser else {
+      return
+    }
+    let messageTable = DBMessage()
+    let conversationTable = DBConversation()
+    let selectQuery = Select(from: messageTable).leftJoin(conversationTable).on(messageTable.conversationId == conversationTable.conversationId).where(conversationTable.user1 == email || conversationTable.user2 == email)
+
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectQuery) { selectResult in
+        guard let rows = selectResult.asRows else {
+          return
+        }
+        var convos = [Conversation]()
+        for row in rows {
+          guard let user1 = row["user_1"] as? String else {
+            return
+          }
+          guard let otherEmail = (user1 == email ? row[DBConversationColumnNames.user2] : row[DBConversationColumnNames.user1]) as? String else {
+            return
+          }
+          let userTable = DBUser()
+          let selectUserQuery = Select(from: userTable).where(userTable.email == otherEmail)
+          connection.execute(query: selectUserQuery) { selectUserResult in
+            guard let user = selectUserResult.asRows?.first else {
+              return
+            }
+            let otherUser = User(dict: user)
+            let lastMessage = Message(dict: row)
+            let conversation = Conversation(user: otherUser,
+                                            lastMessage: lastMessage,
+                                            approved: true)
+            convos.append(conversation)
+          }
+        }
+        guard let jsonData = try? JSONEncoder().encode(convos) else {
+          print("Error during JSON decoding")
+          response.send("").status(.internalServerError)
+          next()
+          return
+        }
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        response.send(jsonString)
+        next()
+      }
+    }
+  }
+  fileprivate func getConversations(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let email = request.authorizedUser else {
       return
     }
@@ -53,122 +128,30 @@ extension Backend {
                 return
               }
               connection.execute(query: selectUserQuery) { selectUserResult in
-                guard let user = selectUserResult.asRows?.first else {
+                guard let userDict = selectUserResult.asRows?.first else {
                   return
                 }
-                let otherUser = User(username: user[DBUserColumnNames.username] as! String,
-                                     email: user[DBUserColumnNames.email] as! String,
-                                     firstName: user[DBUserColumnNames.firstName] as! String,
-                                     lastName: user[DBUserColumnNames.lastName] as! String,
-                                     regDate: user[DBUserColumnNames.regDate] as! Int32,
-                                     avatar: user[DBUserColumnNames.avatar] as? String,
-                                     backgroundAvatar: user[DBUserColumnNames.backgroundAvatar] as? String)
-                let lastMessage = Message(message: message[DBMessageColumnNames.messageBody] as! String,
-                                          timestamp: message[DBMessageColumnNames.timestamp] as! Int32)
+                let otherUser = User.init(dict: userDict)
+                let lastMessage = Message(dict: message)
+                let approved = Bool(row["approved"] as! Int32)
                 let conversation = Conversation(user: otherUser,
                                                 lastMessage: lastMessage,
-                                                approved: true)
+                                                approved: approved)
                 conversations.append(conversation)
               }
             }
           }
-          do {
-            let jsonEncoder = JSONEncoder()
-            let jsonData = try jsonEncoder.encode(conversations)
-            let jsonString = String(data: jsonData, encoding: .utf8)!
-            response.send(jsonString)
-            next()
-          } catch let decodeError {
-            print("Error during JSON decoding: \(decodeError.localizedDescription)")
+          guard let jsonData = try? JSONEncoder().encode(conversations) else {
+            print("Error during JSON decoding")
             response.send("").status(.internalServerError)
-            next()
-          }
-        }
-      }
-    }
-  }
-  /*
-  fileprivate func getUserHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else {
-      return
-    }
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email == email)
-
-    if let connection = pool.getConnection() {
-      connection.execute(query: selectQuery) { selectResult in
-        guard selectResult.success, let selected = selectResult.asRows?.first else {
-          print(selectResult.asError as Any)
-          return
-        }
-        let userResponse = User(dict: selected)
-        try? response.send(userResponse.toJson()).end()
-      }
-    } else {
-      try? response.send("Error").status(.internalServerError).end()
-    }
-  }
-
-  fileprivate func findUserByNameContaining(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authenticatedUser else {
-      return
-
-    }
-  }
-
-  fileprivate func updateUserInfoHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authenticatedUser else {
-      return
-    }
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email == email)
-
-    guard let body = request.body?.asJSON else {
-      response.send("Error").status(.badRequest)
-      next()
-      return
-    }
-    let updateUser = User(dict: body)
-    if let connection = pool.getConnection() {
-      connection.execute(query: selectQuery) { selectResult in
-        guard selectResult.success, let selected = selectResult.asRows?.first else {
-          response.send("Error").status(.internalServerError)
-          return
-        }
-        var user = DBUserObject.convertFrom(dict: selected)
-        user.firstName = updateUser.firstName
-        user.lastName = updateUser.lastName
-        user.username = updateUser.username
-        user.email = updateUser.email
-        let updateQuery = Update(userTable, set: user.foo()).where(userTable.email == email)
-        connection.execute(query: updateQuery) { updateResult in
-          guard updateResult.success else {
-            response.send("Error").status(.internalServerError)
             next()
             return
           }
-          response.send("sendUser.toJson()")
+          let jsonString = String(data: jsonData, encoding: .utf8)!
+          response.send(jsonString)
           next()
         }
       }
     }
   }
-   fileprivate func updateUserPasswordHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-   guard try validateJwtIn(request: request), let header = request.headers["Authorization"] else {
-   response.send("Authorization Error")
-   next()
-   return
-   }
-
-   let username = try JWT.decode(header)?.claims[.nickname] as! String
-   guard let password = request.body?.asJSON?["password"] as? String else {
-   response.send("No body")
-   next()
-   return
-   }
-
-   let user = DBUser()
-   let selectQuery = Select(from: user).where(user.username == username)
-   }
-   */
 }

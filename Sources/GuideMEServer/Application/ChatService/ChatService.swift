@@ -29,7 +29,7 @@ public class ChatService: WebSocketService {
   let sqlHost = "127.0.0.1"
   #endif
   let sqlPort = 4306
-  let sqlDatabase = "guideme"
+  let sqlDatabase = "guideme_new"
   let pool: ConnectionPool!
 
   private var connections = [String: ChatConnectionData]()
@@ -205,21 +205,28 @@ public class ChatService: WebSocketService {
     }
 
     let otherConnection = getConnectionByEmail(email: otherEmail)
-    /*
+    let conversationTable = DBConversation()
+    let selectConversationQuery = Select(from: conversationTable).where((conversationTable.user1 == senderEmail && conversationTable.user2 == otherEmail) ||
+                                                                        (conversationTable.user1 == otherEmail && conversationTable.user2 == senderEmail))
+
     let messageTable = DBMessage()
-    let insertQuery = Insert(into: messageTable,
-                             valueTuples: (messageTable.senderEmail, senderEmail),
-                             (messageTable.receiverEmail, otherEmail),
-                             (messageTable.messageBody, message),
-                             (messageTable.timestamp, Int(Date().timeIntervalSince1970)))
     if let connection = pool.getConnection() {
-      connection.execute(query: insertQuery) { insertResult in
-        print(insertResult)
+      connection.execute(query: selectConversationQuery) { selectConversationResult in
+        guard let conversationId = selectConversationResult.asRows?.first?[DBConversationColumnNames.conversationId] as? Int32 else {
+          return
+        }
+        let insertQuery = Insert(into: messageTable,
+                                 valueTuples: (messageTable.senderEmail, senderEmail),
+                                 (messageTable.conversationId, conversationId),
+                                 (messageTable.messageBody, message),
+                                 (messageTable.timestamp, Int(Date().timeIntervalSince1970)))
+        connection.execute(query: insertQuery) { insertResult in
+          print(insertResult)
+        }
       }
     }
-     */
     if otherConnection != nil {
-      otherConnection?.send(message: message)
+      otherConnection?.send(message: "mes-\(message)")
     } else {
       //pushnotification
     }

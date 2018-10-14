@@ -58,6 +58,7 @@
 		B5E3936F21723216001EBB5F /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936E21723216001EBB5F /* Conversation.swift */; };
 		B5E39372217235FD001EBB5F /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E39371217235FD001EBB5F /* Message.swift */; };
 		B5E39375217238E8001EBB5F /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E39374217238E8001EBB5F /* MessageRoutes.swift */; };
+		B5E393792173C637001EBB5F /* Bool+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E393782173C637001EBB5F /* Bool+Init.swift */; };
 		OBJ_1002 /* BufferList.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_366 /* BufferList.swift */; };
 		OBJ_1003 /* ClientRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_367 /* ClientRequest.swift */; };
 		OBJ_1004 /* ClientResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_368 /* ClientResponse.swift */; };
@@ -1402,6 +1403,7 @@
 		B5E3936E21723216001EBB5F /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		B5E39371217235FD001EBB5F /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B5E39374217238E8001EBB5F /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
+		B5E393782173C637001EBB5F /* Bool+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Init.swift"; sourceTree = "<group>"; };
 		"CryptoSwift::CryptoSwift::Product" /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Cryptor::Cryptor::Product" /* Cryptor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cryptor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CryptorRSA::CryptorRSA::Product" /* CryptorRSA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptorRSA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2123,6 +2125,7 @@
 			children = (
 				OBJ_13 /* PKCS5Extension.swift */,
 				B51C5705216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift */,
+				B5E393782173C637001EBB5F /* Bool+Init.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4273,6 +4276,7 @@
 				OBJ_465 /* LoginResponse.swift in Sources */,
 				OBJ_466 /* RegisterRequest.swift in Sources */,
 				OBJ_467 /* User.swift in Sources */,
+				B5E393792173C637001EBB5F /* Bool+Init.swift in Sources */,
 				OBJ_468 /* DBUser.swift in Sources */,
 				OBJ_469 /* DBUserPhotos.swift in Sources */,
 				OBJ_470 /* Paths.swift in Sources */,
