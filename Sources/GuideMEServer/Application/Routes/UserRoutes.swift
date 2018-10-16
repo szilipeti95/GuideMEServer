@@ -15,7 +15,7 @@ func addUserRoutes(app: Backend) {
   app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.userSelf, handler: app.getUserHandler)
   app.router.put(Paths.userSelfUpdate, middleware: BodyParser())
-  app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: JWTMiddleware())
+  app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.put(Paths.userSelfUpdate, handler: app.updateUserInfoHandler)
 }
 
@@ -41,15 +41,8 @@ extension Backend {
     }
   }
 
-  fileprivate func findUserByNameContaining(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authenticatedUser else {
-      return
-
-    }
-  }
-
   fileprivate func updateUserInfoHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authenticatedUser else {
+    guard let email = request.authorizedUser else {
       return
     }
     let userTable = DBUser()

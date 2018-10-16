@@ -7,13 +7,12 @@
 
 import Foundation
 
-
 class User : Codable {
   var username: String
   var email: String
   var firstName: String
   var lastName: String
-  var regDate: Int32
+  var regDate: Int
   var avatar: String?
   var backgroundAvatar: String?
 
@@ -21,7 +20,7 @@ class User : Codable {
        email: String,
        firstName: String,
        lastName: String,
-       regDate: Int32,
+       regDate: Int,
        avatar: String?,
        backgroundAvatar: String?) {
     self.username = username
@@ -61,7 +60,7 @@ extension User {
     let userEmail = dict["email"] as! String
     let userFirstName = dict["first_name"] as! String
     let userLastName = dict["last_name"] as! String
-    let userRegDate = dict["reg_date"] as! Int32
+    let userRegDate = Int(dict["reg_date"] as! Int64) / 1000
     let userAvatar = dict["avatar"] as? String
     let userBackgroundAvatar = dict["background_avatar"] as? String
 

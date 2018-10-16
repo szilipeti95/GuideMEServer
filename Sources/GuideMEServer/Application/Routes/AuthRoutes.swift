@@ -26,7 +26,7 @@ extension Backend {
     guard register.isValid else {
       return
     }
-    let regDate = Int(Date().timeIntervalSince1970)
+    let regDate = Int(Date().millisecondsSince1970)
     let passwordHash = register.password.sha256()
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
     let saltHash = randomString(length: 64)

@@ -10,7 +10,7 @@ import SwiftKuery
 
 struct DBUserPhotosColumnNames {
   static let userphotoId = "userphoto_id"
-  static let userId = "user_id"
+  static let userEmail = "user_email"
   static let photoUrl = "photo_url"
   static let description = "description"
   static let likeCount = "like_count"
@@ -19,10 +19,10 @@ struct DBUserPhotosColumnNames {
 class DBUserPhotos : Table {
   let tableName = "UserPhotos"
   let id = Column(DBUserPhotosColumnNames.userphotoId, Int32.self, primaryKey: true, notNull: true)
-  let userId = Column(DBUserPhotosColumnNames.userId, Int32.self, notNull: true)
+  let userEmail = Column(DBUserPhotosColumnNames.userEmail, String.self, notNull: true)
   let photoUrl = Column(DBUserPhotosColumnNames.photoUrl, String.self, notNull: true)
   let description = Column(DBUserPhotosColumnNames.description, String.self, notNull: false)
-  let likeCount = Column(DBUserPhotosColumnNames.likeCount, Int32.self, notNull: true)
+  let likeCount = Column(DBUserPhotosColumnNames.likeCount, Int64.self, notNull: true)
 }
 
 extension DBUserPhotos {

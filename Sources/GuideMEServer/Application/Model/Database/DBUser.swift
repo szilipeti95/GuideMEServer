@@ -32,7 +32,7 @@ class DBUser : Table {
   let email = Column(DBUserColumnNames.email, String.self, notNull: true)
   let firstName = Column(DBUserColumnNames.firstName, String.self, notNull: true)
   let lastName = Column(DBUserColumnNames.lastName, String.self, notNull: true)
-  let regDate = Column(DBUserColumnNames.regDate, Int32.self, notNull: true)
+  let regDate = Column(DBUserColumnNames.regDate, Int64.self, notNull: true)
   let avatar = Column(DBUserColumnNames.avatar, String.self, notNull: false)
   let backgroundAvatar = Column(DBUserColumnNames.backgroundAvatar, String.self, notNull: false)
 }
@@ -49,7 +49,7 @@ struct DBUserObject {
   var email: String
   var firstName: String?
   var lastName: String?
-  var regDate: Int32
+  var regDate: Int64
   var avatar: String?
   var backgroundAvatar: String?
 
@@ -61,7 +61,7 @@ struct DBUserObject {
                         email: dict[DBUserColumnNames.email] as! String,
                         firstName: dict[DBUserColumnNames.firstName] as? String,
                         lastName: dict[DBUserColumnNames.lastName] as? String,
-                        regDate: dict[DBUserColumnNames.regDate] as! Int32,
+                        regDate: (dict[DBUserColumnNames.regDate] as! Int64) / 1000,
                         avatar: dict[DBUserColumnNames.avatar] as? String,
                         backgroundAvatar: dict[DBUserColumnNames.backgroundAvatar] as? String)
   }

@@ -12,18 +12,14 @@ import SwiftKuery
 import SwiftKueryMySQL
 
 func addMessageRoutes(app: Backend) {
-  /*
-  app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: app.tokenCredentials)
-  app.router.get(Paths.userSelf, handler: app.getUserHandler)
-  app.router.put(Paths.userSelfUpdate, middleware: BodyParser())
-  app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: JWTMiddleware())
-  app.router.put(Paths.userSelfUpdate, handler: app.updateUserInfoHandler)
- */
   app.router.get(Paths.conversation, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.conversation, handler: app.getConversations)
 
   app.router.get(Paths.message, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.message, handler: app.getMessages)
+
+  app.router.put(Paths.messagesRead, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.put(Paths.messagesRead, handler: app.readMessages)
 }
 
 extension Backend {
@@ -35,7 +31,7 @@ extension Backend {
     }
     //ELLENŐRZÉS HOGY A SAJÁT CONVOJA E AZ EMAILNEK
     let messageTable = DBMessage()
-    let selectQuery = Select(from: messageTable).where(messageTable.conversationId == conversationId).order(by: .DESC(messageTable.timestamp))
+    let selectQuery = Select(from: messageTable).where(messageTable.conversationId == conversationId).order(by: .ASC(messageTable.timestamp))
 
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
@@ -50,6 +46,24 @@ extension Backend {
         }
         let jsonString = String(data: jsonData, encoding: .utf8)!
         response.send(jsonString); next()
+      }
+    }
+  }
+
+  fileprivate func readMessages(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser,
+          let conversationId = request.parameters["conversationId"] else {
+      return
+    }
+    let messageTable = DBMessage()
+    let updateQuery = Update(messageTable, set: [(messageTable.read, 1)]).where(messageTable.conversationId == conversationId && messageTable.senderEmail != email)
+    if let connection = pool.getConnection() {
+      connection.execute(query: updateQuery) { updateResult in
+        if updateResult.asError != nil {
+          response.send("Error").status(.internalServerError); next()
+        } else {
+          response.send("Ok").status(.internalServerError); next()
+        }
       }
     }
   }
@@ -83,9 +97,12 @@ extension Backend {
             }
             let otherUser = User(dict: user)
             let lastMessage = Message(dict: row)
-            let conversation = Conversation(user: otherUser,
+            let conversationId = Int(row["conversation_id"] as! Int64)
+            let conversation = Conversation(id: conversationId,
+                                            user: otherUser,
                                             lastMessage: lastMessage,
-                                            approved: true)
+                                            approved: true,
+                                            read: true)
             convos.append(conversation)
           }
         }
@@ -114,29 +131,37 @@ extension Backend {
         if let rows = selectResult.asRows {
           var conversations = [Conversation]()
           for row in rows {
-            guard let conversationId = row["conversation_id"] as? Int32,
+            guard let conversationId = row["conversation_id"] as? Int64,
                   let user1 = row["user_1"] as? String else {
               return
             }
-            let selectMessageQuery = Select(from: messageTable).where(messageTable.conversationId == Int(conversationId)).order(by: .DESC(messageTable.timestamp)).limit(to: 1)
+            let selectMessageQuery = Select(from: messageTable).where(messageTable.conversationId == Int(conversationId)).order(by: .DESC(messageTable.timestamp))
             guard let otherEmail = (user1 == email ? row[DBConversationColumnNames.user2] : row[DBConversationColumnNames.user1]) as? String else {
               return
             }
             let selectUserQuery = Select(from: userTable).where(userTable.email == otherEmail)
             connection.execute(query: selectMessageQuery) { selectMessageResult in
-              guard let message = selectMessageResult.asRows?.first else {
+              guard let messages = Message.arrayFrom(queryResult: selectMessageResult) else {
                 return
               }
               connection.execute(query: selectUserQuery) { selectUserResult in
                 guard let userDict = selectUserResult.asRows?.first else {
                   return
                 }
+                var read = true
+                for msg in messages where msg.read == false && msg.sender == otherEmail {
+                  read = false
+                }
+                guard let lastMessage = messages.first else {
+                  return
+                }
                 let otherUser = User.init(dict: userDict)
-                let lastMessage = Message(dict: message)
                 let approved = Bool(row["approved"] as! Int32)
-                let conversation = Conversation(user: otherUser,
+                let conversation = Conversation(id: Int(conversationId),
+                                                user: otherUser,
                                                 lastMessage: lastMessage,
-                                                approved: approved)
+                                                approved: approved,
+                                                read: read)
                 conversations.append(conversation)
               }
             }

@@ -38,7 +38,7 @@ public class Backend {
     tokenCredentials = Credentials()
     tokenCredentials.register(plugin: CredentialsJWTToken())
     tokenCredentials.register(plugin: CredentialsGoogleToken())
-    tokenCredentials.register(plugin: CredentialsFacebookToken())
+    tokenCredentials.register(plugin: CredentialsFacebookToken(options: ["fields": "name,email"]))
     print(publicKeyPath)
     Backend.publicKey = try Data(contentsOf: publicKeyPath, options: .alwaysMapped)
     privateKey = try Data(contentsOf: privateKeyPath, options: .alwaysMapped)
@@ -49,6 +49,7 @@ public class Backend {
     addAuthRoutes(app: self)
     addUserRoutes(app: self)
     addMessageRoutes(app: self)
+    addImagesRoutes(app: self)
   }
   
   public func run() throws {

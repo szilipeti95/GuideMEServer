@@ -53,6 +53,11 @@
 /* Begin PBXBuildFile section */
 		B51C5706216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C5705216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift */; };
 		B51C5708216AA1800022F0F9 /* DBMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C5707216AA1800022F0F9 /* DBMessage.swift */; };
+		B578EE652174A351008739FD /* Date+Milliseconds.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EE642174A351008739FD /* Date+Milliseconds.swift */; };
+		B578EFF2217511AA008739FD /* ImageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF1217511AA008739FD /* ImageRoutes.swift */; };
+		B578EFF42175F046008739FD /* ServiceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF32175F046008739FD /* ServiceObject.swift */; };
+		B578EFF62175F7FF008739FD /* ChatServiceOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF52175F7FF008739FD /* ChatServiceOld.swift */; };
+		B578EFF8217607D9008739FD /* ChatServiceMessageHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF7217607D9008739FD /* ChatServiceMessageHandlers.swift */; };
 		B5E3936A21721667001EBB5F /* ChatConnectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936921721667001EBB5F /* ChatConnectionData.swift */; };
 		B5E3936C2172312A001EBB5F /* DBConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936B2172312A001EBB5F /* DBConversation.swift */; };
 		B5E3936F21723216001EBB5F /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936E21723216001EBB5F /* Conversation.swift */; };
@@ -239,7 +244,6 @@
 		OBJ_459 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Backend.swift */; };
 		OBJ_460 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ChatService.swift */; };
 		OBJ_461 /* PKCS5Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* PKCS5Extension.swift */; };
-		OBJ_462 /* JWTMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* JWTMiddleware.swift */; };
 		OBJ_463 /* CredentialsJWTToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* CredentialsJWTToken.swift */; };
 		OBJ_464 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* LoginRequest.swift */; };
 		OBJ_465 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* LoginResponse.swift */; };
@@ -1398,6 +1402,11 @@
 /* Begin PBXFileReference section */
 		B51C5705216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RouterRequest+AuthorizedUser.swift"; sourceTree = "<group>"; };
 		B51C5707216AA1800022F0F9 /* DBMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBMessage.swift; sourceTree = "<group>"; };
+		B578EE642174A351008739FD /* Date+Milliseconds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Milliseconds.swift"; sourceTree = "<group>"; };
+		B578EFF1217511AA008739FD /* ImageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRoutes.swift; sourceTree = "<group>"; };
+		B578EFF32175F046008739FD /* ServiceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceObject.swift; sourceTree = "<group>"; };
+		B578EFF52175F7FF008739FD /* ChatServiceOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatServiceOld.swift; sourceTree = "<group>"; };
+		B578EFF7217607D9008739FD /* ChatServiceMessageHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatServiceMessageHandlers.swift; sourceTree = "<group>"; };
 		B5E3936921721667001EBB5F /* ChatConnectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConnectionData.swift; sourceTree = "<group>"; };
 		B5E3936B2172312A001EBB5F /* DBConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBConversation.swift; sourceTree = "<group>"; };
 		B5E3936E21723216001EBB5F /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
@@ -1463,7 +1472,6 @@
 		OBJ_145 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		OBJ_146 /* UserProfileDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileDelegate.swift; sourceTree = "<group>"; };
 		OBJ_147 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/szilipeter/Documents/GitHub/GuideMEServer/.build/checkouts/Kitura-Credentials.git-1137106172743287290/Package.swift"; sourceTree = "<group>"; };
-		OBJ_15 /* JWTMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTMiddleware.swift; sourceTree = "<group>"; };
 		OBJ_150 /* CookieCryptography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieCryptography.swift; sourceTree = "<group>"; };
 		OBJ_151 /* CookieManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieManagement.swift; sourceTree = "<group>"; };
 		OBJ_152 /* CookieParameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieParameter.swift; sourceTree = "<group>"; };
@@ -2082,6 +2090,7 @@
 			children = (
 				B5E39371217235FD001EBB5F /* Message.swift */,
 				B5E3936E21723216001EBB5F /* Conversation.swift */,
+				B578EFF32175F046008739FD /* ServiceObject.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -2090,6 +2099,8 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_11 /* ChatService.swift */,
+				B578EFF7217607D9008739FD /* ChatServiceMessageHandlers.swift */,
+				B578EFF52175F7FF008739FD /* ChatServiceOld.swift */,
 				B5E3936921721667001EBB5F /* ChatConnectionData.swift */,
 			);
 			path = ChatService;
@@ -2126,6 +2137,7 @@
 				OBJ_13 /* PKCS5Extension.swift */,
 				B51C5705216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift */,
 				B5E393782173C637001EBB5F /* Bool+Init.swift */,
+				B578EE642174A351008739FD /* Date+Milliseconds.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2182,7 +2194,6 @@
 		OBJ_14 /* Middleware */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_15 /* JWTMiddleware.swift */,
 				OBJ_16 /* CredentialsJWTToken.swift */,
 			);
 			path = Middleware;
@@ -2558,6 +2569,7 @@
 				OBJ_31 /* AuthRoutes.swift */,
 				OBJ_32 /* UserRoutes.swift */,
 				B5E39374217238E8001EBB5F /* MessageRoutes.swift */,
+				B578EFF1217511AA008739FD /* ImageRoutes.swift */,
 			);
 			path = Routes;
 			sourceTree = "<group>";
@@ -4266,15 +4278,19 @@
 				B51C5708216AA1800022F0F9 /* DBMessage.swift in Sources */,
 				OBJ_459 /* Backend.swift in Sources */,
 				B5E3936C2172312A001EBB5F /* DBConversation.swift in Sources */,
+				B578EFF62175F7FF008739FD /* ChatServiceOld.swift in Sources */,
+				B578EFF42175F046008739FD /* ServiceObject.swift in Sources */,
 				OBJ_460 /* ChatService.swift in Sources */,
 				OBJ_461 /* PKCS5Extension.swift in Sources */,
-				OBJ_462 /* JWTMiddleware.swift in Sources */,
+				B578EFF2217511AA008739FD /* ImageRoutes.swift in Sources */,
 				B5E39372217235FD001EBB5F /* Message.swift in Sources */,
 				B51C5706216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift in Sources */,
 				OBJ_463 /* CredentialsJWTToken.swift in Sources */,
+				B578EE652174A351008739FD /* Date+Milliseconds.swift in Sources */,
 				OBJ_464 /* LoginRequest.swift in Sources */,
 				OBJ_465 /* LoginResponse.swift in Sources */,
 				OBJ_466 /* RegisterRequest.swift in Sources */,
+				B578EFF8217607D9008739FD /* ChatServiceMessageHandlers.swift in Sources */,
 				OBJ_467 /* User.swift in Sources */,
 				B5E393792173C637001EBB5F /* Bool+Init.swift in Sources */,
 				OBJ_468 /* DBUser.swift in Sources */,

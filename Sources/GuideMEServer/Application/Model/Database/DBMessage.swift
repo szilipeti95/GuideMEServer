@@ -14,6 +14,7 @@ struct DBMessageColumnNames {
   static let senderEmail = "sender_email"
   static let messageBody = "message_body"
   static let timestamp = "timestamp"
+  static let read = "read"
 }
 
 class DBMessage : Table {
@@ -22,7 +23,8 @@ class DBMessage : Table {
   let conversationId = Column(DBMessageColumnNames.conversationId, Int32.self, notNull: true)
   let senderEmail = Column(DBMessageColumnNames.senderEmail, String.self, notNull: true)
   let messageBody = Column(DBMessageColumnNames.messageBody, String.self, notNull: true)
-  let timestamp = Column(DBMessageColumnNames.timestamp, Int32.self, notNull: true)
+  let timestamp = Column(DBMessageColumnNames.timestamp, Int64.self, notNull: true)
+  let read = Column(DBMessageColumnNames.read, Int32.self, notNull: true)
 }
 
 extension DBMessage {

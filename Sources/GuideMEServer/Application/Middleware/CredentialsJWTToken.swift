@@ -31,7 +31,6 @@ public class CredentialsJWTToken: CredentialsPluginProtocol {
                            onPass: @escaping (HTTPStatusCode?, [String:String]?) -> Void,
                            inProgress: @escaping () -> Void) {
     if let type = request.headers["X-token-type"], type == name {
-      print("middleware")
       guard let encodedAndSignedJWT = request.headers["access_token"] else {
         onFailure(.badRequest, nil)
         return

@@ -8,20 +8,26 @@
 import Foundation
 
 class Conversation : Codable {
+  var id: Int
   var user: User
   var lastMessage: Message
   var approved: Bool
+  var read: Bool
 
-  init(user: User, lastMessage: Message, approved: Bool) {
+  init(id: Int, user: User, lastMessage: Message, approved: Bool, read: Bool) {
+    self.id = id
     self.user = user
     self.lastMessage = lastMessage
     self.approved = approved
+    self.read = read
   }
 
   enum CodingKeys: String, CodingKey {
+    case id
     case user
     case lastMessage
     case approved
+    case read
   }
 }
 
