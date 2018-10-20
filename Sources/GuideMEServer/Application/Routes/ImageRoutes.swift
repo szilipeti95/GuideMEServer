@@ -37,7 +37,7 @@ extension Backend {
         }
         let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         let fileURL = dir.appendingPathComponent("image-\(count)")
-        let description = descriptionPart?.name
+        let description = descriptionPart?.body.asText
         do {
           try data.write(to: fileURL, options: .atomic)
         }
