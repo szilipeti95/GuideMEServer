@@ -78,23 +78,4 @@ extension Backend {
       }
     }
   }
-/*
-  fileprivate func updateUserPasswordHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard try validateJwtIn(request: request), let header = request.headers["Authorization"] else {
-      response.send("Authorization Error")
-      next()
-      return
-    }
-
-    let username = try JWT.decode(header)?.claims[.nickname] as! String
-    guard let password = request.body?.asJSON?["password"] as? String else {
-      response.send("No body")
-      next()
-      return
-    }
-
-    let user = DBUser()
-    let selectQuery = Select(from: user).where(user.username == username)
-  }
- */
 }

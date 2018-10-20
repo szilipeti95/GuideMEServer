@@ -29,7 +29,7 @@ extension Backend {
           let conversationId = request.parameters["conversationId"] else {
       return
     }
-    //ELLENŐRZÉS HOGY A SAJÁT CONVOJA E AZ EMAILNEK
+    //TODO: ELLENŐRZÉS HOGY A SAJÁT CONVOJA E AZ EMAILNEK
     let messageTable = DBMessage()
     let selectQuery = Select(from: messageTable).where(messageTable.conversationId == conversationId).order(by: .ASC(messageTable.timestamp))
 
