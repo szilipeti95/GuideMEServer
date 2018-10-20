@@ -14,6 +14,7 @@ do {
   WebSocket.register(service: ChatService(), onPath: "chat-service")
   let app = try Backend()
   try app.run()
-} catch _ {
+} catch let error {
+  print(error)
 }
 

@@ -100,6 +100,7 @@ extension Backend {
         print(selectResult)
         guard selectResult.success, let selected = selectResult.asRows?.first else {
           print(selectResult.asError as Any)
+          respondWith(nil, .badRequest)
           return
         }
         print(selected)

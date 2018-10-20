@@ -57,7 +57,6 @@
 		B578EFF2217511AA008739FD /* ImageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF1217511AA008739FD /* ImageRoutes.swift */; };
 		B578EFF42175F046008739FD /* ServiceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF32175F046008739FD /* ServiceObject.swift */; };
 		B578EFF62175F7FF008739FD /* ChatServiceOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF52175F7FF008739FD /* ChatServiceOld.swift */; };
-		B578EFF8217607D9008739FD /* ChatServiceMessageHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF7217607D9008739FD /* ChatServiceMessageHandlers.swift */; };
 		B5E3936A21721667001EBB5F /* ChatConnectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936921721667001EBB5F /* ChatConnectionData.swift */; };
 		B5E3936C2172312A001EBB5F /* DBConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936B2172312A001EBB5F /* DBConversation.swift */; };
 		B5E3936F21723216001EBB5F /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936E21723216001EBB5F /* Conversation.swift */; };
@@ -1406,7 +1405,6 @@
 		B578EFF1217511AA008739FD /* ImageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRoutes.swift; sourceTree = "<group>"; };
 		B578EFF32175F046008739FD /* ServiceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceObject.swift; sourceTree = "<group>"; };
 		B578EFF52175F7FF008739FD /* ChatServiceOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatServiceOld.swift; sourceTree = "<group>"; };
-		B578EFF7217607D9008739FD /* ChatServiceMessageHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatServiceMessageHandlers.swift; sourceTree = "<group>"; };
 		B5E3936921721667001EBB5F /* ChatConnectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConnectionData.swift; sourceTree = "<group>"; };
 		B5E3936B2172312A001EBB5F /* DBConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBConversation.swift; sourceTree = "<group>"; };
 		B5E3936E21723216001EBB5F /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
@@ -2099,7 +2097,6 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_11 /* ChatService.swift */,
-				B578EFF7217607D9008739FD /* ChatServiceMessageHandlers.swift */,
 				B578EFF52175F7FF008739FD /* ChatServiceOld.swift */,
 				B5E3936921721667001EBB5F /* ChatConnectionData.swift */,
 			);
@@ -4290,7 +4287,6 @@
 				OBJ_464 /* LoginRequest.swift in Sources */,
 				OBJ_465 /* LoginResponse.swift in Sources */,
 				OBJ_466 /* RegisterRequest.swift in Sources */,
-				B578EFF8217607D9008739FD /* ChatServiceMessageHandlers.swift in Sources */,
 				OBJ_467 /* User.swift in Sources */,
 				B5E393792173C637001EBB5F /* Bool+Init.swift in Sources */,
 				OBJ_468 /* DBUser.swift in Sources */,

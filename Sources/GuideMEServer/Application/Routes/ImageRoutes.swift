@@ -52,6 +52,8 @@ extension Backend {
         let insertQuery = Insert(into: userPhotosTable, valueTuples: valueTuples)
         connection.execute(query: insertQuery) { insertResult in
           print(insertResult)
+          response.send("Success")
+          next()
         }
       }
     }

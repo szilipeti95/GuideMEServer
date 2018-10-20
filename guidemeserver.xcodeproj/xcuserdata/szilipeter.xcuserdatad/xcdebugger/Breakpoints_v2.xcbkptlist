@@ -22,27 +22,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Sources/GuideMEServer/Application/Backend.swift"
-            timestampString = "561396088.654108"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "init()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/AuthRoutes.swift"
-            timestampString = "561396088.654165"
+            timestampString = "561732611.231003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -138,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = ".build/checkouts/Kitura-CredentialsFacebook.git--5238150313675377956/Sources/CredentialsFacebook/Utils.swift"
-            timestampString = "561396088.654388"
+            timestampString = "561732611.231158"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "23"
@@ -154,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = ".build/checkouts/Kitura-CredentialsFacebook.git--5238150313675377956/Sources/CredentialsFacebook/Utils.swift"
-            timestampString = "561396088.654768"
+            timestampString = "561732611.231483"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "20"
@@ -170,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-            timestampString = "561396088.655045"
+            timestampString = "561732611.231705"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "downloadImage(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/ChatService/ChatService.swift"
-            timestampString = "561396088.655099"
+            timestampString = "561732611.231961"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "received(message:from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -201,45 +185,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Sources/GuideMEServer/Application/ChatService/ChatServiceMessageHandlers.swift"
-            timestampString = "561396088.655367"
+            filePath = "Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
+            timestampString = "561732611.232235"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "14"
-            endingLineNumber = "14"
-            landmarkName = "becomeOnlineHandler(email:from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Sources/GuideMEServer/Application/ChatService/ChatService.swift"
-            timestampString = "561396088.6556309"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "received(message:from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Sources/GuideMEServer/Application/ChatService/ChatServiceMessageHandlers.swift"
-            timestampString = "561396088.655849"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "wroteMessageHandler(message:from:)"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "uploadImage(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

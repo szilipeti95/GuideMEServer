@@ -30,7 +30,6 @@ public class Backend {
   let privateKey: Data!
   let tokenCredentials: Credentials!
   public init() throws {
-    // Run the metrics initializer
     pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!,
                                       poolOptions: ConnectionPoolOptions(initialCapacity: 10,
                                                                          maxCapacity: 50,

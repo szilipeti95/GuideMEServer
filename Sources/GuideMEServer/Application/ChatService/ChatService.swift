@@ -43,7 +43,8 @@ public class ChatService: WebSocketService {
 
   enum MessageType: String {
     case becomeOnline = "becomeOnline"
-    case openedChat = "openedChat"
+    case onlinePeople = "onlinePeople"
+    case openedChat = "openedChat"  
     case startedWriting = "startedWriting"
     case stoppedWriting = "stoppedWriting"
     case closedChat = "closedChat"
@@ -62,12 +63,12 @@ public class ChatService: WebSocketService {
     let receivers = getOnlineFriends(forEmail: senderEmail)
     lockConnectionsLock()
     if connections.removeValue(forKey: connection.id) != nil {
-      for connection in receivers {
+      for connectionData in receivers {
         let message = ServiceObject(type: MessageType.becameOffline.rawValue,
                                     sender: senderEmail,
                                     timestamp: Int(Date().timeIntervalSince1970))
         if let data = try? JSONEncoder().encode(message) {
-          connection.send(message: data)
+          connectionData.connection.send(message: data)
         }
       }
     }
@@ -76,6 +77,7 @@ public class ChatService: WebSocketService {
 
   public func received(message: Data, from connection: WebSocketConnection) {
     guard let serviceObject = try? JSONDecoder().decode(ServiceObject.self, from: message) else {
+      print("Error decoding object")
       return
     }
     if let payload = serviceObject.payload {
@@ -91,6 +93,8 @@ public class ChatService: WebSocketService {
       switch serviceObject.type {
       case MessageType.becomeOnline.rawValue:
         becomeOnlineHandler(email: serviceObject.sender, from: connection)
+      case MessageType.onlinePeople.rawValue:
+        onlinePeopleHandler(email: serviceObject.sender, from: connection)
       case MessageType.startedWriting.rawValue:
         startedWritingHandler(from: connection)
       case MessageType.stoppedWriting.rawValue:
@@ -105,6 +109,149 @@ public class ChatService: WebSocketService {
 
   public func received(message: String, from connection: WebSocketConnection) {
     print(message)
+  }
+
+  public func becomeOnlineHandler(email: String, from connection: WebSocketConnection) {
+    lockConnectionsLock()
+    connections[connection.id] = ChatConnectionData(email: email,
+                                                    connectedToEmail: nil,
+                                                    connection: connection)
+    unlockConnectionsLock()
+    let onlineFriendsData = getOnlineFriends(forEmail: email)
+    let serviceObject = ServiceObject(type: MessageType.becomeOnline.rawValue,
+                                      sender: email,
+                                      timestamp: Int(Date().timeIntervalSince1970))
+    guard let serviceData = try? JSONEncoder().encode(serviceObject) else {
+      return
+    }
+    for connectionData in onlineFriendsData {
+      connectionData.connection.send(message: serviceData)
+    }
+  }
+
+  private func onlinePeopleHandler(email: String, from connection: WebSocketConnection) {
+    let onlineFriendsData = getOnlineFriends(forEmail: email)
+    let responseObject = ServiceObject(type: MessageType.onlinePeople.rawValue,
+                                       sender: email,
+                                       timestamp: Int(Date().timeIntervalSince1970))
+    responseObject.payload = generatePayloadString(array: onlineFriendsData)
+    guard let responseData = try? JSONEncoder().encode(responseObject) else {
+      return
+    }
+    connection.send(message: responseData)
+  }
+
+  private func generatePayloadString(array: [ChatConnectionData]) -> String {
+    var string = ""
+    for item in array {
+      string.append("\(item.email),")
+    }
+    if !string.isEmpty {
+      string.removeLast()
+    }
+    return string
+  }
+
+  public func openedChatHandler(otherEmail: String, from connection: WebSocketConnection) {
+    lockConnectionsLock()
+    connections[connection.id]?.connectedToEmail = otherEmail
+    unlockConnectionsLock()
+    guard let senderEmail = connections[connection.id]?.email else {
+      return
+    }
+    let otherConnectionData = getConnectionByEmail(email: otherEmail)
+    let serviceObject = ServiceObject(type: MessageType.openedChat.rawValue,
+                                      sender: senderEmail,
+                                      timestamp: Int(Date().timeIntervalSince1970))
+    if let serviceData = try? JSONEncoder().encode(serviceObject) {
+      otherConnectionData?.connection.send(message: serviceData)
+    }
+  }
+
+  public func startedWritingHandler(from connection: WebSocketConnection) {
+    guard let otherEmail = connections[connection.id]?.connectedToEmail,
+      let senderEmail = connections[connection.id]?.email else {
+        return
+    }
+    let otherConnectionData = getConnectionByEmail(email: otherEmail)
+    let serviceObject = ServiceObject(type: MessageType.startedWriting.rawValue,
+                                      sender: senderEmail,
+                                      timestamp: Int(Date().timeIntervalSince1970))
+    if let data = try? JSONEncoder().encode(serviceObject) {
+      otherConnectionData?.connection.send(message: data)
+    }
+  }
+
+  public func stoppedWritingHandler(from connection: WebSocketConnection) {
+    guard let otherEmail = connections[connection.id]?.connectedToEmail,
+      let senderEmail = connections[connection.id]?.email else {
+        return
+    }
+
+    let otherConnectionData = getConnectionByEmail(email: otherEmail)
+    let serviceObject = ServiceObject(type: MessageType.stoppedWriting.rawValue,
+                                      sender: senderEmail,
+                                      timestamp: Int(Date().timeIntervalSince1970))
+    if let data = try? JSONEncoder().encode(serviceObject) {
+      otherConnectionData?.connection.send(message: data)
+    }
+  }
+
+  public func closedChatHandler(from: WebSocketConnection) {
+    guard let otherEmail = connections[from.id]?.connectedToEmail,
+      let senderEmail = connections[from.id]?.email else {
+        return
+    }
+    lockConnectionsLock()
+    connections[from.id]?.connectedToEmail = nil
+    unlockConnectionsLock()
+
+    let otherConnectionData = getConnectionByEmail(email: otherEmail)
+    let serviceObject = ServiceObject(type: MessageType.closedChat.rawValue,
+                                      sender: senderEmail,
+                                      timestamp: Int(Date().timeIntervalSince1970))
+    if let data = try? JSONEncoder().encode(serviceObject) {
+      otherConnectionData?.connection.send(message: data)
+    }
+  }
+
+  public func wroteMessageHandler(message: String, from connection: WebSocketConnection) {
+    guard let otherEmail = connections[connection.id]?.connectedToEmail,
+      let senderEmail = connections[connection.id]?.email else {
+        return
+    }
+
+    let otherConnectionData = getConnectionByEmail(email: otherEmail)
+    let conversationTable = DBConversation()
+    let selectConversationQuery = Select(from: conversationTable).where((conversationTable.user1 == senderEmail && conversationTable.user2 == otherEmail) ||
+      (conversationTable.user1 == otherEmail && conversationTable.user2 == senderEmail))
+
+    let messageTable = DBMessage()
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectConversationQuery) { selectConversationResult in
+        guard let conversationId = selectConversationResult.asRows?.first?[DBConversationColumnNames.conversationId] as? Int64 else {
+          return
+        }
+        let insertQuery = Insert(into: messageTable,
+                                 valueTuples: (messageTable.senderEmail, senderEmail),
+                                 (messageTable.conversationId, conversationId),
+                                 (messageTable.messageBody, message),
+                                 (messageTable.timestamp, Date().millisecondsSince1970))
+        connection.execute(query: insertQuery) { insertResult in
+          print(insertResult)
+        }
+      }
+    }
+
+    if let connectionData = otherConnectionData {
+      let serviceObject = ServiceObject(type: MessageType.wroteMessage.rawValue, sender: senderEmail, timestamp: Int(Date().timeIntervalSince1970))
+      serviceObject.payload = message
+      if let data = try? JSONEncoder().encode(serviceObject) {
+        connectionData.connection.send(message: data)
+      }
+    } else {
+      //pushnotification
+    }
   }
 
   public func echo(message: String) {
@@ -128,7 +275,7 @@ public class ChatService: WebSocketService {
 
   // MARK: helper functions
 
-  public func getOnlineFriends(forEmail email: String) -> [WebSocketConnection] {
+  private func getOnlineFriends(forEmail email: String) -> [ChatConnectionData] {
     let conversationTable = DBConversation()
     let selectQuery = Select(from: conversationTable).where((conversationTable.user1 == email && conversationTable.approved == 1)
       || (conversationTable.user2 == email && conversationTable.approved == 1))
@@ -150,21 +297,21 @@ public class ChatService: WebSocketService {
         }
       }
     }
-    var connections = [WebSocketConnection]()
+    var connectionDatas = [ChatConnectionData]()
     for otherEmail in emails {
       if let connection = getConnectionByEmail(email: otherEmail) {
-        connections.append(connection)
+        connectionDatas.append(connection)
       }
     }
-    return connections
+    return connectionDatas
   }
 
-  public func getConnectionByEmail(email: String) -> WebSocketConnection? {
+  private func getConnectionByEmail(email: String) -> ChatConnectionData? {
     lockConnectionsLock()
     for data in connections {
       if email == data.value.email {
         unlockConnectionsLock()
-        return data.value.connection
+        return data.value
       }
     }
     unlockConnectionsLock()
