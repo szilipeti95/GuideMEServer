@@ -17,7 +17,7 @@ struct DBMessageColumnNames {
   static let read = "read"
 }
 
-class DBMessage : Table {
+class DBMessage: Table {
   let tableName = "Message"
   let messageId = Column(DBMessageColumnNames.messageId, Int32.self, primaryKey: true, notNull: true)
   let conversationId = Column(DBMessageColumnNames.conversationId, Int32.self, notNull: true)

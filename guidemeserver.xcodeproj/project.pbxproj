@@ -63,6 +63,13 @@
 		B5E39375217238E8001EBB5F /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E39374217238E8001EBB5F /* MessageRoutes.swift */; };
 		B5E393792173C637001EBB5F /* Bool+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E393782173C637001EBB5F /* Bool+Init.swift */; };
 		B5EBD58A217BAEA9002E746E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD589217BAEA9002E746E /* UserInfo.swift */; };
+		B5EBD58C217C9FF4002E746E /* DBCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD58B217C9FF4002E746E /* DBCities.swift */; };
+		B5EBD58F217CCA4A002E746E /* PreferenceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD58E217CCA4A002E746E /* PreferenceType.swift */; };
+		B5EBD591217CCAD1002E746E /* Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD590217CCAD1002E746E /* Guide.swift */; };
+		B5EBD593217CCAE4002E746E /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD592217CCAE4002E746E /* City.swift */; };
+		B5EBD595217CCDED002E746E /* GuideRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD594217CCDED002E746E /* GuideRoutes.swift */; };
+		B5EBD597217CCF57002E746E /* DBGuides.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD596217CCF57002E746E /* DBGuides.swift */; };
+		B5EBD599217CD060002E746E /* DBGuidePreference .swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD598217CD060002E746E /* DBGuidePreference .swift */; };
 		OBJ_1002 /* BufferList.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_366 /* BufferList.swift */; };
 		OBJ_1003 /* ClientRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_367 /* ClientRequest.swift */; };
 		OBJ_1004 /* ClientResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_368 /* ClientResponse.swift */; };
@@ -1411,6 +1418,13 @@
 		B5E39374217238E8001EBB5F /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
 		B5E393782173C637001EBB5F /* Bool+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Init.swift"; sourceTree = "<group>"; };
 		B5EBD589217BAEA9002E746E /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		B5EBD58B217C9FF4002E746E /* DBCities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCities.swift; sourceTree = "<group>"; };
+		B5EBD58E217CCA4A002E746E /* PreferenceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceType.swift; sourceTree = "<group>"; };
+		B5EBD590217CCAD1002E746E /* Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guide.swift; sourceTree = "<group>"; };
+		B5EBD592217CCAE4002E746E /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		B5EBD594217CCDED002E746E /* GuideRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideRoutes.swift; sourceTree = "<group>"; };
+		B5EBD596217CCF57002E746E /* DBGuides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBGuides.swift; sourceTree = "<group>"; };
+		B5EBD598217CD060002E746E /* DBGuidePreference .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBGuidePreference .swift"; sourceTree = "<group>"; };
 		"CryptoSwift::CryptoSwift::Product" /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Cryptor::Cryptor::Product" /* Cryptor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cryptor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CryptorRSA::CryptorRSA::Product" /* CryptorRSA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptorRSA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2101,6 +2115,16 @@
 			path = Info;
 			sourceTree = "<group>";
 		};
+		B5EBD58D217CCA3F002E746E /* Guide */ = {
+			isa = PBXGroup;
+			children = (
+				B5EBD58E217CCA4A002E746E /* PreferenceType.swift */,
+				B5EBD590217CCAD1002E746E /* Guide.swift */,
+				B5EBD592217CCAE4002E746E /* City.swift */,
+			);
+			path = Guide;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* ChatService */ = {
 			isa = PBXGroup;
 			children = (
@@ -2298,6 +2322,7 @@
 		OBJ_18 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				B5EBD58D217CCA3F002E746E /* Guide */,
 				B5EBD588217BAE9D002E746E /* Info */,
 				B5E39370217235EA001EBB5F /* Message */,
 				OBJ_19 /* Auth */,
@@ -2510,6 +2535,9 @@
 				OBJ_27 /* DBUserPhotos.swift */,
 				B51C5707216AA1800022F0F9 /* DBMessage.swift */,
 				B5E3936B2172312A001EBB5F /* DBConversation.swift */,
+				B5EBD58B217C9FF4002E746E /* DBCities.swift */,
+				B5EBD598217CD060002E746E /* DBGuidePreference .swift */,
+				B5EBD596217CCF57002E746E /* DBGuides.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -2575,6 +2603,7 @@
 				OBJ_32 /* UserRoutes.swift */,
 				B5E39374217238E8001EBB5F /* MessageRoutes.swift */,
 				B578EFF1217511AA008739FD /* ImageRoutes.swift */,
+				B5EBD594217CCDED002E746E /* GuideRoutes.swift */,
 			);
 			path = Routes;
 			sourceTree = "<group>";
@@ -4280,6 +4309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				B5EBD599217CD060002E746E /* DBGuidePreference .swift in Sources */,
 				B51C5708216AA1800022F0F9 /* DBMessage.swift in Sources */,
 				OBJ_459 /* Backend.swift in Sources */,
 				B5E3936C2172312A001EBB5F /* DBConversation.swift in Sources */,
@@ -4292,17 +4322,23 @@
 				B51C5706216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift in Sources */,
 				OBJ_463 /* CredentialsJWTToken.swift in Sources */,
 				B578EE652174A351008739FD /* Date+Milliseconds.swift in Sources */,
+				B5EBD58F217CCA4A002E746E /* PreferenceType.swift in Sources */,
+				B5EBD591217CCAD1002E746E /* Guide.swift in Sources */,
 				OBJ_464 /* LoginRequest.swift in Sources */,
 				OBJ_465 /* LoginResponse.swift in Sources */,
+				B5EBD597217CCF57002E746E /* DBGuides.swift in Sources */,
 				OBJ_466 /* RegisterRequest.swift in Sources */,
 				OBJ_467 /* User.swift in Sources */,
 				B5E393792173C637001EBB5F /* Bool+Init.swift in Sources */,
+				B5EBD595217CCDED002E746E /* GuideRoutes.swift in Sources */,
 				OBJ_468 /* DBUser.swift in Sources */,
 				OBJ_469 /* DBUserPhotos.swift in Sources */,
 				OBJ_470 /* Paths.swift in Sources */,
 				OBJ_471 /* AdminRoutes.swift in Sources */,
+				B5EBD58C217C9FF4002E746E /* DBCities.swift in Sources */,
 				B5E39375217238E8001EBB5F /* MessageRoutes.swift in Sources */,
 				B5E3936A21721667001EBB5F /* ChatConnectionData.swift in Sources */,
+				B5EBD593217CCAE4002E746E /* City.swift in Sources */,
 				B5E3936F21723216001EBB5F /* Conversation.swift in Sources */,
 				OBJ_472 /* AuthRoutes.swift in Sources */,
 				OBJ_473 /* UserRoutes.swift in Sources */,

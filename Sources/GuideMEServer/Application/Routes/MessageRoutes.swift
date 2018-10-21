@@ -20,6 +20,12 @@ func addMessageRoutes(app: Backend) {
 
   app.router.put(Paths.messagesRead, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.put(Paths.messagesRead, handler: app.readMessages)
+
+  app.router.post(Paths.approveConversation, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.post(Paths.approveConversation, handler: app.approveConversation)
+
+  app.router.post(Paths.denyConversation, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.post(Paths.denyConversation, handler: app.denyConversation)
 }
 
 extension Backend {
@@ -118,6 +124,7 @@ extension Backend {
       }
     }
   }
+
   fileprivate func getConversations(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let email = request.authorizedUser else {
       return
@@ -175,6 +182,54 @@ extension Backend {
           let jsonString = String(data: jsonData, encoding: .utf8)!
           response.send(jsonString)
           next()
+        }
+      }
+    }
+  }
+
+  fileprivate func approveConversation(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser else {
+      response.send("").status(.unauthorized); next()
+      return
+    }
+    guard let conversationId = request.parameters["conversationId"] else {
+      response.send("").status(.badRequest); next()
+      return
+    }
+    let conversationTable = DBConversation()
+    let updateQuery = Update(conversationTable, set: [(conversationTable.approved, 1)]).where(conversationTable.conversationId == conversationId &&
+                                                                                              conversationTable.approved == 0 &&
+                                                                                              (conversationTable.user1 == email || conversationTable.user2 == email))
+    if let connection = pool.getConnection() {
+      connection.execute(query: updateQuery) { updateResult in
+        if updateResult.success {
+          response.send("").status(.OK)
+        } else {
+          response.send("").status(.badRequest)
+        }
+      }
+    }
+  }
+
+  fileprivate func denyConversation(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser else {
+      response.send("").status(.unauthorized); next()
+      return
+    }
+    guard let conversationId = request.parameters["conversationId"] else {
+      response.send("").status(.badRequest); next()
+      return
+    }
+    let conversationTable = DBConversation()
+    let deleteQuery = Delete(from: conversationTable).where(conversationTable.conversationId == conversationId &&
+                                                            conversationTable.approved == 0 &&
+                                                            (conversationTable.user1 == email || conversationTable.user2 == email))
+    if let connection = pool.getConnection() {
+      connection.execute(query: deleteQuery) { deleteResult in
+        if deleteResult.success {
+          response.send("").status(.OK)
+        } else {
+          response.send("").status(.badRequest)
         }
       }
     }

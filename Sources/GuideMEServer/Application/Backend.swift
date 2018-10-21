@@ -49,6 +49,7 @@ public class Backend {
     addUserRoutes(app: self)
     addMessageRoutes(app: self)
     addImagesRoutes(app: self)
+    addGuideRoutes(app: self)
   }
   
   public func run() throws {
