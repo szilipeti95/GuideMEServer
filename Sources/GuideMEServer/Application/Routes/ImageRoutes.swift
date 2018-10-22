@@ -73,6 +73,7 @@ extension Backend {
       response.send(data: image); next()
     }
     catch let error {
+      response.send("").status(.noContent); next()
       print(error)
     }
   }

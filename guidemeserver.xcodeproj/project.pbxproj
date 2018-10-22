@@ -70,6 +70,7 @@
 		B5EBD595217CCDED002E746E /* GuideRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD594217CCDED002E746E /* GuideRoutes.swift */; };
 		B5EBD597217CCF57002E746E /* DBGuides.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD596217CCF57002E746E /* DBGuides.swift */; };
 		B5EBD599217CD060002E746E /* DBGuidePreference .swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD598217CD060002E746E /* DBGuidePreference .swift */; };
+		B5EBD59C217DDE7F002E746E /* Int+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD59B217DDE7F002E746E /* Int+Random.swift */; };
 		OBJ_1002 /* BufferList.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_366 /* BufferList.swift */; };
 		OBJ_1003 /* ClientRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_367 /* ClientRequest.swift */; };
 		OBJ_1004 /* ClientResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_368 /* ClientResponse.swift */; };
@@ -249,7 +250,7 @@
 		OBJ_1316 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_459 /* Backend.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* Backend.swift */; };
 		OBJ_460 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* ChatService.swift */; };
-		OBJ_461 /* PKCS5Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* PKCS5Extension.swift */; };
+		OBJ_461 /* PKCS5Extension+generatePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* PKCS5Extension+generatePassword.swift */; };
 		OBJ_463 /* CredentialsJWTToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* CredentialsJWTToken.swift */; };
 		OBJ_464 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* LoginRequest.swift */; };
 		OBJ_465 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* LoginResponse.swift */; };
@@ -1425,6 +1426,7 @@
 		B5EBD594217CCDED002E746E /* GuideRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideRoutes.swift; sourceTree = "<group>"; };
 		B5EBD596217CCF57002E746E /* DBGuides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBGuides.swift; sourceTree = "<group>"; };
 		B5EBD598217CD060002E746E /* DBGuidePreference .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DBGuidePreference .swift"; sourceTree = "<group>"; };
+		B5EBD59B217DDE7F002E746E /* Int+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Random.swift"; sourceTree = "<group>"; };
 		"CryptoSwift::CryptoSwift::Product" /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Cryptor::Cryptor::Product" /* Cryptor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Cryptor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"CryptorRSA::CryptorRSA::Product" /* CryptorRSA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CryptorRSA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1467,7 +1469,7 @@
 		OBJ_125 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		OBJ_126 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/szilipeter/Documents/GitHub/GuideMEServer/.build/checkouts/Kitura-CredentialsFacebook.git--5238150313675377956/Package.swift"; sourceTree = "<group>"; };
 		OBJ_129 /* CredentialsGoogle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsGoogle.swift; sourceTree = "<group>"; };
-		OBJ_13 /* PKCS5Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKCS5Extension.swift; sourceTree = "<group>"; };
+		OBJ_13 /* PKCS5Extension+generatePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PKCS5Extension+generatePassword.swift"; sourceTree = "<group>"; };
 		OBJ_130 /* CredentialsGoogleOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsGoogleOptions.swift; sourceTree = "<group>"; };
 		OBJ_131 /* CredentialsGoogleToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsGoogleToken.swift; sourceTree = "<group>"; };
 		OBJ_132 /* GoogleTokenProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTokenProfile.swift; sourceTree = "<group>"; };
@@ -2162,10 +2164,11 @@
 		OBJ_12 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_13 /* PKCS5Extension.swift */,
+				OBJ_13 /* PKCS5Extension+generatePassword.swift */,
 				B51C5705216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift */,
 				B5E393782173C637001EBB5F /* Bool+Init.swift */,
 				B578EE642174A351008739FD /* Date+Milliseconds.swift */,
+				B5EBD59B217DDE7F002E746E /* Int+Random.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4315,7 +4318,7 @@
 				B5E3936C2172312A001EBB5F /* DBConversation.swift in Sources */,
 				B578EFF42175F046008739FD /* ServiceObject.swift in Sources */,
 				OBJ_460 /* ChatService.swift in Sources */,
-				OBJ_461 /* PKCS5Extension.swift in Sources */,
+				OBJ_461 /* PKCS5Extension+generatePassword.swift in Sources */,
 				B578EFF2217511AA008739FD /* ImageRoutes.swift in Sources */,
 				B5E39372217235FD001EBB5F /* Message.swift in Sources */,
 				B5EBD58A217BAEA9002E746E /* UserInfo.swift in Sources */,
@@ -4337,6 +4340,7 @@
 				OBJ_471 /* AdminRoutes.swift in Sources */,
 				B5EBD58C217C9FF4002E746E /* DBCities.swift in Sources */,
 				B5E39375217238E8001EBB5F /* MessageRoutes.swift in Sources */,
+				B5EBD59C217DDE7F002E746E /* Int+Random.swift in Sources */,
 				B5E3936A21721667001EBB5F /* ChatConnectionData.swift in Sources */,
 				B5EBD593217CCAE4002E746E /* City.swift in Sources */,
 				B5E3936F21723216001EBB5F /* Conversation.swift in Sources */,

@@ -14,6 +14,8 @@ import SwiftKueryMySQL
 func addUserRoutes(app: Backend) {
   app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.userSelf, handler: app.getUserHandler)
+  app.router.get(Paths.userRandom, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.get(Paths.userRandom, handler: app.getFourRandomHandler          )
   app.router.put(Paths.userSelfUpdate, middleware: BodyParser())
   app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.put(Paths.userSelfUpdate, handler: app.updateUserInfoHandler)
@@ -38,6 +40,43 @@ extension Backend {
       }
     } else {
       try? response.send("Error").status(.internalServerError).end()
+    }
+  }
+
+  fileprivate func getFourRandomHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser else {
+      return
+    }
+    let userTable = DBUser()
+    let selectQuery = Select(from: userTable).where(userTable.email != email)
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectQuery) { selectResult in
+        guard let rows = selectResult.asRows else {
+          response.send("").status(.internalServerError); next()
+          return
+        }
+        let length = UInt32(rows.count)
+        var users = [User]()
+        for _ in 1...4 {
+          #if os(Linux)
+          let rand = Int(random() % Int(length))
+          #else
+          let rand =  arc4random_uniform(length)
+          #endif
+          let row = rows[Int(rand)]
+          let user = User(dict: row)
+          users.append(user)
+        }
+        guard let jsonData = try? JSONEncoder().encode(users) else {
+          print("Error during JSON decoding")
+          response.send("").status(.internalServerError)
+          next()
+          return
+        }
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+        response.send(jsonString)
+        next()
+      }
     }
   }
 
