@@ -22,6 +22,26 @@ class Guide: Codable {
     self.preferenceType = preferenceType
   }
 
+  convenience init(dict: [String: Any?]) {
+    let type = Int(dict["type"] as! Int32)
+    var from: Int? = nil
+    var to: Int? = nil
+    if dict["from"] as? Int64 != nil {
+      from = Int(dict["from"] as! Int64) / 1000
+    }
+    if dict["to"] as? Int64 != nil {
+      to = Int(dict["to"] as! Int64) / 1000
+    }
+    let city = City(dict: dict["city"] as! [String: Any?])
+    let preferenceType = dict["preference_type"] as! [Int]
+    self.init(city: city,
+              type: type,
+              from: from,
+              to: to,
+              preferenceType: preferenceType)
+
+  }
+
   convenience init(dict: [String: Any?], city: City, preferenceType: [Int]) {
     let type = Int(dict["type"] as! Int32)
     var from: Int? = nil

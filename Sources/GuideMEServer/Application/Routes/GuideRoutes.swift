@@ -19,6 +19,10 @@ func addGuideRoutes(app: Backend) {
   /*
   app.router.post("/image", middleware: BodyParser())
  */
+
+  app.router.post("/guide", middleware: BodyParser())
+  app.router.post("/guide", allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.post("/guide", handler: app.postGuide)
 }
 
 extension Backend {
@@ -103,18 +107,63 @@ extension Backend {
     }
   }
 
-
-  /*
-  fileprivate func uploadImage(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let parts = request.body?.asMultiPart,
-      let email = request.authorizedUser else {
-        return
+  fileprivate func postGuide(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser,
+      let data = request.body?.asJSON else {
+      response.send("").status(.unauthorized); next()
+      return
     }
-    let imagePart = parts.filter { $0.type.contains("image") }.first
-    let descriptionPart = parts.filter { $0.name == "description" }.first
-    let userPhotosTable = DBUserPhotos()
-    let selectQuery = Select(from: userPhotosTable)
+
+    let guide = Guide(dict: data)
+
+    let guidesTable = DBGuides()
+
+    let cityTable = DBCities()
+    let selectQuery = Select(from: cityTable).where(cityTable.city == guide.city.city && cityTable.country == guide.city.country)
     if let connection = pool.getConnection() {
-      connection.execute(query: selectQuery) { selectResult in
- */
+      connection.execute(query: selectQuery) { cityResult in
+        print(cityResult)
+        guard let rows = cityResult.asRows else {
+          response.send("").status(.badRequest); next()
+          return
+        }
+        if rows.count == 0 {
+          response.send("").status(.badRequest); next()
+          return
+        }
+        guard let cityId = rows[0]["cities_id"] as? Int32 else {
+          response.send("").status(.internalServerError); next()
+          return
+        }
+        var valueTuples: [(Column, Any)] = [(guidesTable.userEmail, email),
+                                            (guidesTable.cityId, cityId),
+                                            (guidesTable.type, guide.type)]
+        if guide.type == 1 {
+          guard let from = guide.from, let to = guide.to else {
+            response.send("").status(.badRequest); next()
+            return
+          }
+          valueTuples.append((guidesTable.from, from))
+          valueTuples.append((guidesTable.to, to))
+        }
+        let insertQuery = Insert(into: guidesTable, valueTuples: valueTuples, returnID: true)
+        connection.execute(query: insertQuery) { guideInsertResult in
+          guard let id = guideInsertResult.asRows?[0]["id"] else {
+            return
+          }
+          for pref in guide.preferenceType {
+            let prefTable = DBGuidePreferences()
+            if let id = id {
+              let insertPrefQuery = Insert(into: prefTable, valueTuples: [(prefTable.guideId, id), (prefTable.prefTypeId, pref)])
+              connection.execute(query: insertPrefQuery) { result in
+                print(result)
+              }
+            }
+          }
+          response.send(""); next();
+        }
+      }
+    }
+
+  }
 }
