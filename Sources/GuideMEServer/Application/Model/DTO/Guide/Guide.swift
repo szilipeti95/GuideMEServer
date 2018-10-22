@@ -27,10 +27,10 @@ class Guide: Codable {
     var from: Int? = nil
     var to: Int? = nil
     if dict["from"] as? Int64 != nil {
-      from = Int(dict["from"] as! Int64) / 1000
+      from = Int(dict["from"] as! Int64)
     }
     if dict["to"] as? Int64 != nil {
-      to = Int(dict["to"] as! Int64) / 1000
+      to = Int(dict["to"] as! Int64)
     }
     let city = City(dict: dict["city"] as! [String: Any?])
     let preferenceType = dict["preference_type"] as! [Int]

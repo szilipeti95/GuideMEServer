@@ -143,8 +143,8 @@ extension Backend {
             response.send("").status(.badRequest); next()
             return
           }
-          valueTuples.append((guidesTable.from, from))
-          valueTuples.append((guidesTable.to, to))
+          valueTuples.append((guidesTable.from, from*1000))
+          valueTuples.append((guidesTable.to, to*1000))
         }
         let insertQuery = Insert(into: guidesTable, valueTuples: valueTuples, returnID: true)
         connection.execute(query: insertQuery) { guideInsertResult in
