@@ -49,7 +49,8 @@ extension Backend {
           print(error)
         }
         var valueTuples: [(Column, Any)] = [(userPhotosTable.userEmail, email),
-                                            (userPhotosTable.photoUrl, fileName)]
+                                            (userPhotosTable.photoUri, fileName),
+                                            (userPhotosTable.timestamp, Date().millisecondsSince1970)]
         if let description = description {
           valueTuples.append((userPhotosTable.description, description))
         }
@@ -84,7 +85,7 @@ extension Backend {
     }
 
     let table = DBUserPhotos()
-    let selectQuery = Select(from: table).where(table.userEmail == email)
+    let selectQuery = Select(from: table).where(table.userEmail == email).order(by: .DESC(table.timestamp))
     if let connection = pool.getConnection() {
       connection.execute(query: selectQuery) { selectResult in
         guard let rows = selectResult.asRows else {

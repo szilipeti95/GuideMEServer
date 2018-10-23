@@ -15,6 +15,9 @@ class User : Codable {
   var regDate: Int
   var avatar: String?
   var backgroundAvatar: String?
+  var photos: [Photo]?
+  var bio: String?
+  var friendCount: Int
 
   init(username: String,
        email: String,
@@ -22,7 +25,8 @@ class User : Codable {
        lastName: String,
        regDate: Int,
        avatar: String?,
-       backgroundAvatar: String?) {
+       backgroundAvatar: String?,
+       bio: String?) {
     self.username = username
     self.email = email
     self.firstName = firstName
@@ -30,6 +34,8 @@ class User : Codable {
     self.regDate = regDate
     self.avatar = avatar
     self.backgroundAvatar = backgroundAvatar
+    self.bio = bio
+    self.friendCount = 0
   }
 
   enum CodingKeys: String, CodingKey {
@@ -40,6 +46,9 @@ class User : Codable {
     case regDate = "reg_date"
     case avatar = "avatar"
     case backgroundAvatar = "background_avatar"
+    case photos = "photos"
+    case bio
+    case friendCount = "friend_count"
   }
 }
 
@@ -63,6 +72,7 @@ extension User {
     let userRegDate = Int(dict["reg_date"] as! Int64) / 1000
     let userAvatar = dict["avatar"] as? String
     let userBackgroundAvatar = dict["background_avatar"] as? String
+    let bio = dict["bio"] as? String
 
     self.init(username: userUsername,
                 email: userEmail,
@@ -70,7 +80,8 @@ extension User {
                 lastName: userLastName,
                 regDate: userRegDate,
                 avatar: userAvatar,
-                backgroundAvatar: userBackgroundAvatar)
+                backgroundAvatar: userBackgroundAvatar,
+                bio: bio)
   }
 }
 

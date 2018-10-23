@@ -62,6 +62,7 @@
 		B5E39372217235FD001EBB5F /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E39371217235FD001EBB5F /* Message.swift */; };
 		B5E39375217238E8001EBB5F /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E39374217238E8001EBB5F /* MessageRoutes.swift */; };
 		B5E393792173C637001EBB5F /* Bool+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E393782173C637001EBB5F /* Bool+Init.swift */; };
+		B5EA91F8217F407E0053B354 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EA91F7217F407E0053B354 /* Photo.swift */; };
 		B5EBD58A217BAEA9002E746E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD589217BAEA9002E746E /* UserInfo.swift */; };
 		B5EBD58C217C9FF4002E746E /* DBCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD58B217C9FF4002E746E /* DBCities.swift */; };
 		B5EBD58F217CCA4A002E746E /* PreferenceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD58E217CCA4A002E746E /* PreferenceType.swift */; };
@@ -1418,6 +1419,7 @@
 		B5E39371217235FD001EBB5F /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B5E39374217238E8001EBB5F /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
 		B5E393782173C637001EBB5F /* Bool+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Init.swift"; sourceTree = "<group>"; };
+		B5EA91F7217F407E0053B354 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		B5EBD589217BAEA9002E746E /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		B5EBD58B217C9FF4002E746E /* DBCities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCities.swift; sourceTree = "<group>"; };
 		B5EBD58E217CCA4A002E746E /* PreferenceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceType.swift; sourceTree = "<group>"; };
@@ -2461,6 +2463,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_24 /* User.swift */,
+				B5EA91F7217F407E0053B354 /* Photo.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -4326,6 +4329,7 @@
 				OBJ_463 /* CredentialsJWTToken.swift in Sources */,
 				B578EE652174A351008739FD /* Date+Milliseconds.swift in Sources */,
 				B5EBD58F217CCA4A002E746E /* PreferenceType.swift in Sources */,
+				B5EA91F8217F407E0053B354 /* Photo.swift in Sources */,
 				B5EBD591217CCAD1002E746E /* Guide.swift in Sources */,
 				OBJ_464 /* LoginRequest.swift in Sources */,
 				OBJ_465 /* LoginResponse.swift in Sources */,

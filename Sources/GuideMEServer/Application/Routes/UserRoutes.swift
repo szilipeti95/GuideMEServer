@@ -14,6 +14,8 @@ import SwiftKueryMySQL
 func addUserRoutes(app: Backend) {
   app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.userSelf, handler: app.getUserHandler)
+  app.router.get(Paths.usersData, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.get(Paths.usersData, handler: app.getUsersDataHandler)
   app.router.get(Paths.userRandom, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.userRandom, handler: app.getFourRandomHandler          )
   app.router.put(Paths.userSelfUpdate, middleware: BodyParser())
@@ -26,6 +28,14 @@ extension Backend {
     guard let email = request.authorizedUser else {
       return
     }
+
+    if let userData = getUserData(for: email) {
+      try? response.send(userData.toJson()).end()
+    } else {
+      response.send("").status(.badRequest); next()
+      return
+    }
+    /*
     let userTable = DBUser()
     let selectQuery = Select(from: userTable).where(userTable.email == email)
 
@@ -36,11 +46,85 @@ extension Backend {
           return
         }
         let userResponse = User(dict: selected)
+        let photosTable = DBUserPhotos()
+        let selectPhotosQuery = Select(from: photosTable).where(photosTable.userEmail == email).order(by: .DESC(photosTable.timestamp))
+        connection.execute(query: selectPhotosQuery) { selectPhotosResult in
+          guard let rows = selectPhotosResult.asRows else {
+            response.send("").status(.internalServerError); next()
+            return
+          }
+          if rows.count != 0 {
+            var photos = [Photo]()
+            for row in rows {
+              photos.append(Photo(dict: row))
+            }
+            userResponse.photos = photos
+          }
+        }
         try? response.send(userResponse.toJson()).end()
       }
     } else {
       try? response.send("Error").status(.internalServerError).end()
     }
+     */
+  }
+
+  fileprivate func getUsersDataHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard request.authorizedUser != nil else {
+      response.send("").status(.unauthorized); next()
+      return
+    }
+    guard let email = request.parameters["email"] else {
+      response.send("").status(.badRequest); next()
+      return
+    }
+
+    if let userData = getUserData(for: email) {
+      try? response.send(userData.toJson()).end()
+    } else {
+      response.send("").status(.badRequest); next()
+      return
+    }
+  }
+
+  internal func getUserData(for email: String) -> User? {
+    let userTable = DBUser()
+    let selectQuery = Select(from: userTable).where(userTable.email == email)
+    var user: User? = nil
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectQuery) { selectResult in
+        guard selectResult.success, let selected = selectResult.asRows?.first else {
+          print(selectResult.asError as Any)
+          return
+        }
+        let userResponse = User(dict: selected)
+        let photosTable = DBUserPhotos()
+        let selectPhotosQuery = Select(from: photosTable).where(photosTable.userEmail == email).order(by: .DESC(photosTable.timestamp))
+        connection.execute(query: selectPhotosQuery) { selectPhotosResult in
+          guard let rows = selectPhotosResult.asRows else {
+            return
+          }
+          if rows.count != 0 {
+            var photos = [Photo]()
+            for row in rows {
+              photos.append(Photo(dict: row))
+            }
+            userResponse.photos = photos
+          }
+          let conversaionTable = DBConversation()
+          let selectFriendsQuery = Select(from: conversaionTable).where((conversaionTable.user1 == email || conversaionTable.user2 == email) &&
+                                                                        conversaionTable.approved == 1)
+          connection.execute(query: selectFriendsQuery) { selectFriendsResult in
+            guard let count = selectFriendsResult.asRows?.count else {
+              return
+            }
+            userResponse.friendCount = count
+          }
+          user = userResponse
+        }
+      }
+    }
+    return user
   }
 
   fileprivate func getFourRandomHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
@@ -63,9 +147,10 @@ extension Backend {
           #else
           let rand =  arc4random_uniform(length)
           #endif
-          let row = rows[Int(rand)]
-          let user = User(dict: row)
-          users.append(user)
+          let email = rows[Int(rand)]["email"] as! String
+          if let user = self.getUserData(for: email) {
+            users.append(user)
+          }
         }
         guard let jsonData = try? JSONEncoder().encode(users) else {
           print("Error during JSON decoding")
@@ -84,37 +169,6 @@ extension Backend {
     guard let email = request.authorizedUser else {
       return
     }
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email == email)
-
-    guard let body = request.body?.asJSON else {
-      response.send("Error").status(.badRequest)
-      next()
-      return
-    }
-    let updateUser = User(dict: body)
-    if let connection = pool.getConnection() {
-      connection.execute(query: selectQuery) { selectResult in
-        guard selectResult.success, let selected = selectResult.asRows?.first else {
-          response.send("Error").status(.internalServerError)
-          return
-        }
-        var user = DBUserObject.convertFrom(dict: selected)
-        user.firstName = updateUser.firstName
-        user.lastName = updateUser.lastName
-        user.username = updateUser.username
-        user.email = updateUser.email
-        let updateQuery = Update(userTable, set: user.foo()).where(userTable.email == email)
-        connection.execute(query: updateQuery) { updateResult in
-          guard updateResult.success else {
-            response.send("Error").status(.internalServerError)
-            next()
-            return
-          }
-          response.send("sendUser.toJson()")
-          next()
-        }
-      }
-    }
+    
   }
 }

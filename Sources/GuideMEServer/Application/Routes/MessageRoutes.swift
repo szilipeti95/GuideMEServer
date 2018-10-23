@@ -26,6 +26,10 @@ func addMessageRoutes(app: Backend) {
 
   app.router.post(Paths.denyConversation, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.post(Paths.denyConversation, handler: app.denyConversation)
+
+  app.router.post(Paths.createConversation, middleware: BodyParser())
+  app.router.post(Paths.createConversation, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.post(Paths.createConversation, handler: app.createConversation)
 }
 
 extension Backend {
@@ -146,31 +150,28 @@ extension Backend {
             guard let otherEmail = (user1 == email ? row[DBConversationColumnNames.user2] : row[DBConversationColumnNames.user1]) as? String else {
               return
             }
-            let selectUserQuery = Select(from: userTable).where(userTable.email == otherEmail)
+
+            guard let otherUser = self.getUserData(for: otherEmail) else {
+              return
+            }
             connection.execute(query: selectMessageQuery) { selectMessageResult in
               guard let messages = Message.arrayFrom(queryResult: selectMessageResult) else {
                 return
               }
-              connection.execute(query: selectUserQuery) { selectUserResult in
-                guard let userDict = selectUserResult.asRows?.first else {
-                  return
-                }
-                var read = true
-                for msg in messages where msg.read == false && msg.sender == otherEmail {
-                  read = false
-                }
-                guard let lastMessage = messages.first else {
-                  return
-                }
-                let otherUser = User.init(dict: userDict)
-                let approved = Bool(row["approved"] as! Int32)
-                let conversation = Conversation(id: Int(conversationId),
-                                                user: otherUser,
-                                                lastMessage: lastMessage,
-                                                approved: approved,
-                                                read: read)
-                conversations.append(conversation)
+              var read = true
+              for msg in messages where msg.read == false && msg.sender == otherEmail {
+                read = false
               }
+              guard let lastMessage = messages.first else {
+                return
+              }
+              let approved = Bool(row["approved"] as! Int32)
+              let conversation = Conversation(id: Int(conversationId),
+                                              user: otherUser,
+                                              lastMessage: lastMessage,
+                                              approved: approved,
+                                              read: read)
+              conversations.append(conversation)
             }
           }
           guard let jsonData = try? JSONEncoder().encode(conversations) else {
@@ -230,6 +231,52 @@ extension Backend {
           response.send("").status(.OK)
         } else {
           response.send("").status(.badRequest)
+        }
+      }
+    }
+  }
+
+  fileprivate func createConversation(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser else {
+      response.send("").status(.unauthorized); next()
+      return
+    }
+    guard let otherEmail = request.parameters["email"],
+      let data = request.body?.asJSON else {
+      response.send("").status(.badRequest); next()
+      return
+    }
+    let messageBody = data[DBMessageColumnNames.messageBody] as! String
+    let sender = data[DBMessageColumnNames.senderEmail] as! String
+    let message = Message(message: messageBody,
+                          timestamp: 0,
+                          sender: sender,
+                          read: false)
+
+    let conversationTable = DBConversation()
+    let conversationTuples: [(Column, Any)] = [(conversationTable.user1, email),
+                                   (conversationTable.user2, otherEmail)]
+    let insertConversationQuery = Insert(into: conversationTable, valueTuples: conversationTuples, returnID: true)
+    if let connection = pool.getConnection() {
+      connection.execute(query: insertConversationQuery) { insertConversationResult in
+        guard let conversationId = insertConversationResult.asRows?[0]["id"] else {
+          return
+        }
+        let messageTable = DBMessage()
+        guard let id = conversationId else {
+          return
+        }
+        let messageTuple: [(Column, Any)] = [(messageTable.conversationId, id),
+                                             (messageTable.senderEmail, email),
+                                             (messageTable.messageBody, message.message),
+                                             (messageTable.timestamp, Date().millisecondsSince1970)]
+        let insertMessageQuery = Insert(into: messageTable, valueTuples: messageTuple)
+        connection.execute(query: insertMessageQuery) { insertMessageResult in
+          if insertConversationResult.success {
+            response.send("").status(.OK); next()
+          } else {
+            response.send("").status(.badRequest); next()
+          }
         }
       }
     }

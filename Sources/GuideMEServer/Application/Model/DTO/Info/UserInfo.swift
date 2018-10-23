@@ -15,7 +15,7 @@ class UserInfo : Codable {
   }
 
   convenience init(dict: [String: Any?]) {
-    let photoUrl = dict[DBUserPhotosColumnNames.photoUrl] as! String
+    let photoUrl = dict[DBUserPhotosColumnNames.photoUri] as! String
     self.init(photoUrl: photoUrl)
   }
 

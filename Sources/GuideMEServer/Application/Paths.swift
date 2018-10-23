@@ -17,12 +17,14 @@ class Paths {
   static let userSelf = "/user/self"
   static let userSelfUpdate = "/user/self/update"
   static let userRandom = "/user/random"
+  static let usersData = "/users/:email"
   // MARK: Message
   static let message = "/message/:conversationId"
   static let messagesRead = "/messages/read/:conversationId"
   static let conversation = "/conversations"
   static let approveConversation = "/conversation/approve/:conversationId"
   static let denyConversation = "/conversation/deny/:conversationId"
+  static let createConversation = "/conversation/:email"
 
   //Admin
   static let shutdown = "/shutdown"

@@ -21,6 +21,7 @@ struct DBUserColumnNames {
   static let regDate = "reg_date"
   static let avatar = "avatar"
   static let backgroundAvatar = "background_avatar"
+  static let bio = "bio"
 }
 
 class DBUser : Table {
@@ -35,6 +36,7 @@ class DBUser : Table {
   let regDate = Column(DBUserColumnNames.regDate, Int64.self, notNull: true)
   let avatar = Column(DBUserColumnNames.avatar, String.self, notNull: false)
   let backgroundAvatar = Column(DBUserColumnNames.backgroundAvatar, String.self, notNull: false)
+  let bio = Column(DBUserColumnNames.bio, String.self, notNull: false)
 }
 
 extension DBUser {

@@ -11,8 +11,8 @@ import SwiftKuery
 struct DBMessageColumnNames {
   static let messageId = "message_id"
   static let conversationId = "conversation_id"
-  static let senderEmail = "sender_email"
-  static let messageBody = "message_body"
+  static let senderEmail = "sender"
+  static let messageBody = "message"
   static let timestamp = "timestamp"
   static let read = "read"
 }

@@ -23,6 +23,14 @@ func addGuideRoutes(app: Backend) {
   app.router.post("/guide", middleware: BodyParser())
   app.router.post("/guide", allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.post("/guide", handler: app.postGuide)
+
+  app.router.put("/guide", middleware: BodyParser())
+  app.router.put("/guide", allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.put("/guide", handler: app.putGuide)
+
+  app.router.delete("/guide", middleware: BodyParser())
+  app.router.delete("/guide", allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.delete("/guide", handler: app.deleteGuide)
 }
 
 extension Backend {
@@ -164,6 +172,113 @@ extension Backend {
         }
       }
     }
+  }
 
+  fileprivate func putGuide(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser,
+      let data = request.body?.asJSON else {
+        response.send("").status(.unauthorized); next()
+        return
+    }
+
+    let guide = Guide(dict: data)
+    let guideTable = DBGuides()
+
+    let cityTable = DBCities()
+    let selectCityQuery = Select(from: cityTable).where(cityTable.city == guide.city.city && cityTable.country == guide.city.country)
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectCityQuery) { selectCityResult in
+        guard let rows = selectCityResult.asRows else {
+          response.send("").status(.badRequest); next()
+          return
+        }
+        if rows.count == 0 {
+          response.send("").status(.badRequest); next()
+          return
+        }
+        guard let cityId = rows[0]["cities_id"] as? Int32 else {
+          response.send("").status(.internalServerError); next()
+          return
+        }
+
+        let selectGuideQuery = Select(from: guideTable).where(guideTable.userEmail == email && guideTable.cityId == Int(cityId))
+        connection.execute(query: selectGuideQuery) { selectGuideResult in
+          guard let rows = selectGuideResult.asRows else {
+            response.send("").status(.badRequest); next()
+            return
+          }
+          if rows.count == 0 {
+            response.send("").status(.badRequest); next()
+            return
+          }
+          guard let guideId = rows[0]["guide_id"] as? Int32 else {
+            response.send("").status(.internalServerError); next()
+            return
+          }
+          let prefsTable = DBGuidePreferences()
+          let deletePrefs = Delete(from: prefsTable).where(prefsTable.guideId == Int(guideId))
+          connection.execute(query: deletePrefs) {_ in
+
+          }
+          for pref in guide.preferenceType {
+            let values: [(Column, Any)] = [(prefsTable.guideId, guideId),
+                                           (prefsTable.prefTypeId, pref)]
+            let insertPref = Insert(into: prefsTable, valueTuples: values)
+            connection.execute(query: insertPref) { _ in
+
+            }
+          }
+          guard let from = guide.from,
+            let to = guide.to else {
+              response.send("").status(.OK); next()
+              return
+          }
+
+          let updateQuery = Update(guideTable, set: [(guideTable.from, from * 1000),
+                                                     (guideTable.to, to * 1000)])
+          connection.execute(query: updateQuery) { _ in
+            response.send("").status(.OK); next()
+          }
+        }
+      }
+    }
+  }
+
+  fileprivate func deleteGuide(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let email = request.authorizedUser,
+      let data = request.body?.asJSON else {
+        response.send("").status(.unauthorized); next()
+        return
+    }
+
+    let city = City(dict: data)
+
+    let cityTable = DBCities()
+    let selectCityQuery = Select(from: cityTable).where(cityTable.city == city.city && cityTable.country == city.country)
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectCityQuery) { selectCityResult in
+        guard let rows = selectCityResult.asRows else {
+          response.send("").status(.badRequest); next()
+          return
+        }
+        if rows.count == 0 {
+          response.send("").status(.badRequest); next()
+          return
+        }
+        guard let cityId = rows[0]["cities_id"] as? Int32 else {
+          response.send("").status(.internalServerError); next()
+          return
+        }
+        let guideTable = DBGuides()
+        let deleteGuideQuery = Delete(from: guideTable).where(guideTable.userEmail == email && guideTable.cityId == Int(cityId))
+        connection.execute(query: deleteGuideQuery) { deleteGuideResult in
+          if deleteGuideResult.success {
+            response.send("").status(.OK); next()
+          } else {
+            response.send("").status(.internalServerError); next()
+          }
+        }
+      }
+    }
   }
 }
