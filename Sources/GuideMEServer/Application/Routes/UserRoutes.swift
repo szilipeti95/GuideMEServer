@@ -120,6 +120,29 @@ extension Backend {
             }
             userResponse.friendCount = count
           }
+          let citiesTable = DBCities()
+          let guidesTable = DBGuides()
+          let selectLocal = Select(from: guidesTable).leftJoin(citiesTable).on(guidesTable.cityId == citiesTable.citiesId).where(guidesTable.type == 0 && guidesTable.userEmail == email)
+          connection.execute(query: selectLocal) { selectLocalResult in
+            if let rows = selectLocalResult.asRows {
+              if rows.count > 0 {
+                let row = rows[0]
+                let city = City(dict: row)
+                userResponse.local = city
+              }
+            }
+
+          }
+          let selectNext = Select(from: guidesTable).leftJoin(citiesTable).on(guidesTable.cityId == citiesTable.citiesId).where(guidesTable.type == 1 && guidesTable.userEmail == email).order(by: .ASC(guidesTable.from))
+          connection.execute(query: selectNext) { selectNextResult in
+            if let rows = selectNextResult.asRows {
+              if rows.count > 0 {
+                let row = rows[0]
+                let city = City(dict: row)
+                userResponse.next = city
+              }
+            }
+          }
           user = userResponse
         }
       }

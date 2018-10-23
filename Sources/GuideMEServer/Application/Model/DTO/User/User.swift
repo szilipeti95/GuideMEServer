@@ -17,6 +17,8 @@ class User : Codable {
   var backgroundAvatar: String?
   var photos: [Photo]?
   var bio: String?
+  var local: City?
+  var next: City?
   var friendCount: Int
 
   init(username: String,
@@ -48,6 +50,8 @@ class User : Codable {
     case backgroundAvatar = "background_avatar"
     case photos = "photos"
     case bio
+    case local
+    case next
     case friendCount = "friend_count"
   }
 }
