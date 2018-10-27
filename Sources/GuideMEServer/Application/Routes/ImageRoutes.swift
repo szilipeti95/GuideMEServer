@@ -17,9 +17,6 @@ func addImagesRoutes(app: Backend) {
 
   app.router.get("/image/:imageId", allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get("/image/:imageId", handler: app.downloadImage)
-
-  app.router.get("/images/self", allowPartialMatch: false, middleware: app.tokenCredentials)
-  app.router.get("/images/self", handler: app.getUploadedImageInfos)
 }
 
 extension Backend {
@@ -76,33 +73,6 @@ extension Backend {
     catch let error {
       response.send("").status(.noContent); next()
       print(error)
-    }
-  }
-
-  fileprivate func getUploadedImageInfos(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else {
-      return
-    }
-
-    let table = DBUserPhotos()
-    let selectQuery = Select(from: table).where(table.userEmail == email).order(by: .DESC(table.timestamp))
-    if let connection = pool.getConnection() {
-      connection.execute(query: selectQuery) { selectResult in
-        guard let rows = selectResult.asRows else {
-          response.send("").status(.internalServerError); next()
-          return
-        }
-        var infos = [UserInfo]()
-        for row in rows {
-          infos.append(UserInfo(dict: row))
-        }
-        guard let infoData = try? JSONEncoder().encode(infos) else {
-          response.send("").status(.internalServerError); next()
-          return
-        }
-        let jsonString = String(data: infoData, encoding: .utf8)!
-        response.send(jsonString); next()
-      }
     }
   }
 }

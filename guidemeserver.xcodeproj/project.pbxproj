@@ -63,7 +63,6 @@
 		B5E39375217238E8001EBB5F /* MessageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E39374217238E8001EBB5F /* MessageRoutes.swift */; };
 		B5E393792173C637001EBB5F /* Bool+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E393782173C637001EBB5F /* Bool+Init.swift */; };
 		B5EA91F8217F407E0053B354 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EA91F7217F407E0053B354 /* Photo.swift */; };
-		B5EBD58A217BAEA9002E746E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD589217BAEA9002E746E /* UserInfo.swift */; };
 		B5EBD58C217C9FF4002E746E /* DBCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD58B217C9FF4002E746E /* DBCities.swift */; };
 		B5EBD58F217CCA4A002E746E /* PreferenceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD58E217CCA4A002E746E /* PreferenceType.swift */; };
 		B5EBD591217CCAD1002E746E /* Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EBD590217CCAD1002E746E /* Guide.swift */; };
@@ -1420,7 +1419,6 @@
 		B5E39374217238E8001EBB5F /* MessageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRoutes.swift; sourceTree = "<group>"; };
 		B5E393782173C637001EBB5F /* Bool+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Init.swift"; sourceTree = "<group>"; };
 		B5EA91F7217F407E0053B354 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
-		B5EBD589217BAEA9002E746E /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		B5EBD58B217C9FF4002E746E /* DBCities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBCities.swift; sourceTree = "<group>"; };
 		B5EBD58E217CCA4A002E746E /* PreferenceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceType.swift; sourceTree = "<group>"; };
 		B5EBD590217CCAD1002E746E /* Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guide.swift; sourceTree = "<group>"; };
@@ -2111,14 +2109,6 @@
 			path = Message;
 			sourceTree = "<group>";
 		};
-		B5EBD588217BAE9D002E746E /* Info */ = {
-			isa = PBXGroup;
-			children = (
-				B5EBD589217BAEA9002E746E /* UserInfo.swift */,
-			);
-			path = Info;
-			sourceTree = "<group>";
-		};
 		B5EBD58D217CCA3F002E746E /* Guide */ = {
 			isa = PBXGroup;
 			children = (
@@ -2328,7 +2318,6 @@
 			isa = PBXGroup;
 			children = (
 				B5EBD58D217CCA3F002E746E /* Guide */,
-				B5EBD588217BAE9D002E746E /* Info */,
 				B5E39370217235EA001EBB5F /* Message */,
 				OBJ_19 /* Auth */,
 				OBJ_23 /* User */,
@@ -4324,7 +4313,6 @@
 				OBJ_461 /* PKCS5Extension+generatePassword.swift in Sources */,
 				B578EFF2217511AA008739FD /* ImageRoutes.swift in Sources */,
 				B5E39372217235FD001EBB5F /* Message.swift in Sources */,
-				B5EBD58A217BAEA9002E746E /* UserInfo.swift in Sources */,
 				B51C5706216A45F60022F0F9 /* RouterRequest+AuthorizedUser.swift in Sources */,
 				OBJ_463 /* CredentialsJWTToken.swift in Sources */,
 				B578EE652174A351008739FD /* Date+Milliseconds.swift in Sources */,

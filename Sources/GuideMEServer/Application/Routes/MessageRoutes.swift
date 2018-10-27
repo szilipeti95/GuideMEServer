@@ -174,6 +174,7 @@ extension Backend {
               conversations.append(conversation)
             }
           }
+          conversations = conversations.sorted(by: { $0.lastMessage.timestamp > $1.lastMessage.timestamp })
           guard let jsonData = try? JSONEncoder().encode(conversations) else {
             print("Error during JSON decoding")
             response.send("").status(.internalServerError)
