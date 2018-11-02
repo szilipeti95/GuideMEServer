@@ -56,6 +56,7 @@
 		B578EE652174A351008739FD /* Date+Milliseconds.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EE642174A351008739FD /* Date+Milliseconds.swift */; };
 		B578EFF2217511AA008739FD /* ImageRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF1217511AA008739FD /* ImageRoutes.swift */; };
 		B578EFF42175F046008739FD /* ServiceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578EFF32175F046008739FD /* ServiceObject.swift */; };
+		B5D6C09C218A06B100C81F7F /* Dictionary+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D6C09B218A06B100C81F7F /* Dictionary+Group.swift */; };
 		B5E3936A21721667001EBB5F /* ChatConnectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936921721667001EBB5F /* ChatConnectionData.swift */; };
 		B5E3936C2172312A001EBB5F /* DBConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936B2172312A001EBB5F /* DBConversation.swift */; };
 		B5E3936F21723216001EBB5F /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E3936E21723216001EBB5F /* Conversation.swift */; };
@@ -1412,6 +1413,7 @@
 		B578EE642174A351008739FD /* Date+Milliseconds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Milliseconds.swift"; sourceTree = "<group>"; };
 		B578EFF1217511AA008739FD /* ImageRoutes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRoutes.swift; sourceTree = "<group>"; };
 		B578EFF32175F046008739FD /* ServiceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceObject.swift; sourceTree = "<group>"; };
+		B5D6C09B218A06B100C81F7F /* Dictionary+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Group.swift"; sourceTree = "<group>"; };
 		B5E3936921721667001EBB5F /* ChatConnectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConnectionData.swift; sourceTree = "<group>"; };
 		B5E3936B2172312A001EBB5F /* DBConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBConversation.swift; sourceTree = "<group>"; };
 		B5E3936E21723216001EBB5F /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
@@ -2161,6 +2163,7 @@
 				B5E393782173C637001EBB5F /* Bool+Init.swift */,
 				B578EE642174A351008739FD /* Date+Milliseconds.swift */,
 				B5EBD59B217DDE7F002E746E /* Int+Random.swift */,
+				B5D6C09B218A06B100C81F7F /* Dictionary+Group.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4320,6 +4323,7 @@
 				B5EA91F8217F407E0053B354 /* Photo.swift in Sources */,
 				B5EBD591217CCAD1002E746E /* Guide.swift in Sources */,
 				OBJ_464 /* LoginRequest.swift in Sources */,
+				B5D6C09C218A06B100C81F7F /* Dictionary+Group.swift in Sources */,
 				OBJ_465 /* LoginResponse.swift in Sources */,
 				B5EBD597217CCF57002E746E /* DBGuides.swift in Sources */,
 				OBJ_466 /* RegisterRequest.swift in Sources */,

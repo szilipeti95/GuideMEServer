@@ -16,13 +16,14 @@ public class Backend {
   let sqlUser = "app"
   let sqlPassword = "ppa"
   let sqlHost = "localhost"
+  let sqlDatabase = "guideme"
   #else
   let sqlUser = "internalAPI"
   let sqlPassword = "IPAlanretni"
   let sqlHost = "127.0.0.1"
+  let sqlDatabase = "guideme_new"
   #endif
   let sqlPort = 4306
-  let sqlDatabase = "guideme_new"
   let pool: ConnectionPool!
   let publicKeyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/publicKey.key")
   static var publicKey: Data!
@@ -75,4 +76,22 @@ public class Backend {
 
     Kitura.run()
   }
+
+  public func group(dictionary: [[String: Any?]], key: String, column: String) -> [[String: Any?]] {
+    var grouppedDict = [[String: Any?]]()
+    var addedKeys = [Int32]()
+    for row in dictionary {
+      if addedKeys.contains(row[key] as! Int32) {
+        
+      } else {
+        var dict = row
+        var value = [Int64]()
+        value.append(row[column] as! Int64)
+        dict[column] = value
+        grouppedDict.append(row)
+      }
+    }
+    return grouppedDict
+  }
+
 }

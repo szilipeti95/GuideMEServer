@@ -34,6 +34,64 @@ func addGuideRoutes(app: Backend) {
 }
 
 extension Backend {
+
+  fileprivate func newGetGuides(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard request.authorizedUser != nil else {
+      response.send("").status(.unauthorized); next()
+      return
+    }
+    guard let email = request.parameters["email"] else {
+      response.send("").status(.badRequest); next()
+      return
+    }
+    let guideTable = DBGuides()
+    let preferencesTable = DBGuidePreferences()
+    let cityTable = DBCities()
+    let selectGuideQuery = Select(from: guideTable).leftJoin(preferencesTable).on(guideTable.guideId == preferencesTable.guideId).where(guideTable.userEmail == email)
+
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectGuideQuery) { selectGuideResult in
+        guard let guideResultRows = selectGuideResult.asRows else {
+          response.send("").status(.internalServerError)
+          return
+        }
+        var guides = [Guide]()
+        for guideResultRow in guideResultRows {
+          let cityId = Int(guideResultRow["city_id"] as! Int32)
+          let guideId = Int(guideResultRow["guide_id"] as! Int32)
+          let selectCity = Select(from: cityTable).where(cityTable.citiesId == cityId)
+          let selectPreference = Select(from: preferencesTable).where(preferencesTable.guideId == guideId)
+          connection.execute(query: selectCity) { selectCityResult in
+            guard let selectCityRow = selectCityResult.asRows?[0] else {
+              response.send("").status(.internalServerError); next()
+              return
+            }
+            let city = City(dict: selectCityRow)
+            connection.execute(query: selectPreference) { selectPreferenceResult in
+              guard let selectPreferenceRows = selectPreferenceResult.asRows else {
+                response.send("").status(.internalServerError); next()
+                return
+              }
+              var prefs = [Int]()
+              for selectPreferenceRow in selectPreferenceRows {
+                prefs.append(Int(selectPreferenceRow["prefType_id"] as! Int32))
+              }
+              let guide = Guide(dict: guideResultRow, city: city, preferenceType: prefs)
+              guides.append(guide)
+            }
+          }
+        }
+        guides = guides.sorted(by: { $0.from ?? 0 < $1.from ?? 1 })
+        guard let data = try? JSONEncoder().encode(guides) else {
+          response.send("").status(.internalServerError)
+          return
+        }
+        let jsonString = String(data: data, encoding: .utf8)!
+        response.send(jsonString); next()
+      }
+    }
+  }
+
   fileprivate func getGuides(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard request.authorizedUser != nil else {
       response.send("").status(.unauthorized); next()
@@ -80,6 +138,7 @@ extension Backend {
             }
           }
         }
+        guides = guides.sorted(by: { $0.from ?? 0 < $1.from ?? 1 })
         guard let data = try? JSONEncoder().encode(guides) else {
           response.send("").status(.internalServerError)
           return
@@ -235,7 +294,7 @@ extension Backend {
           }
 
           let updateQuery = Update(guideTable, set: [(guideTable.from, from * 1000),
-                                                     (guideTable.to, to * 1000)])
+                                                     (guideTable.to, to * 1000)]).where(guideTable.guideId == Int(guideId))
           connection.execute(query: updateQuery) { _ in
             response.send("").status(.OK); next()
           }
