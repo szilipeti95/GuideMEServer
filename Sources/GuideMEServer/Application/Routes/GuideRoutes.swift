@@ -51,35 +51,17 @@ extension Backend {
 
     if let connection = pool.getConnection() {
       connection.execute(query: selectGuideQuery) { selectGuideResult in
+
         guard let guideResultRows = selectGuideResult.asRows else {
           response.send("").status(.internalServerError)
           return
         }
         var guides = [Guide]()
-        for guideResultRow in guideResultRows {
-          let cityId = Int(guideResultRow["city_id"] as! Int32)
-          let guideId = Int(guideResultRow["guide_id"] as! Int32)
-          let selectCity = Select(from: cityTable).where(cityTable.citiesId == cityId)
-          let selectPreference = Select(from: preferencesTable).where(preferencesTable.guideId == guideId)
-          connection.execute(query: selectCity) { selectCityResult in
-            guard let selectCityRow = selectCityResult.asRows?[0] else {
-              response.send("").status(.internalServerError); next()
-              return
-            }
-            let city = City(dict: selectCityRow)
-            connection.execute(query: selectPreference) { selectPreferenceResult in
-              guard let selectPreferenceRows = selectPreferenceResult.asRows else {
-                response.send("").status(.internalServerError); next()
-                return
-              }
-              var prefs = [Int]()
-              for selectPreferenceRow in selectPreferenceRows {
-                prefs.append(Int(selectPreferenceRow["prefType_id"] as! Int32))
-              }
-              let guide = Guide(dict: guideResultRow, city: city, preferenceType: prefs)
-              guides.append(guide)
-            }
-          }
+
+        let mappedDicts = self.map(dicts: guideResultRows, key: "city_id", columns: [DBGuidePreferencesColumnNames.prefTypeId])
+        for dict in mappedDicts {
+          let guide = Guide(dict: dict)
+          guides.append(guide)
         }
         guides = guides.sorted(by: { $0.from ?? 0 < $1.from ?? 1 })
         guard let data = try? JSONEncoder().encode(guides) else {

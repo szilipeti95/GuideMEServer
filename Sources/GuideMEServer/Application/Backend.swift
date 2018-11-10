@@ -77,21 +77,32 @@ public class Backend {
     Kitura.run()
   }
 
-  public func group(dictionary: [[String: Any?]], key: String, column: String) -> [[String: Any?]] {
-    var grouppedDict = [[String: Any?]]()
-    var addedKeys = [Int32]()
-    for row in dictionary {
-      if addedKeys.contains(row[key] as! Int32) {
-        
+  func map(dicts: [[String: Any?]], key: String, columns: [String]) -> [[String: Any?]] {
+    var mappedDicts = [[String: Any?]]()
+    var addedString = [Int32]()
+    for dict in dicts {
+      let skey = dict[key] as! Int32
+      print(skey)
+      if !addedString.contains(skey) {
+        var newDict = dict
+        for column in columns {
+          var newArray = [Int]()
+          newArray.append(Int(newDict[column] as! Int32))
+          newDict[column] = newArray
+        }
+        mappedDicts.append(newDict)
+        addedString.append(skey)
       } else {
-        var dict = row
-        var value = [Int64]()
-        value.append(row[column] as! Int64)
-        dict[column] = value
-        grouppedDict.append(row)
+        var appendDict = mappedDicts.first { $0[key] as! Int32 == dict[key] as! Int32 }
+        let index = mappedDicts.index(where: { $0[key] as! Int32 == dict[key] as! Int32  })
+        for column in columns {
+          var newArray = appendDict?[column] as! [Int]
+          newArray.append(Int(dict[column] as! Int32))
+          appendDict?[column] = newArray
+        }
+        mappedDicts[index!] = appendDict!
       }
     }
-    return grouppedDict
+    return mappedDicts
   }
-
 }

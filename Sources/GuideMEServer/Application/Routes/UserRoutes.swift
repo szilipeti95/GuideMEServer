@@ -14,13 +14,21 @@ import SwiftKueryMySQL
 func addUserRoutes(app: Backend) {
   app.router.get(Paths.userSelf, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.userSelf, handler: app.getUserHandler)
+
   app.router.get(Paths.usersData, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.usersData, handler: app.getUsersDataHandler)
+
   app.router.get(Paths.userRandom, allowPartialMatch: false, middleware: app.tokenCredentials)
-  app.router.get(Paths.userRandom, handler: app.getFourRandomHandler          )
+  app.router.get(Paths.userRandom, handler: app.getFourRandomHandler)
+
   app.router.put(Paths.userSelfUpdate, middleware: BodyParser())
   app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.put(Paths.userSelfUpdate, handler: app.updateUserInfoHandler)
+
+  app.router.post("/user/avatar", middleware: BodyParser())
+  app.router.post("/user/avatar", allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.post("/user/avatar", handler: app.uploadProfileImage)
+
 }
 
 extension Backend {
@@ -107,7 +115,9 @@ extension Backend {
           if rows.count != 0 {
             var photos = [Photo]()
             for row in rows {
-              photos.append(Photo(dict: row))
+              if (row["photo_uri"] as! String).contains("image") {
+                photos.append(Photo(dict: row))
+              }
             }
             userResponse.photos = photos
           }
@@ -184,6 +194,53 @@ extension Backend {
         let jsonString = String(data: jsonData, encoding: .utf8)!
         response.send(jsonString)
         next()
+      }
+    }
+  }
+
+  fileprivate func uploadProfileImage(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
+    guard let parts = request.body?.asMultiPart,
+      let email = request.authorizedUser else {
+        return
+    }
+    let imagePart = parts.filter { $0.type.contains("image") }.first
+    let descriptionPart = parts.filter { $0.name == "description" }.first
+    let userPhotosTable = DBUserPhotos()
+    let selectQuery = Select(from: userPhotosTable)
+    if let connection = pool.getConnection() {
+      connection.execute(query: selectQuery) { selectResult in
+        guard let count = selectResult.asRows?.count,
+          let data = imagePart?.body.asRaw else {
+            return
+        }
+        let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        let fileName = "profile-\(email)-\(count)"
+        let fileURL = dir.appendingPathComponent(fileName)
+        let description = descriptionPart?.body.asText
+        do {
+          try data.write(to: fileURL, options: .atomic)
+        }
+        catch let error {
+          print(error)
+        }
+        var valueTuples: [(Column, Any)] = [(userPhotosTable.userEmail, email),
+                                            (userPhotosTable.photoUri, fileName),
+                                            (userPhotosTable.timestamp, Date().millisecondsSince1970)]
+        if let description = description {
+          valueTuples.append((userPhotosTable.description, description))
+        }
+        let insertQuery = Insert(into: userPhotosTable, valueTuples: valueTuples)
+        connection.execute(query: insertQuery) { insertResult in
+          let userTable = DBUser()
+          let tuples: [(Column, Any)] = [(userTable.avatar, fileName)]
+          let updateQuery = Update(userTable, set: tuples).where(userTable.email == email)
+          connection.execute(query: updateQuery) { updateQueryResult in
+
+          }
+          print(insertResult)
+          response.send("Success")
+          next()
+        }
       }
     }
   }

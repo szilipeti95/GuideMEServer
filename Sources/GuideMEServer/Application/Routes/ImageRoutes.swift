@@ -60,6 +60,7 @@ extension Backend {
       }
     }
   }
+  
   fileprivate func downloadImage(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard request.authorizedUser != nil,
           let file = request.parameters["imageId"] else {
