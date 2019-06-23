@@ -30,13 +30,13 @@ class Guide: Codable {
     var to: Int? = nil
     print("Decoding from")
     print("\(dict["from"])")
-    if dict["from"] as? Int64 != nil {
-      from = Int(dict["from"] as! Int64)
+    if dict["from"] as? Int != nil {
+      from = Int(dict["from"] as! Int)
     }
     print("Decoding to")
     print("\(dict["to"])")
-    if dict["to"] as? Int64 != nil {
-      to = Int(dict["to"] as! Int64)
+    if dict["to"] as? Int != nil {
+      to = Int(dict["to"] as! Int)
     }
     print("Decoding city")
     print("\(dict["city"])")
