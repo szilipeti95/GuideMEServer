@@ -198,9 +198,10 @@ extension Backend {
             response.send("").status(.badRequest); next()
             return
           }
-          valueTuples.append((guidesTable.from, from*1000))
-          valueTuples.append((guidesTable.to, to*1000))
+          valueTuples.append((guidesTable.from, Int64(from*1000)))
+          valueTuples.append((guidesTable.to, Int64(to*1000)))
         }
+        print("creating insert query")
         let insertQuery = Insert(into: guidesTable, valueTuples: valueTuples, returnID: true)
         print("executing insert query")
         connection.execute(query: insertQuery) { guideInsertResult in
