@@ -19,8 +19,14 @@ class City: Codable {
   }
 
   convenience init(dict: [String: Any?]) {
+    print("Decoding city")
+    print("\(dict["city"])")
     let city = dict["city"] as! String
+    print("Decoding country")
+    print("\(dict["country"])")
     let country = dict["country"] as! String
+    print("Decoding image_uri")
+    print("\(dict["image_uri"])")
     let imageUri = dict["image_uri"] as! String
 
     self.init(city: city,
