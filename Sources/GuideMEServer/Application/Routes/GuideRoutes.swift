@@ -162,6 +162,7 @@ extension Backend {
       response.send("").status(.unauthorized); next()
       return
     }
+    print("Incoming postGuide request from: \(email)")
 
     let guide = Guide(dict: data)
 
@@ -169,17 +170,21 @@ extension Backend {
 
     let cityTable = DBCities()
     let selectQuery = Select(from: cityTable).where(cityTable.city == guide.city.city && cityTable.country == guide.city.country)
+    print("Performing connection...")
     if let connection = pool.getConnection() {
+      print("Performing selectQuery...")
       connection.execute(query: selectQuery) { cityResult in
-        print(cityResult)
+        print("selectResult: \(cityResult)")
         guard let rows = cityResult.asRows else {
           response.send("").status(.badRequest); next()
           return
         }
+        print("checking row count")
         if rows.count == 0 {
           response.send("").status(.badRequest); next()
           return
         }
+        print("casting cityId")
         guard let cityId = rows[0]["cities_id"] as? Int32 else {
           response.send("").status(.internalServerError); next()
           return
@@ -187,6 +192,7 @@ extension Backend {
         var valueTuples: [(Column, Any)] = [(guidesTable.userEmail, email),
                                             (guidesTable.cityId, cityId),
                                             (guidesTable.type, guide.type)]
+        print("cheking guide type")
         if guide.type == 1 {
           guard let from = guide.from, let to = guide.to else {
             response.send("").status(.badRequest); next()
@@ -196,19 +202,25 @@ extension Backend {
           valueTuples.append((guidesTable.to, to*1000))
         }
         let insertQuery = Insert(into: guidesTable, valueTuples: valueTuples, returnID: true)
+        print("executing insert query")
         connection.execute(query: insertQuery) { guideInsertResult in
+          print("getting inserted id")
           guard let id = guideInsertResult.asRows?[0]["id"] else {
             return
           }
+          print("inserting preferences")
           for pref in guide.preferenceType {
             let prefTable = DBGuidePreferences()
             if let id = id {
               let insertPrefQuery = Insert(into: prefTable, valueTuples: [(prefTable.guideId, id), (prefTable.prefTypeId, pref)])
+              print("performing insert to preferences")
               connection.execute(query: insertPrefQuery) { result in
-                print(result)
+                print("insert is successful")
+//                print(result)
               }
             }
           }
+          print("request success")
           response.send(""); next();
         }
       }
