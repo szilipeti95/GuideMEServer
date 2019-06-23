@@ -194,12 +194,18 @@ extension Backend {
                                             (guidesTable.type, Int32(guide.type))]
         print("cheking guide type")
         if guide.type == 1 {
+          print("cheking from, to")
           guard let from = guide.from, let to = guide.to else {
+
+            print("from to error: \(guide.from)  \(guide.to)")
             response.send("").status(.badRequest); next()
             return
           }
+          print("successful check")
           valueTuples.append((guidesTable.from, Int64(from*1000)))
+          print("from added")
           valueTuples.append((guidesTable.to, Int64(to*1000)))
+          print("to added")
         }
         print("creating insert query")
         let insertQuery = Insert(into: guidesTable, valueTuples: valueTuples, returnID: true)
