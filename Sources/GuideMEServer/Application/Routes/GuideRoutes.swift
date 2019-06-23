@@ -191,7 +191,7 @@ extension Backend {
         }
         var valueTuples: [(Column, Any)] = [(guidesTable.userEmail, email),
                                             (guidesTable.cityId, cityId),
-                                            (guidesTable.type, guide.type)]
+                                            (guidesTable.type, Int32(guide.type))]
         print("cheking guide type")
         if guide.type == 1 {
           guard let from = guide.from, let to = guide.to else {
