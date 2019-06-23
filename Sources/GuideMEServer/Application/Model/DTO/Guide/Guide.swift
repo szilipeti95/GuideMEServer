@@ -53,7 +53,7 @@ class Guide: Codable {
   }
 
   convenience init(dict: [String: Any?], city: City, preferenceType: [Int]) {
-    let type = Int(dict["type"] as! Int)
+    let type = Int(dict["type"] as! Int32)
     var from: Int? = nil
     var to: Int? = nil
     if dict["from"] as? Int64 != nil {
