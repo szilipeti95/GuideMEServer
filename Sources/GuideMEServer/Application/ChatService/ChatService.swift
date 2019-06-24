@@ -53,13 +53,14 @@ public class ChatService: WebSocketService {
   }
 
   public func connected(connection: WebSocketConnection) {
-    print(connection.id)
+    print("Socket connected: \(connection.id)")
   }
 
   public func disconnected(connection: WebSocketConnection, reason: WebSocketCloseReasonCode) {
     guard let senderEmail = connections[connection.id]?.email else {
       return
     }
+    print("Socket disconneted: \(senderEmail)")
     let receivers = getOnlineFriends(forEmail: senderEmail)
     lockConnectionsLock()
     if connections.removeValue(forKey: connection.id) != nil {
@@ -80,6 +81,7 @@ public class ChatService: WebSocketService {
       print("Error decoding object")
       return
     }
+    print("Socket received: \(serviceObject.description)")
     if let payload = serviceObject.payload {
       switch serviceObject.type {
       case MessageType.openedChat.rawValue:

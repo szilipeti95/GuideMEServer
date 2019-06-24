@@ -13,6 +13,10 @@ class ServiceObject: Codable {
   var timestamp: Int
   var payload: String?
 
+  var description: String {
+    return "type: \(type) sender: \(sender) timestamp: \(timestamp) payload: \(payload)"
+  }
+
   init(type: String, sender: String, timestamp: Int) {
     self.type = type
     self.sender = sender
