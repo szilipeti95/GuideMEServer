@@ -49,10 +49,11 @@ extension Backend {
     let cityTable = DBCities()
     let selectGuideQuery = Select(from: guideTable).leftJoin(preferencesTable).on(guideTable.guideId == preferencesTable.guideId).where(guideTable.userEmail == email)
 
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectGuideQuery) { selectGuideResult in
 
-        guard let guideResultRows = selectGuideResult.asRows else {
+        guard let guideResultRows = selectGuideResult.getRows else {
           response.send("").status(.internalServerError)
           return
         }
@@ -88,9 +89,10 @@ extension Backend {
     let cityTable = DBCities()
     let selectGuideQuery = Select(from: guideTable).where(guideTable.userEmail == email)
 
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectGuideQuery) { selectGuideResult in
-        guard let guideResultRows = selectGuideResult.asRows else {
+        guard let guideResultRows = selectGuideResult.getRows else {
           response.send("").status(.internalServerError)
           return
         }
@@ -101,13 +103,13 @@ extension Backend {
           let selectCity = Select(from: cityTable).where(cityTable.citiesId == cityId)
           let selectPreference = Select(from: preferencesTable).where(preferencesTable.guideId == guideId)
           connection.execute(query: selectCity) { selectCityResult in
-            guard let selectCityRow = selectCityResult.asRows?[0] else {
+            guard let selectCityRow = selectCityResult.getRows?[0] else {
               response.send("").status(.internalServerError); next()
               return
             }
             let city = City(dict: selectCityRow)
             connection.execute(query: selectPreference) { selectPreferenceResult in
-              guard let selectPreferenceRows = selectPreferenceResult.asRows else {
+              guard let selectPreferenceRows = selectPreferenceResult.getRows else {
                 response.send("").status(.internalServerError); next()
                 return
               }
@@ -134,9 +136,11 @@ extension Backend {
   fileprivate func getCities(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     let citiesTable = DBCities()
     let selectQuery = Select(from: citiesTable)
-    if let connection = pool.getConnection() {
+
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        guard let rows = selectResult.asRows else {
+        guard let rows = selectResult.getRows else {
           response.send("").status(.internalServerError); next()
           return
         }
@@ -171,11 +175,12 @@ extension Backend {
     let cityTable = DBCities()
     let selectQuery = Select(from: cityTable).where(cityTable.city == guide.city.city && cityTable.country == guide.city.country)
     print("Performing connection...")
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       print("Performing selectQuery...")
       connection.execute(query: selectQuery) { cityResult in
         print("selectResult: \(cityResult)")
-        guard let rows = cityResult.asRows else {
+        guard let rows = cityResult.getRows else {
           response.send("").status(.badRequest); next()
           return
         }
@@ -212,7 +217,7 @@ extension Backend {
         print("executing insert query")
         connection.execute(query: insertQuery) { guideInsertResult in
           print("getting inserted id")
-          guard let id = guideInsertResult.asRows?[0]["id"] else {
+          guard let id = guideInsertResult.getRows?[0]["id"] else {
             return
           }
           print("inserting preferences")
@@ -246,9 +251,10 @@ extension Backend {
 
     let cityTable = DBCities()
     let selectCityQuery = Select(from: cityTable).where(cityTable.city == guide.city.city && cityTable.country == guide.city.country)
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectCityQuery) { selectCityResult in
-        guard let rows = selectCityResult.asRows else {
+        guard let rows = selectCityResult.getRows else {
           response.send("").status(.badRequest); next()
           return
         }
@@ -263,7 +269,7 @@ extension Backend {
 
         let selectGuideQuery = Select(from: guideTable).where(guideTable.userEmail == email && guideTable.cityId == Int(cityId))
         connection.execute(query: selectGuideQuery) { selectGuideResult in
-          guard let rows = selectGuideResult.asRows else {
+          guard let rows = selectGuideResult.getRows else {
             response.send("").status(.badRequest); next()
             return
           }
@@ -315,9 +321,11 @@ extension Backend {
 
     let cityTable = DBCities()
     let selectCityQuery = Select(from: cityTable).where(cityTable.city == city.city && cityTable.country == city.country)
-    if let connection = pool.getConnection() {
+
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectCityQuery) { selectCityResult in
-        guard let rows = selectCityResult.asRows else {
+        guard let rows = selectCityResult.getRows else {
           response.send("").status(.badRequest); next()
           return
         }

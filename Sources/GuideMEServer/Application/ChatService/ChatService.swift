@@ -37,8 +37,7 @@ public class ChatService: WebSocketService {
   public init() {
     pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!,
                                       poolOptions: ConnectionPoolOptions(initialCapacity: 10,
-                                                                         maxCapacity: 50,
-                                                                         timeout: 10000))
+                                                                         maxCapacity: 50))
   }
 
   enum MessageType: String {
@@ -229,9 +228,10 @@ public class ChatService: WebSocketService {
       (conversationTable.user1 == otherEmail && conversationTable.user2 == senderEmail))
 
     let messageTable = DBMessage()
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectConversationQuery) { selectConversationResult in
-        guard let conversationId = selectConversationResult.asRows?.first?[DBConversationColumnNames.conversationId] as? Int64 else {
+        guard let conversationId = selectConversationResult.getRows?.first?[DBConversationColumnNames.conversationId] as? Int64 else {
           return
         }
         let insertQuery = Insert(into: messageTable,
@@ -282,9 +282,10 @@ public class ChatService: WebSocketService {
     let selectQuery = Select(from: conversationTable).where((conversationTable.user1 == email && conversationTable.approved == 1)
       || (conversationTable.user2 == email && conversationTable.approved == 1))
     var emails = [String]()
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        guard let conversations = selectResult.asRows else {
+        guard let conversations = selectResult.getRows else {
           return
         }
         for conversation in conversations {

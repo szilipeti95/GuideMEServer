@@ -42,7 +42,7 @@ class Message : Codable {
 
 extension Message {
   static func arrayFrom(queryResult: QueryResult) -> [Message]? {
-    guard let rows = queryResult.asRows else {
+    guard let rows = queryResult.getRows else {
       return nil
     }
     var messageArray = [Message]()

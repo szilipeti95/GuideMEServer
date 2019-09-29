@@ -43,7 +43,8 @@ extension Backend {
     let messageTable = DBMessage()
     let selectQuery = Select(from: messageTable).where(messageTable.conversationId == conversationId).order(by: .ASC(messageTable.timestamp))
 
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
         guard let messages = Message.arrayFrom(queryResult: selectResult) else {
           response.send("").status(.internalServerError); next()
@@ -67,7 +68,9 @@ extension Backend {
     }
     let messageTable = DBMessage()
     let updateQuery = Update(messageTable, set: [(messageTable.read, 1)]).where(messageTable.conversationId == conversationId && messageTable.senderEmail != email)
-    if let connection = pool.getConnection() {
+
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: updateQuery) { updateResult in
         if updateResult.asError != nil {
           response.send("Error").status(.internalServerError); next()
@@ -86,45 +89,48 @@ extension Backend {
     let conversationTable = DBConversation()
     let selectQuery = Select(from: messageTable).leftJoin(conversationTable).on(messageTable.conversationId == conversationTable.conversationId).where(conversationTable.user1 == email || conversationTable.user2 == email)
 
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        guard let rows = selectResult.asRows else {
-          return
-        }
-        var convos = [Conversation]()
-        for row in rows {
-          guard let user1 = row["user_1"] as? String else {
-            return
-          }
-          guard let otherEmail = (user1 == email ? row[DBConversationColumnNames.user2] : row[DBConversationColumnNames.user1]) as? String else {
-            return
-          }
-          let userTable = DBUser()
-          let selectUserQuery = Select(from: userTable).where(userTable.email == otherEmail)
-          connection.execute(query: selectUserQuery) { selectUserResult in
-            guard let user = selectUserResult.asRows?.first else {
+        selectResult.asRows { rows, error in
+          guard let rows = rows else { return }
+          var convos = [Conversation]()
+          for row in rows {
+            guard let user1 = row["user_1"] as? String else {
               return
             }
-            let otherUser = User(dict: user)
-            let lastMessage = Message(dict: row)
-            let conversationId = Int(row["conversation_id"] as! Int64)
-            let conversation = Conversation(id: conversationId,
-                                            user: otherUser,
-                                            lastMessage: lastMessage,
-                                            approved: true,
-                                            read: true)
-            convos.append(conversation)
+            guard let otherEmail = (user1 == email ? row[DBConversationColumnNames.user2] : row[DBConversationColumnNames.user1]) as? String else {
+              return
+            }
+            let userTable = DBUser()
+            let selectUserQuery = Select(from: userTable).where(userTable.email == otherEmail)
+            connection.execute(query: selectUserQuery) { selectUserResult in
+              selectUserResult.asRows { userRows, error in
+                if let user = userRows?.first {
+                  let otherUser = User(dict: user)
+                  let lastMessage = Message(dict: row)
+                  let conversationId = Int(row["conversation_id"] as! Int64)
+                  let conversation = Conversation(id: conversationId,
+                                                  user: otherUser,
+                                                  lastMessage: lastMessage,
+                                                  approved: true,
+                                                  read: true)
+                  convos.append(conversation)
+                }
+              }
+            }
           }
-        }
-        guard let jsonData = try? JSONEncoder().encode(convos) else {
-          print("Error during JSON decoding")
-          response.send("").status(.internalServerError)
+
+          guard let jsonData = try? JSONEncoder().encode(convos) else {
+            print("Error during JSON decoding")
+            response.send("").status(.internalServerError)
+            next()
+            return
+          }
+          let jsonString = String(data: jsonData, encoding: .utf8)!
+          response.send(jsonString)
           next()
-          return
         }
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        response.send(jsonString)
-        next()
       }
     }
   }
@@ -137,9 +143,11 @@ extension Backend {
     let messageTable = DBMessage()
     let userTable = DBUser()
     let selectQuery = Select(from: conversationTable).where(conversationTable.user1 == email || conversationTable.user2 == email)
-    if let connection = pool.getConnection() {
+
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        if let rows = selectResult.asRows {
+        if let rows = selectResult.getRows {
           var conversations = [Conversation]()
           for row in rows {
             guard let conversationId = row["conversation_id"] as? Int64,
@@ -202,7 +210,9 @@ extension Backend {
     let updateQuery = Update(conversationTable, set: [(conversationTable.approved, 1)]).where(conversationTable.conversationId == conversationId &&
                                                                                               conversationTable.approved == 0 &&
                                                                                               (conversationTable.user1 == email || conversationTable.user2 == email))
-    if let connection = pool.getConnection() {
+
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: updateQuery) { updateResult in
         if updateResult.success {
           response.send("").status(.OK)
@@ -226,7 +236,8 @@ extension Backend {
     let deleteQuery = Delete(from: conversationTable).where(conversationTable.conversationId == conversationId &&
                                                             conversationTable.approved == 0 &&
                                                             (conversationTable.user1 == email || conversationTable.user2 == email))
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: deleteQuery) { deleteResult in
         if deleteResult.success {
           response.send("").status(.OK)
@@ -258,9 +269,10 @@ extension Backend {
     let conversationTuples: [(Column, Any)] = [(conversationTable.user1, email),
                                    (conversationTable.user2, otherEmail)]
     let insertConversationQuery = Insert(into: conversationTable, valueTuples: conversationTuples, returnID: true)
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: insertConversationQuery) { insertConversationResult in
-        guard let conversationId = insertConversationResult.asRows?[0]["id"] else {
+        guard let conversationId = insertConversationResult.getRows?[0]["id"] else {
           return
         }
         let messageTable = DBMessage()

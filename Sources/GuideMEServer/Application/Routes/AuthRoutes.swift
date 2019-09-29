@@ -42,7 +42,9 @@ extension Backend {
                              (user.firstName, register.firstName),
                              (user.lastName, register.lastName),
                              (user.regDate, regDate))
-    if let connection = pool.getConnection() {
+
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: insertQuery) { insertResult in
         if let error = insertResult.asError {
           print(error)
@@ -57,9 +59,11 @@ extension Backend {
   fileprivate func checkHandler(check: RegisterRequest, respondWith: @escaping (User?, RequestError?) -> Void) {
     let userTable = DBUser()
     let selectQuery = Select(from: userTable).where(userTable.email == check.email)
-    if let connection = pool.getConnection() {
+
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        guard let rowCount = selectResult.asRows?.count else {
+        guard let rowCount = selectResult.getRows?.count else {
           respondWith(nil, .internalServerError)
           return
         }
@@ -78,9 +82,10 @@ extension Backend {
     let userTable = DBUser()
     var username = "\(firstName.lowercased())_\(lastName.lowercased())"
     let selectQuery = Select(from: userTable).where(userTable.firstName == firstName && userTable.lastName == userTable.lastName)
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        if let number = selectResult.asRows?.count {
+        if let number = selectResult.getRows?.count {
           username = "\(username)\(number+1)"
         }
       }
@@ -95,10 +100,11 @@ extension Backend {
     let userTable = DBUser()
     let selectQuery = Select(from: userTable).where(userTable.email == login.email)
 
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
         print(selectResult)
-        guard selectResult.success, let selected = selectResult.asRows?.first else {
+        guard selectResult.success, let selected = selectResult.getRows?.first else {
           print(selectResult.asError as Any)
           respondWith(nil, .badRequest)
           return

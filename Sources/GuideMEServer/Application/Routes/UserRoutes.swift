@@ -99,9 +99,10 @@ extension Backend {
     let userTable = DBUser()
     let selectQuery = Select(from: userTable).where(userTable.email == email)
     var user: User? = nil
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        guard selectResult.success, let selected = selectResult.asRows?.first else {
+        guard selectResult.success, let selected = selectResult.getRows?.first else {
           print(selectResult.asError as Any)
           return
         }
@@ -109,7 +110,7 @@ extension Backend {
         let photosTable = DBUserPhotos()
         let selectPhotosQuery = Select(from: photosTable).where(photosTable.userEmail == email).order(by: .DESC(photosTable.timestamp))
         connection.execute(query: selectPhotosQuery) { selectPhotosResult in
-          guard let rows = selectPhotosResult.asRows else {
+          guard let rows = selectPhotosResult.getRows else {
             return
           }
           if rows.count != 0 {
@@ -125,7 +126,7 @@ extension Backend {
           let selectFriendsQuery = Select(from: conversaionTable).where((conversaionTable.user1 == email || conversaionTable.user2 == email) &&
                                                                         conversaionTable.approved == 1)
           connection.execute(query: selectFriendsQuery) { selectFriendsResult in
-            guard let count = selectFriendsResult.asRows?.count else {
+            guard let count = selectFriendsResult.getRows?.count else {
               return
             }
             userResponse.friendCount = count
@@ -134,7 +135,7 @@ extension Backend {
           let guidesTable = DBGuides()
           let selectLocal = Select(from: guidesTable).leftJoin(citiesTable).on(guidesTable.cityId == citiesTable.citiesId).where(guidesTable.type == 0 && guidesTable.userEmail == email)
           connection.execute(query: selectLocal) { selectLocalResult in
-            if let rows = selectLocalResult.asRows {
+            if let rows = selectLocalResult.getRows {
               if rows.count > 0 {
                 let row = rows[0]
                 let city = City(dict: row)
@@ -145,7 +146,7 @@ extension Backend {
           }
           let selectNext = Select(from: guidesTable).leftJoin(citiesTable).on(guidesTable.cityId == citiesTable.citiesId).where(guidesTable.type == 1 && guidesTable.userEmail == email).order(by: .ASC(guidesTable.from))
           connection.execute(query: selectNext) { selectNextResult in
-            if let rows = selectNextResult.asRows {
+            if let rows = selectNextResult.getRows {
               if rows.count > 0 {
                 let row = rows[0]
                 let city = City(dict: row)
@@ -166,9 +167,10 @@ extension Backend {
     }
     let userTable = DBUser()
     let selectQuery = Select(from: userTable).where(userTable.email != email)
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        guard let rows = selectResult.asRows else {
+        guard let rows = selectResult.getRows else {
           response.send("").status(.internalServerError); next()
           return
         }
@@ -207,9 +209,10 @@ extension Backend {
     let descriptionPart = parts.filter { $0.name == "description" }.first
     let userPhotosTable = DBUserPhotos()
     let selectQuery = Select(from: userPhotosTable)
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        guard let count = selectResult.asRows?.count,
+        guard let count = selectResult.getRows?.count,
           let data = imagePart?.body.asRaw else {
             return
         }

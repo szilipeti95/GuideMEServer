@@ -33,8 +33,7 @@ public class Backend {
   public init() throws {
     pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!,
                                       poolOptions: ConnectionPoolOptions(initialCapacity: 10,
-                                                                         maxCapacity: 50,
-                                                                         timeout: 10000))
+                                                                         maxCapacity: 50))
     tokenCredentials = Credentials()
     tokenCredentials.register(plugin: CredentialsJWTToken())
     tokenCredentials.register(plugin: CredentialsGoogleToken())

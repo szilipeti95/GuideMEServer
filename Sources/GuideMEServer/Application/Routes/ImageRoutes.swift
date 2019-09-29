@@ -29,9 +29,10 @@ extension Backend {
     let descriptionPart = parts.filter { $0.name == "description" }.first
     let userPhotosTable = DBUserPhotos()
     let selectQuery = Select(from: userPhotosTable)
-    if let connection = pool.getConnection() {
+    pool.getConnection() { connection, error in
+      guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
-        guard let count = selectResult.asRows?.count,
+        guard let count = selectResult.getRows?.count,
               let data = imagePart?.body.asRaw else {
           return
         }
