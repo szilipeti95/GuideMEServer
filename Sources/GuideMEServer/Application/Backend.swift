@@ -65,10 +65,10 @@ public class Backend {
                                  usingSelfSignedCerts: true)
 
 
-    Kitura.addHTTPServer(onPort: 8004, with: router, withSSL: mySSLConfig)
+    Kitura.addHTTPServer(onPort: 8044, with: router, withSSL: mySSLConfig)
     #else
 
-    Kitura.addHTTPServer(onPort: 8004, with: router)
+    Kitura.addHTTPServer(onPort: 8044, with: router)
     #endif
 
     Kitura.addHTTPServer(onPort: 8084, with: adminRouter)
