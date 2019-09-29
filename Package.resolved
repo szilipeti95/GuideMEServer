@@ -6,8 +6,17 @@
         "repositoryURL": "https://github.com/IBM-Swift/BlueCryptor.git",
         "state": {
           "branch": null,
-          "revision": "30b6cf38322838d1e973e0626c6abf9602b03cf5",
-          "version": "1.0.9"
+          "revision": "6e83ae419817e7272f2f80a7a005a26df366dd8e",
+          "version": "1.0.31"
+        }
+      },
+      {
+        "package": "CryptorECC",
+        "repositoryURL": "https://github.com/IBM-Swift/BlueECC.git",
+        "state": {
+          "branch": null,
+          "revision": "73a43a5102eafaf4668dbd6e0163bed21c776b9c",
+          "version": "1.2.4"
         }
       },
       {
@@ -15,8 +24,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/BlueRSA.git",
         "state": {
           "branch": null,
-          "revision": "f465308aa6a095346b17f9f6ac46142ce8a14459",
-          "version": "1.0.5"
+          "revision": "e906f5e93426bb43ad7ac37cc20008d8fae608d9",
+          "version": "1.0.34"
         }
       },
       {
@@ -24,8 +33,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/BlueSocket.git",
         "state": {
           "branch": null,
-          "revision": "ce36f72f2c36b88f847de50c8c0ed8021ff80097",
-          "version": "1.0.16"
+          "revision": "49cab699e9f151eeb870ab93d14642425e824c19",
+          "version": "1.0.49"
         }
       },
       {
@@ -33,17 +42,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/BlueSSLService.git",
         "state": {
           "branch": null,
-          "revision": "a8e24ec6db452ed202502ebae885b39f43e34d98",
-          "version": "1.0.16"
-        }
-      },
-      {
-        "package": "CCurl",
-        "repositoryURL": "https://github.com/IBM-Swift/CCurl.git",
-        "state": {
-          "branch": null,
-          "revision": "2a431e3a5fb8d004aa7d4d1bebb5d511f568c43e",
-          "version": "1.0.0"
+          "revision": "de36b4d078a12fffba982d17f59d2b7ca587bec9",
+          "version": "1.0.49"
         }
       },
       {
@@ -51,17 +51,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/CMySQL.git",
         "state": {
           "branch": null,
-          "revision": "a9e4da59475b5db72434a0eaa9d1fb53858ad447",
-          "version": "0.1.2"
-        }
-      },
-      {
-        "package": "CommonCrypto",
-        "repositoryURL": "https://github.com/IBM-Swift/CommonCrypto.git",
-        "state": {
-          "branch": null,
-          "revision": "9156d238dbc4c15455b77b45e721b2bb0b995e31",
-          "version": "1.0.0"
+          "revision": "42e1219280c63bc420a585a98d7d43ab620fd8ae",
+          "version": "0.1.4"
         }
       },
       {
@@ -69,17 +60,8 @@
         "repositoryURL": "https://github.com/krzyzanowskim/CryptoSwift.git",
         "state": {
           "branch": null,
-          "revision": "2bcb008fe23d286e5da79311051e19b3345f1cd5",
-          "version": "0.12.0"
-        }
-      },
-      {
-        "package": "HeliumLogger",
-        "repositoryURL": "https://github.com/IBM-Swift/HeliumLogger.git",
-        "state": {
-          "branch": null,
-          "revision": "0283ca6255bbe73d35abc81438435af40c8fa085",
-          "version": "1.7.2"
+          "revision": "5da70ba744d58d772201f03600eb16c53197652d",
+          "version": "0.15.0"
         }
       },
       {
@@ -87,8 +69,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/Kitura.git",
         "state": {
           "branch": null,
-          "revision": "b38789603a7cfcf1f265ead6c939d69c0149fbf8",
-          "version": "2.5.0"
+          "revision": "0777165ed5b966ad2e62f9f9101cfa8b283e7684",
+          "version": "2.8.1"
         }
       },
       {
@@ -96,8 +78,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/Kitura-Credentials.git",
         "state": {
           "branch": null,
-          "revision": "7fb7dc7b406a6c5702ccf851d6d0f2e1d8896786",
-          "version": "2.3.0"
+          "revision": "1daf65e3f89280fb22afbb9d46d15c89d2f7918c",
+          "version": "2.4.1"
         }
       },
       {
@@ -105,8 +87,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/Kitura-CredentialsFacebook.git",
         "state": {
           "branch": null,
-          "revision": "4fddd914d74c46770126b41544027d6d44e52d59",
-          "version": "2.2.3"
+          "revision": "72d2e4ae48c4962dc33215499d6ffd205289f025",
+          "version": "2.3.2"
         }
       },
       {
@@ -114,8 +96,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/Kitura-CredentialsGoogle.git",
         "state": {
           "branch": null,
-          "revision": "2e7da505b2ee0d7ef045db8f7e427b9e247d37f9",
-          "version": "2.2.1"
+          "revision": "ee8d1aa6dad2a9f668e5ea52273af57d60c91a79",
+          "version": "2.3.2"
         }
       },
       {
@@ -123,8 +105,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/Kitura-net.git",
         "state": {
           "branch": null,
-          "revision": "4023a2ea525e0c46d9ea793770d83f75df8a1707",
-          "version": "2.1.1"
+          "revision": "5fc06b21e8e615147fa8341c249ae010a1b41fba",
+          "version": "2.3.0"
         }
       },
       {
@@ -132,8 +114,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/Kitura-Session.git",
         "state": {
           "branch": null,
-          "revision": "8d60bc0389540446d68a057517a5dd20b151505d",
-          "version": "3.2.0"
+          "revision": "b7c3476e588c8902f067ea89b87db65f242401b4",
+          "version": "3.3.4"
         }
       },
       {
@@ -141,8 +123,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/Kitura-TemplateEngine.git",
         "state": {
           "branch": null,
-          "revision": "b030d2d176719acc6a902c40db1b87dc6a83e2fc",
-          "version": "2.0.0"
+          "revision": "d62d74bca48c6fb76f9fc1f48eeb2d7af415e80b",
+          "version": "2.0.1"
         }
       },
       {
@@ -150,8 +132,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/Kitura-WebSocket.git",
         "state": {
           "branch": null,
-          "revision": "1c6d026a2775285d6bb7a27217683c8451221190",
-          "version": "2.1.1"
+          "revision": "2595b0a9a4579e7c4abc61c52c588c4fcf988232",
+          "version": "2.1.2"
         }
       },
       {
@@ -159,8 +141,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/KituraContracts.git",
         "state": {
           "branch": null,
-          "revision": "8e41f3fc81b662722020754f74a8fd8c7bdbbf3b",
-          "version": "1.1.0"
+          "revision": "47d30e98281ea61cf1bfd4a0ecbd003121f1ca31",
+          "version": "1.2.0"
         }
       },
       {
@@ -168,8 +150,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/LoggerAPI.git",
         "state": {
           "branch": null,
-          "revision": "5041f2673aa75d6e973d9b6bd3956bc5068387c8",
-          "version": "1.7.3"
+          "revision": "3357dd9526cdf9436fa63bb792b669e6efdc43da",
+          "version": "1.9.0"
         }
       },
       {
@@ -177,8 +159,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/Swift-JWT.git",
         "state": {
           "branch": null,
-          "revision": "aeab14aa7e4c396e9ce9c9666c3534e68d83c57b",
-          "version": "2.0.0"
+          "revision": "a0a89d62b8276635f430dfaf8688051cac6b9342",
+          "version": "3.5.3"
         }
       },
       {
@@ -200,6 +182,15 @@
         }
       },
       {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "e8aabbe95db22e064ad42f1a4a9f8982664c70ed",
+          "version": "1.1.1"
+        }
+      },
+      {
         "package": "SwiftKueryMySQL",
         "repositoryURL": "https://github.com/IBM-Swift/SwiftKueryMySQL.git",
         "state": {
@@ -213,8 +204,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/TypeDecoder.git",
         "state": {
           "branch": null,
-          "revision": "aaf636e64089baf6a710ff5e7dd5f4c8798ff940",
-          "version": "1.1.0"
+          "revision": "39bb56b3b5c8ffb1b475c529fb1cfdb64e709a02",
+          "version": "1.3.3"
         }
       }
     ]
