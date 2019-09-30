@@ -23,26 +23,16 @@ class Guide: Codable {
   }
 
   convenience init(dict: [String: Any?]) {
-    print("Decoding type")
-    print("\(dict["type"])")
     let type = Int(dict["type"] as! Int)
     var from: Int? = nil
     var to: Int? = nil
-    print("Decoding from")
-    print("\(dict["from"])")
     if dict["from"] as? Int != nil {
       from = Int(dict["from"] as! Int)
     }
-    print("Decoding to")
-    print("\(dict["to"])")
     if dict["to"] as? Int != nil {
       to = Int(dict["to"] as! Int)
     }
-    print("Decoding city")
-    print("\(dict["city"])")
     let city = City(dict: dict["city"] as! [String: Any?])
-    print("Decoding preference_type")
-    print("\(dict["preference_type"])")
     let preferenceType = dict["preference_type"] as! [Int]
     self.init(city: city,
               type: type,

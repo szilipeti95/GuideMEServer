@@ -35,7 +35,7 @@ func addMessageRoutes(app: Backend) {
 extension Backend {
 
   fileprivate func getMessages(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser,
+    guard request.authorizedUser != nil,
           let conversationId = request.parameters["conversationId"] else {
       return
     }
@@ -141,7 +141,6 @@ extension Backend {
     }
     let conversationTable = DBConversation()
     let messageTable = DBMessage()
-    let userTable = DBUser()
     let selectQuery = Select(from: conversationTable).where(conversationTable.user1 == email || conversationTable.user2 == email)
 
     pool.getConnection() { connection, error in

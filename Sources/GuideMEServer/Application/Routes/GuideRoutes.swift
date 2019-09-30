@@ -46,7 +46,6 @@ extension Backend {
     }
     let guideTable = DBGuides()
     let preferencesTable = DBGuidePreferences()
-    let cityTable = DBCities()
     let selectGuideQuery = Select(from: guideTable).leftJoin(preferencesTable).on(guideTable.guideId == preferencesTable.guideId).where(guideTable.userEmail == email)
 
     pool.getConnection() { connection, error in
@@ -202,7 +201,7 @@ extension Backend {
           print("cheking from, to")
           guard let from = guide.from, let to = guide.to else {
 
-            print("from to error: \(guide.from)  \(guide.to)")
+            print("from to error: \(String(describing: guide.from))  \(String(describing: guide.to))")
             response.send("").status(.badRequest); next()
             return
           }
