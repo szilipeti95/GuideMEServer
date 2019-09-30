@@ -43,38 +43,6 @@ extension Backend {
       response.send("").status(.badRequest); next()
       return
     }
-    /*
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email == email)
-
-    if let connection = pool.getConnection() {
-      connection.execute(query: selectQuery) { selectResult in
-        guard selectResult.success, let selected = selectResult.asRows?.first else {
-          print(selectResult.asError as Any)
-          return
-        }
-        let userResponse = User(dict: selected)
-        let photosTable = DBUserPhotos()
-        let selectPhotosQuery = Select(from: photosTable).where(photosTable.userEmail == email).order(by: .DESC(photosTable.timestamp))
-        connection.execute(query: selectPhotosQuery) { selectPhotosResult in
-          guard let rows = selectPhotosResult.asRows else {
-            response.send("").status(.internalServerError); next()
-            return
-          }
-          if rows.count != 0 {
-            var photos = [Photo]()
-            for row in rows {
-              photos.append(Photo(dict: row))
-            }
-            userResponse.photos = photos
-          }
-        }
-        try? response.send(userResponse.toJson()).end()
-      }
-    } else {
-      try? response.send("Error").status(.internalServerError).end()
-    }
-     */
   }
 
   fileprivate func getUsersDataHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
@@ -99,6 +67,7 @@ extension Backend {
     let userTable = DBUser()
     let selectQuery = Select(from: userTable).where(userTable.email == email)
     var user: User? = nil
+
     pool.getConnection() { connection, error in
       guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
