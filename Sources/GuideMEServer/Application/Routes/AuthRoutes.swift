@@ -104,32 +104,33 @@ extension Backend {
       guard let connection = connection else { return }
       connection.execute(query: selectQuery) { selectResult in
         print(selectResult)
-        guard selectResult.success, let selected = selectResult.getRows?.first else {
-          print(selectResult.asError as Any)
-          respondWith(nil, .badRequest)
-          return
-        }
-        print(selected)
-        let userPassword = selected["password"] as! String
-        let userSalt = selected["salt"] as! String
-
-        let saltArray: Array<UInt8> = Array(userSalt.utf8)
-        do {
-          let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
-          if key == userPassword {
-            var jwt = JWT(header: Header([.typ:"JWT"]),
-                          claims: Claims([.email: login.email]))
-            guard let signedJWT = try jwt.sign(using: .rs256(self.privateKey, .privateKey)) else {
-              respondWith(nil, .internalServerError)
-              return
+        selectResult.asRows { rows, error in
+            guard selectResult.success, let selected = rows?.first else {
+                respondWith(nil, .badRequest)
+                return
             }
-            respondWith(LoginResponse(jwt: signedJWT), nil)
-          } else {
-            respondWith(nil, .badRequest)
-            return
-          }
-        } catch _ {
-          respondWith(nil, .internalServerError)
+            print(selected)
+            let userPassword = selected["password"] as! String
+            let userSalt = selected["salt"] as! String
+
+            let saltArray: Array<UInt8> = Array(userSalt.utf8)
+            do {
+                let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
+                if key == userPassword {
+                    var jwt = JWT(header: Header([.typ:"JWT"]),
+                                  claims: Claims([.email: login.email]))
+                    guard let signedJWT = try jwt.sign(using: .rs256(self.privateKey, .privateKey)) else {
+                        respondWith(nil, .internalServerError)
+                        return
+                    }
+                    respondWith(LoginResponse(jwt: signedJWT), nil)
+                } else {
+                    respondWith(nil, .badRequest)
+                    return
+                }
+            } catch _ {
+                respondWith(nil, .internalServerError)
+            }
         }
       }
     }
