@@ -4,6 +4,7 @@ import Kitura
 import SwiftJWT
 import SwiftKuery
 import SwiftKueryMySQL
+import SwiftKueryORM
 import KituraWebSocket
 import Credentials
 import CredentialsGoogle
@@ -34,6 +35,7 @@ public class Backend {
     pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!,
                                       poolOptions: ConnectionPoolOptions(initialCapacity: 10,
                                                                          maxCapacity: 50))
+    Database.default = Database(pool)
     tokenCredentials = Credentials()
     tokenCredentials.register(plugin: CredentialsJWTToken())
     tokenCredentials.register(plugin: CredentialsGoogleToken())
@@ -44,6 +46,8 @@ public class Backend {
   }
 
   func postInit() throws {
+    checkTables()
+
     addAdminRoutes(app: self)
     addAuthRoutes(app: self)
     addUserRoutes(app: self)
@@ -51,7 +55,15 @@ public class Backend {
     addImagesRoutes(app: self)
     addGuideRoutes(app: self)
   }
-  
+
+  private func checkTables() {
+    do {
+      try User.createTableSync()
+    } catch let error {
+      print(error)
+    }
+  }
+
   public func run() throws {
     try postInit()
 

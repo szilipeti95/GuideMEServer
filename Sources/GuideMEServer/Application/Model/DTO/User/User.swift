@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import SwiftKuery
+import SwiftKueryORM
 
-class User : Codable {
+struct User : Codable {
   var username: String
   var email: String
   var firstName: String
@@ -56,6 +58,27 @@ class User : Codable {
   }
 }
 
+extension User: Model {
+  public static func getFirstWith(email: String) -> User? {
+    guard let table = try? User.getTable() else { return nil }
+
+    var userWithEmail: User? = nil
+    let query = Select(from: table).where("email == \(email)")
+
+    let wait = DispatchSemaphore(value: 0)
+    User.executeQuery(query: query) { results, error in
+      guard let results = results else {
+        return
+      }
+      userWithEmail = results.first
+      wait.signal()
+      return
+    }
+    wait.wait()
+    return userWithEmail
+  }
+}
+
 extension User {
   func toJson() -> String {
     do {
@@ -68,7 +91,7 @@ extension User {
     }
   }
 
-  convenience init(dict: [String: Any?]) {
+  init(dict: [String: Any?]) {
     let userUsername = dict["username"] as! String
     let userEmail = dict["email"] as! String
     let userFirstName = dict["first_name"] as! String

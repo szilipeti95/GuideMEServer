@@ -75,7 +75,7 @@ extension Backend {
           print(selectResult.asError as Any)
           return
         }
-        let userResponse = User(dict: selected)
+        var userResponse = User(dict: selected)
         let photosTable = DBUserPhotos()
         let selectPhotosQuery = Select(from: photosTable).where(photosTable.userEmail == email).order(by: .DESC(photosTable.timestamp))
         connection.execute(query: selectPhotosQuery) { selectPhotosResult in

@@ -11,10 +11,14 @@ import SwiftKuery
 
 extension QueryResult {
   var getRows: [[String: Any?]]? {
+//    let wait = DispatchSemaphore(value: 0)
     var rows: [[String: Any?]]?
     asRows { rowsResult, error in
       rows = rowsResult
+//      wait.signal()
+      return
     }
+//    wait.wait()
     return rows
   }
 }

@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import SwiftKuery
+import SwiftKueryORM
 
-class Photo: Codable {
+struct Photo: Codable {
   var photoUri: String
   var description: String?
   var likeCount: Int
@@ -20,7 +22,7 @@ class Photo: Codable {
     self.timestamp = timestamp
   }
 
-  convenience init(dict: [String: Any?]) {
+  init(dict: [String: Any?]) {
     let photoUri = dict["photo_uri"] as! String
     let description = dict["description"] as? String
     let likeCount = Int(dict["like_count"] as! Int64)
@@ -38,4 +40,27 @@ class Photo: Codable {
     case likeCount = "like_count"
     case timestamp
   }
+}
+
+extension Photo: Model {
+  public static func getUploadedPhotosFor(userEmail: String) -> [Photo]? {
+    let wait = DispatchSemaphore(value: 0)
+    guard let table: Table = try? Photo.getTable() else { return nil }
+
+    var photosForUser: [Photo]?
+    //TODO: Select(from: photosTable).where(photosTable.userEmail == email).order(by: .DESC(photosTable.timestamp))
+    let query = Select(from: table).where("user_email == \(userEmail)")
+
+    Photo.executeQuery(query: query) { results, error in
+      guard let results = results else { return }
+
+
+      photosForUser = results.filter { $0.photoUri.contains("image") }
+      wait.signal()
+      return
+    }
+    wait.wait()
+    return photosForUser
+  }
+
 }
