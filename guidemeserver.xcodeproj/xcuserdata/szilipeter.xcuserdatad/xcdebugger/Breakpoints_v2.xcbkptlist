@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Model/Database/DBUser.swift"
-            timestampString = "591638580.336957"
+            timestampString = "591654154.94345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "foo()"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,7 +170,7 @@
                   moduleName = "Application"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szilipeter/Documents/GitHub/GuideMEServer/Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-                  timestampString = "591638581.0348409"
+                  timestampString = "591653486.299323"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
@@ -185,7 +185,7 @@
                   moduleName = "Application"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szilipeter/Documents/GitHub/GuideMEServer/Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-                  timestampString = "591638581.05731"
+                  timestampString = "591653486.30151"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "28"
@@ -402,7 +402,7 @@
                   moduleName = "Application"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szilipeter/Documents/GitHub/GuideMEServer/Sources/GuideMEServer/Application/Routes/MessageRoutes.swift"
-                  timestampString = "591638581.111554"
+                  timestampString = "591653486.315915"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "273"
@@ -417,7 +417,7 @@
                   moduleName = "Application"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/szilipeter/Documents/GitHub/GuideMEServer/Sources/GuideMEServer/Application/Routes/MessageRoutes.swift"
-                  timestampString = "591638581.114525"
+                  timestampString = "591653486.3185329"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "274"
@@ -434,12 +434,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Model/Database/DBUserPhotos.swift"
-            timestampString = "591638580.337786"
+            timestampString = "591653747.937727"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "79"
             endingLineNumber = "79"
             landmarkName = "getUploadedPhotosFor(userEmail:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sources/GuideMEServer/Application/Model/Database/DBUser.swift"
+            timestampString = "591654154.9438519"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "getOtherUsers(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

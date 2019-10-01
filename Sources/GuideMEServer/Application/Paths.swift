@@ -18,6 +18,7 @@ class Paths {
   static let userSelfUpdate = "/user/self/update"
   static let userRandom = "/user/random"
   static let usersData = "/users/:email"
+  static let userAvatar = "/user/avatar"
   // MARK: Message
   static let message = "/message/:conversationId"
   static let messagesRead = "/messages/read/:conversationId"

@@ -70,6 +70,10 @@ struct DBUserModel: Model {
   }
 }
 
+extension DBUserModel: TableFinder {
+  typealias CodingEnum = CodingKeys
+}
+
 extension DBUserModel {
   struct Filter: QueryParams {
     let email: String
@@ -95,6 +99,26 @@ extension DBUserModel {
 
     wait.wait()
     return userWithEmail
+  }
+
+  public static func getOtherUsers(from email: String) -> [DBUserModel]? {
+    let wait = DispatchSemaphore(value: 0)
+    var usersNotWithEmail: [DBUserModel]?
+    guard let table = try? DBUserModel.getTable(),
+      let emailColumn = try? DBUserModel.getColumn(.email)  else { return nil }
+
+    let query = Select(from: table).where(emailColumn != email)
+    DBUserModel.executeQuery(query: query) { results, error in
+      if let error = error {
+        print(error)
+      } else if let results = results {
+        usersNotWithEmail = results
+      }
+      wait.signal()
+      return
+    }
+    wait.wait()
+    return usersNotWithEmail
   }
 
 }

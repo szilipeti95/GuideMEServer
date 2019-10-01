@@ -25,41 +25,33 @@ func addUserRoutes(app: Backend) {
   app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.put(Paths.userSelfUpdate, handler: app.updateUserInfoHandler)
 
-  app.router.post("/user/avatar", middleware: BodyParser())
-  app.router.post("/user/avatar", allowPartialMatch: false, middleware: app.tokenCredentials)
-  app.router.post("/user/avatar", handler: app.uploadProfileImage)
-
+  app.router.post(Paths.userAvatar, middleware: BodyParser())
+  app.router.post(Paths.userAvatar, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.post(Paths.userAvatar, handler: app.uploadProfileImage)
 }
 
 extension Backend {
   fileprivate func getUserHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else {
-      return
-    }
+    guard let email = request.authorizedUser else { return }
 
     if let userData = getUserData(for: email) {
-      try? response.send(userData.toJson()).end()
+      try? response.send(json: userData).end(); next()
     } else {
-      response.send("").status(.badRequest); next()
-      return
+      try? response.send(status: .badRequest).end(); next()
     }
   }
 
   fileprivate func getUsersDataHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard request.authorizedUser != nil else {
-      response.send("").status(.unauthorized); next()
-      return
-    }
+    guard request.authorizedUser != nil else { return }
     guard let email = request.parameters["email"] else {
       response.send("").status(.badRequest); next()
       return
     }
 
     if let userData = getUserData(for: email) {
-      try? response.send(userData.toJson()).end()
+      try? response.send(json: userData).end(); next()
     } else {
-      response.send("").status(.badRequest); next()
-      return
+      try? response.send(status: .badRequest).end(); next()
     }
   }
 
@@ -87,39 +79,31 @@ extension Backend {
     guard let email = request.authorizedUser else {
       return
     }
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email != email)
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        guard let rows = selectResult.getRows else {
-          response.send("").status(.internalServerError); next()
-          return
-        }
-        let length = UInt32(rows.count)
-        var users = [User]()
-        for _ in 1...4 {
-          #if os(Linux)
-          let rand = Int(random() % Int(length))
-          #else
-          let rand =  arc4random_uniform(length)
-          #endif
-          let email = rows[Int(rand)]["email"] as! String
-          if let user = self.getUserData(for: email) {
-            users.append(user)
-          }
-        }
-        guard let jsonData = try? JSONEncoder().encode(users) else {
-          print("Error during JSON decoding")
-          response.send("").status(.internalServerError)
-          next()
-          return
-        }
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        response.send(jsonString)
-        next()
+
+    if let otherUsers = DBUserModel.getOtherUsers(from: email) {
+      let randomNumbers = uniqueRandoms(numberOfRandoms: 4, minNum: 0, maxNum: otherUsers.count - 1)
+      var users = [User]()
+      for index in randomNumbers {
+        let otherUser = otherUsers[index]
+        guard let otherUserData = getUserData(for: otherUser.email) else { return }
+        users.append(otherUserData)
       }
+      try? response.send(json: users).end(); next()
+    } else {
+      try? response.send(status: .internalServerError).end(); next()
     }
+  }
+
+  fileprivate func uniqueRandoms(numberOfRandoms: Int, minNum: Int, maxNum: Int) -> [Int] {
+    var uniqueNumbers = Set<Int>()
+    while uniqueNumbers.count < numberOfRandoms {
+      #if os(Linux)
+      uniqueNumbers.insert(Int(random() % Int(maxNum+1) + minNum))
+      #else
+      uniqueNumbers.insert(Int(arc4random_uniform(UInt32(maxNum + 1))) + minNum)
+      #endif
+    }
+    return Array(uniqueNumbers)
   }
 
   fileprivate func uploadProfileImage(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
