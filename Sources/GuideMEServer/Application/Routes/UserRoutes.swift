@@ -35,9 +35,9 @@ extension Backend {
     guard let email = request.authorizedUser else { return }
 
     if let userData = getUserData(for: email) {
-      try? response.send(json: userData).end(); next()
+      try response.send(json: userData).end(); next()
     } else {
-      try? response.send(status: .badRequest).end(); next()
+      try response.send(status: .badRequest).end(); next()
     }
   }
 
@@ -49,9 +49,9 @@ extension Backend {
     }
 
     if let userData = getUserData(for: email) {
-      try? response.send(json: userData).end(); next()
+      try response.send(json: userData).end(); next()
     } else {
-      try? response.send(status: .badRequest).end(); next()
+      try response.send(status: .badRequest).end(); next()
     }
   }
 
@@ -88,9 +88,9 @@ extension Backend {
         guard let otherUserData = getUserData(for: otherUser.email) else { return }
         users.append(otherUserData)
       }
-      try? response.send(json: users).end(); next()
+      try response.send(json: users).end(); next()
     } else {
-      try? response.send(status: .internalServerError).end(); next()
+      try response.send(status: .internalServerError).end(); next()
     }
   }
 
@@ -118,7 +118,7 @@ extension Backend {
     let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
     let fileName = "profile-\(email)-\(count)"
     let fileURL = dir.appendingPathComponent(fileName)
-    try? imageData.write(to: fileURL, options: .atomic)
+    try imageData.write(to: fileURL, options: .atomic)
 
     let dbPhoto = DBUserPhotosModel(id: nil,
                                     userEmail: email,
@@ -131,8 +131,7 @@ extension Backend {
       if var dbUser = DBUserModel.getUserWith(email: email), let id = dbUser.id {
         dbUser.avatar = fileName
         dbUser.update(id: id) { result, error in
-          response.send("Success")
-          next()
+          try? response.send("Success").end(); next()
         }
       }
     }
