@@ -42,6 +42,18 @@ struct User : Codable {
     self.friendCount = 0
   }
 
+  init(dbUser: DBUserModel) {
+    self.username = dbUser.username
+    self.email = dbUser.email
+    self.firstName = dbUser.firstName
+    self.lastName = dbUser.lastName
+    self.regDate = dbUser.regDate
+    self.avatar = dbUser.avatar
+    self.backgroundAvatar = dbUser.backgroundAvatar
+//    self.bio = dbUser.bio
+    self.friendCount = 0
+  }
+
   enum CodingKeys: String, CodingKey {
     case username = "username"
     case email = "email"
@@ -57,7 +69,7 @@ struct User : Codable {
     case friendCount = "friend_count"
   }
 }
-
+/*
 extension User: Model {
   public static func getFirstWith(email: String) -> User? {
     guard let table = try? User.getTable() else { return nil }
@@ -78,7 +90,7 @@ extension User: Model {
     return userWithEmail
   }
 }
-
+*/
 extension User {
   func toJson() -> String {
     do {

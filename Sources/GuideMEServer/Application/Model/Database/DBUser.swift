@@ -8,6 +8,7 @@
 import Foundation
 import Kitura
 import SwiftKuery
+import SwiftKueryORM
 import SwiftKueryMySQL
 
 struct DBUserColumnNames {
@@ -39,7 +40,62 @@ class DBUser : Table {
   let bio = Column(DBUserColumnNames.bio, String.self, notNull: false)
 }
 
-extension DBUser {
+struct DBUserModel: Model {
+  static var tableName = "User"
+
+  var id: Int
+  var username: String
+  var password: String
+  var salt: String
+  var email: String
+  var firstName: String
+  var lastName: String
+  var regDate: Int
+  var avatar: String?
+  var backgroundAvatar: String?
+//  let bio: String?
+
+  enum CodingKeys: String, CodingKey {
+    case id
+    case username
+    case password
+    case salt
+    case email
+    case firstName = "first_name"
+    case lastName = "last_name"
+    case regDate = "reg_date"
+    case avatar
+    case backgroundAvatar = "background_avatar"
+//    case bio
+  }
+}
+
+extension DBUserModel {
+  struct Filter: QueryParams {
+    let email: String
+  }
+
+  public static func getUserWith(email: String) -> DBUserModel? {
+    let wait = DispatchSemaphore(value: 0)
+    var userWithEmail: DBUserModel?
+
+    let filter = Filter(email: email)
+    DBUserModel.findAll(matching: filter) { results, error in
+      guard let results = results,
+        let firstResult = results.first else {
+          print(error)
+          wait.signal()
+          return
+      }
+
+      userWithEmail = firstResult
+      wait.signal()
+      return
+    }
+
+    wait.wait()
+    return userWithEmail
+  }
 
 }
 

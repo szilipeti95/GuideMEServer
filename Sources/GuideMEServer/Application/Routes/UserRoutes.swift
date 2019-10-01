@@ -64,70 +64,23 @@ extension Backend {
   }
 
   internal func getUserData(for email: String) -> User? {
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email == email)
-    var user: User? = nil
+    guard let user = DBUserModel.getUserWith(email: email) else { return nil }
 
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        guard selectResult.success, let selected = selectResult.getRows?.first else {
-          print(selectResult.asError as Any)
-          return
-        }
-        var userResponse = User(dict: selected)
-        let photosTable = DBUserPhotos()
-        let selectPhotosQuery = Select(from: photosTable).where(photosTable.userEmail == email).order(by: .DESC(photosTable.timestamp))
-        connection.execute(query: selectPhotosQuery) { selectPhotosResult in
-          guard let rows = selectPhotosResult.getRows else {
-            return
-          }
-          if rows.count != 0 {
-            var photos = [Photo]()
-            for row in rows {
-              if (row["photo_uri"] as! String).contains("image") {
-                photos.append(Photo(dict: row))
-              }
-            }
-            userResponse.photos = photos
-          }
-          let conversaionTable = DBConversation()
-          let selectFriendsQuery = Select(from: conversaionTable).where((conversaionTable.user1 == email || conversaionTable.user2 == email) &&
-                                                                        conversaionTable.approved == 1)
-          connection.execute(query: selectFriendsQuery) { selectFriendsResult in
-            guard let count = selectFriendsResult.getRows?.count else {
-              return
-            }
-            userResponse.friendCount = count
-          }
-          let citiesTable = DBCities()
-          let guidesTable = DBGuides()
-          let selectLocal = Select(from: guidesTable).leftJoin(citiesTable).on(guidesTable.cityId == citiesTable.citiesId).where(guidesTable.type == 0 && guidesTable.userEmail == email)
-          connection.execute(query: selectLocal) { selectLocalResult in
-            if let rows = selectLocalResult.getRows {
-              if rows.count > 0 {
-                let row = rows[0]
-                let city = City(dict: row)
-                userResponse.local = city
-              }
-            }
+    var userResponse = User(dbUser: user)
+    userResponse.photos = DBUserPhotosModel.getUploadedPhotosFor(userEmail: email)?.map({ Photo(photo: $0) })
+    userResponse.friendCount = DBConversationModel.getFriendCount(for: email)
 
-          }
-          let selectNext = Select(from: guidesTable).leftJoin(citiesTable).on(guidesTable.cityId == citiesTable.citiesId).where(guidesTable.type == 1 && guidesTable.userEmail == email).order(by: .ASC(guidesTable.from))
-          connection.execute(query: selectNext) { selectNextResult in
-            if let rows = selectNextResult.getRows {
-              if rows.count > 0 {
-                let row = rows[0]
-                let city = City(dict: row)
-                userResponse.next = city
-              }
-            }
-          }
-          user = userResponse
-        }
-      }
+    if let selectLocal = DBGuidesModel.getLocalGuide(for: email),
+      let localCity = DBCitiesModel.getCity(with: selectLocal.cityId) {
+      userResponse.local = City(dbCity: localCity)
+
     }
-    return user
+    if let selectNext = DBGuidesModel.getNextGuide(for: email),
+      let nextCity = DBCitiesModel.getCity(with: selectNext.cityId) {
+      userResponse.next = City(dbCity: nextCity)
+    }
+
+    return userResponse
   }
 
   fileprivate func getFourRandomHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
@@ -171,45 +124,29 @@ extension Backend {
 
   fileprivate func uploadProfileImage(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let parts = request.body?.asMultiPart,
-      let email = request.authorizedUser else {
+      let email = request.authorizedUser,
+      let imageData = parts.filter({ $0.type.contains("image") }).first?.body.asRaw,
+      let count = DBUserPhotosModel.getUploadedPhotosCount() else {
         return
     }
-    let imagePart = parts.filter { $0.type.contains("image") }.first
-    let descriptionPart = parts.filter { $0.name == "description" }.first
-    let userPhotosTable = DBUserPhotos()
-    let selectQuery = Select(from: userPhotosTable)
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        guard let count = selectResult.getRows?.count,
-          let data = imagePart?.body.asRaw else {
-            return
-        }
-        let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-        let fileName = "profile-\(email)-\(count)"
-        let fileURL = dir.appendingPathComponent(fileName)
-        let description = descriptionPart?.body.asText
-        do {
-          try data.write(to: fileURL, options: .atomic)
-        }
-        catch let error {
-          print(error)
-        }
-        var valueTuples: [(Column, Any)] = [(userPhotosTable.userEmail, email),
-                                            (userPhotosTable.photoUri, fileName),
-                                            (userPhotosTable.timestamp, Date().millisecondsSince1970)]
-        if let description = description {
-          valueTuples.append((userPhotosTable.description, description))
-        }
-        let insertQuery = Insert(into: userPhotosTable, valueTuples: valueTuples)
-        connection.execute(query: insertQuery) { insertResult in
-          let userTable = DBUser()
-          let tuples: [(Column, Any)] = [(userTable.avatar, fileName)]
-          let updateQuery = Update(userTable, set: tuples).where(userTable.email == email)
-          connection.execute(query: updateQuery) { updateQueryResult in
 
-          }
-          print(insertResult)
+    let description = parts.filter { $0.name == "description" }.first?.body.asText
+    let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+    let fileName = "profile-\(email)-\(count)"
+    let fileURL = dir.appendingPathComponent(fileName)
+    try? imageData.write(to: fileURL, options: .atomic)
+
+    let dbPhoto = DBUserPhotosModel(id: nil,
+                                    userEmail: email,
+                                    photoUri: fileName,
+                                    description: description,
+                                    likeCount: 0,
+                                    timestamp: Date().millisecondsSince1970)
+
+    dbPhoto.save { result, error in
+      if var dbUser = DBUserModel.getUserWith(email: email) {
+        dbUser.avatar = fileName
+        dbUser.update(id: dbUser.id) { result, error in
           response.send("Success")
           next()
         }

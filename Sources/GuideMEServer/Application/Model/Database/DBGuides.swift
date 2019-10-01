@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftKuery
+import SwiftKueryORM
 import SwiftKueryMySQL
 
 struct DBGuidesColumnNames {
@@ -28,6 +29,69 @@ class DBGuides: Table {
   let to = Column(DBGuidesColumnNames.to, Int64.self, notNull: true)
 }
 
-extension DBGuides {
+struct DBGuidesModel: Model {
+  static var tableName = "Guides"
 
+  let userEmail: String
+  let cityId: Int
+  let type: Int?
+  let from: Int?
+  let to: Int?
+
+  enum CodingKeys: String, CodingKey {
+    case userEmail = "user_email"
+    case cityId = "city_id"
+    case type = "type"
+    case from = "from"
+    case to = "to"
+  }
+}
+
+extension DBGuidesModel {
+  private struct Filter: QueryParams {
+    let user_email: String
+    let type: Int
+  }
+
+  public static func getLocalGuide(for userEmail: String) -> DBGuidesModel? {
+    let wait = DispatchSemaphore(value: 0)
+    var localGuideForUserEmail: DBGuidesModel?
+
+    let filter = Filter(user_email: userEmail, type: 0)
+    DBGuidesModel.findAll(matching: filter) { results, error in
+      guard let results = results,
+        let firstResult = results.first else {
+        print(error)
+        wait.signal()
+        return
+      }
+      localGuideForUserEmail = firstResult
+      wait.signal()
+      return
+    }
+
+    wait.wait()
+    return localGuideForUserEmail
+  }
+
+  public static func getNextGuide(for userEmail: String) -> DBGuidesModel? {
+    let wait = DispatchSemaphore(value: 0)
+    var localGuideForUserEmail: DBGuidesModel?
+
+    let filter = Filter(user_email: userEmail, type: 1)
+    DBGuidesModel.findAll(matching: filter) { results, error in
+      guard let results = results?.sorted(by: { $0.from ?? 0 < $1.from ?? 0 }),
+        let firstResult = results.first else {
+          print(error)
+          wait.signal()
+          return
+      }
+      localGuideForUserEmail = firstResult
+      wait.signal()
+      return
+    }
+
+    wait.wait()
+    return localGuideForUserEmail
+  }
 }

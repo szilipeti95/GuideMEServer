@@ -18,6 +18,12 @@ class City: Codable {
     self.imageUri = imageUri
   }
 
+  init(dbCity: DBCitiesModel) {
+    self.city = dbCity.city
+    self.country = dbCity.country
+    self.imageUri = dbCity.imageUri
+  }
+
   convenience init(dict: [String: Any?]) {
     let city = dict[DBCitiesColumnNames.city] as! String
     let country = dict[DBCitiesColumnNames.country] as! String

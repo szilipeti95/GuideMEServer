@@ -36,8 +36,8 @@ extension Backend {
 
   fileprivate func getMessages(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard request.authorizedUser != nil,
-          let conversationId = request.parameters["conversationId"] else {
-      return
+      let conversationId = request.parameters["conversationId"] else {
+        return
     }
     //TODO: ELLENŐRZÉS HOGY A SAJÁT CONVOJA E AZ EMAILNEK
     let messageTable = DBMessage()
@@ -63,8 +63,8 @@ extension Backend {
 
   fileprivate func readMessages(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let email = request.authorizedUser,
-          let conversationId = request.parameters["conversationId"] else {
-      return
+      let conversationId = request.parameters["conversationId"] else {
+        return
     }
     let messageTable = DBMessage()
     let updateQuery = Update(messageTable, set: [(messageTable.read, 1)]).where(messageTable.conversationId == conversationId && messageTable.senderEmail != email)
@@ -150,17 +150,15 @@ extension Backend {
           var conversations = [Conversation]()
           for row in rows {
             guard let conversationId = row["conversation_id"] as? Int64,
-                  let user1 = row["user_1"] as? String else {
-              return
+              let user1 = row["user_1"] as? String else {
+                return
             }
             let selectMessageQuery = Select(from: messageTable).where(messageTable.conversationId == Int(conversationId)).order(by: .DESC(messageTable.timestamp))
             guard let otherEmail = (user1 == email ? row[DBConversationColumnNames.user2] : row[DBConversationColumnNames.user1]) as? String else {
               return
             }
 
-            guard let otherUser = self.getUserData(for: otherEmail) else {
-              return
-            }
+            guard let otherUser = self.getUserData(for: otherEmail) else { return }
             connection.execute(query: selectMessageQuery) { selectMessageResult in
               guard let messages = Message.arrayFrom(queryResult: selectMessageResult) else {
                 return
@@ -179,7 +177,9 @@ extension Backend {
                                               approved: approved,
                                               read: read)
               conversations.append(conversation)
+
             }
+
           }
           conversations = conversations.sorted(by: { $0.lastMessage.timestamp > $1.lastMessage.timestamp })
           guard let jsonData = try? JSONEncoder().encode(conversations) else {
@@ -207,8 +207,8 @@ extension Backend {
     }
     let conversationTable = DBConversation()
     let updateQuery = Update(conversationTable, set: [(conversationTable.approved, 1)]).where(conversationTable.conversationId == conversationId &&
-                                                                                              conversationTable.approved == 0 &&
-                                                                                              (conversationTable.user1 == email || conversationTable.user2 == email))
+      conversationTable.approved == 0 &&
+      (conversationTable.user1 == email || conversationTable.user2 == email))
 
     pool.getConnection() { connection, error in
       guard let connection = connection else { return }
@@ -233,8 +233,8 @@ extension Backend {
     }
     let conversationTable = DBConversation()
     let deleteQuery = Delete(from: conversationTable).where(conversationTable.conversationId == conversationId &&
-                                                            conversationTable.approved == 0 &&
-                                                            (conversationTable.user1 == email || conversationTable.user2 == email))
+      conversationTable.approved == 0 &&
+      (conversationTable.user1 == email || conversationTable.user2 == email))
     pool.getConnection() { connection, error in
       guard let connection = connection else { return }
       connection.execute(query: deleteQuery) { deleteResult in
@@ -254,8 +254,8 @@ extension Backend {
     }
     guard let otherEmail = request.parameters["email"],
       let data = request.body?.asJSON else {
-      response.send("").status(.badRequest); next()
-      return
+        response.send("").status(.badRequest); next()
+        return
     }
     let messageBody = data[DBMessageColumnNames.messageBody] as! String
     let sender = data[DBMessageColumnNames.senderEmail] as! String
@@ -266,7 +266,7 @@ extension Backend {
 
     let conversationTable = DBConversation()
     let conversationTuples: [(Column, Any)] = [(conversationTable.user1, email),
-                                   (conversationTable.user2, otherEmail)]
+                                               (conversationTable.user2, otherEmail)]
     let insertConversationQuery = Insert(into: conversationTable, valueTuples: conversationTuples, returnID: true)
     pool.getConnection() { connection, error in
       guard let connection = connection else { return }

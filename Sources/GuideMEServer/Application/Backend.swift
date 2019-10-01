@@ -19,12 +19,12 @@ public class Backend {
   let sqlHost = "localhost"
   let sqlDatabase = "guideme"
   #else
-  let sqlUser = "internalAPI"
-  let sqlPassword = "IPAlanretni"
+  let sqlUser = "root"
+  let sqlPassword = "toor"
   let sqlHost = "127.0.0.1"
-  let sqlDatabase = "guideme_new"
+  let sqlDatabase = "guideme"
   #endif
-  let sqlPort = 4306
+  let sqlPort = 3306
   let pool: ConnectionPool!
   let publicKeyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/publicKey.key")
   static var publicKey: Data!
@@ -58,7 +58,30 @@ public class Backend {
 
   private func checkTables() {
     do {
-      try User.createTableSync()
+      try DBUserModel.createTableSync()
+    } catch let error {
+      print(error)
+    }
+
+    do {
+//      try User.createTableSync()
+      try DBUserPhotosModel.createTableSync()
+    } catch let error {
+      print(error)
+    }
+
+    do {
+      try DBConversationModel.createTableSync()
+    } catch let error {
+      print(error)
+    }
+    do {
+      try DBCitiesModel.createTableSync()
+    } catch let error {
+      print(error)
+    }
+    do {
+      try DBGuidesModel.createTableSync()
     } catch let error {
       print(error)
     }
@@ -86,6 +109,19 @@ public class Backend {
     Kitura.addHTTPServer(onPort: 8084, with: adminRouter)
 
     Kitura.run()
+  }
+
+  func startConnection(response: RouterResponse, _  closure: @escaping ((ConnectionPoolConnection) -> Void)) {
+    pool.getConnection { connection, error in
+      if let error = error {
+        print(error)
+        response.send(nil).status(.internalServerError)
+      } else if let connection = connection {
+        closure(connection)
+      } else {
+        response.send(nil).status(.internalServerError)
+      }
+    }
   }
 
   func map(dicts: [[String: Any?]], key: String, columns: [String]) -> [[String: Any?]] {
