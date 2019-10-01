@@ -10,53 +10,43 @@ import Kitura
 import SwiftKuery
 
 func addImagesRoutes(app: Backend) {
-  app.router.post("/image", middleware: BodyParser())
-  app.router.post("/image", allowPartialMatch: false, middleware: app.tokenCredentials)
-  app.router.post("/image", handler: app.uploadImage)
+  app.router.post(Paths.image, middleware: BodyParser())
+  app.router.post(Paths.image, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.post(Paths.image, handler: app.uploadImage)
 
-
-  app.router.get("/image/:imageId", allowPartialMatch: false, middleware: app.tokenCredentials)
-  app.router.get("/image/:imageId", handler: app.downloadImage)
+  app.router.get(Paths.imageWithId, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.get(Paths.imageWithId, handler: app.downloadImage)
 }
 
 extension Backend {
   fileprivate func uploadImage(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let parts = request.body?.asMultiPart,
+          let imagePart = parts.filter({ $0.type.contains("image") }).first,
+          let imageData = imagePart.body.asRaw,
           let email = request.authorizedUser else {
       return
     }
-    let imagePart = parts.filter { $0.type.contains("image") }.first
-    let descriptionPart = parts.filter { $0.name == "description" }.first
-    let userPhotosTable = DBUserPhotos()
-    let selectQuery = Select(from: userPhotosTable)
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        guard let count = selectResult.getRows?.count,
-              let data = imagePart?.body.asRaw else {
-          return
-        }
-        let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-        let fileName = "image-\(count)"
-        let fileURL = dir.appendingPathComponent(fileName)
-        let description = descriptionPart?.body.asText
-        do {
-          try data.write(to: fileURL, options: .atomic)
-        }
-        catch let error {
+
+    if let imageCount = DBUserPhotosModel.getUploadedPhotosCount() {
+      let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+      let fileName = "image-\(imageCount)"
+      let fileURL = dir.appendingPathComponent(fileName)
+      let description = parts.filter({ $0.name == "description" }).first?.body.asText
+
+      try imageData.write(to: fileURL, options: .atomic)
+
+      let dbPhoto = DBUserPhotosModel(id: nil,
+                                      userEmail: email,
+                                      photoUri: fileName,
+                                      description: description,
+                                      likeCount: 0,
+                                      timestamp: Date().millisecondsSince1970)
+      dbPhoto.save { result, error in
+        if let error = error {
           print(error)
-        }
-        var valueTuples: [(Column, Any)] = [(userPhotosTable.userEmail, email),
-                                            (userPhotosTable.photoUri, fileName),
-                                            (userPhotosTable.timestamp, Date().millisecondsSince1970)]
-        if let description = description {
-          valueTuples.append((userPhotosTable.description, description))
-        }
-        let insertQuery = Insert(into: userPhotosTable, valueTuples: valueTuples)
-        connection.execute(query: insertQuery) { insertResult in
-          print(insertResult)
-          response.send("Success")
-          next()
+          try? response.send(status: .internalServerError).end(); next()
+        } else if result != nil {
+          try? response.send("Success").end(); next()
         }
       }
     }
@@ -70,11 +60,11 @@ extension Backend {
     do {
       let url = URL(fileURLWithPath: file)
       let image = try Data(contentsOf: url)
-      response.send(data: image); next()
+      try response.send(data: image).end(); next()
     }
     catch let error {
-      response.send("").status(.noContent); next()
       print(error)
+      try response.send(status: .noContent).end(); next()
     }
   }
 }

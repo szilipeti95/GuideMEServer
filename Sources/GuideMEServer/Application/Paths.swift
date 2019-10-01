@@ -26,7 +26,9 @@ class Paths {
   static let approveConversation = "/conversation/approve/:conversationId"
   static let denyConversation = "/conversation/deny/:conversationId"
   static let createConversation = "/conversation/:email"
-
-  //Admin
+  // MARK: Images
+  static let image = "/image"
+  static let imageWithId = "/image/:imageId"
+  // MARK: Admin
   static let shutdown = "/shutdown"
 }
