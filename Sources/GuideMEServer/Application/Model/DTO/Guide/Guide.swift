@@ -14,6 +14,15 @@ class Guide: Codable {
   var to: Int?
   var preferenceType: [Int]
 
+  init(dbGuide: DBGuidesModel, dbCity: DBCitiesModel, prefTypes: [DBGuidePreferencesModel]) {
+    self.city = City(dbCity: dbCity)
+    self.type = dbGuide.type
+    self.from = dbGuide.from
+    self.to = dbGuide.to
+    self.preferenceType = prefTypes.map({ $0.prefTypeId })
+  }
+
+
   init(city: City, type: Int, from: Int?, to: Int?, preferenceType: [Int]) {
     self.city = city
     self.type = type

@@ -29,6 +29,10 @@ class Paths {
   // MARK: Images
   static let image = "/image"
   static let imageWithId = "/image/:imageId"
+  // MARK: Guides
+  static let guidesEmail = "/guides/:email"
+  static let cities = "/cities"
+  static let guide = "/guide"
   // MARK: Admin
   static let shutdown = "/shutdown"
 }

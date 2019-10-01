@@ -66,4 +66,42 @@ extension DBCitiesModel {
     wait.wait()
     return cityWithId
   }
+
+  private struct GetCityCountryFilter: QueryParams {
+    let city: String
+    let country: String
+  }
+
+  public static func getCity(city: String, country: String) -> DBCitiesModel? {
+    let wait = DispatchSemaphore(value: 0)
+    var cityResult: DBCitiesModel?
+
+    let filter = GetCityCountryFilter(city: city, country: country)
+    DBCitiesModel.findAll(matching: filter) { results, error in
+      if let error = error {
+        print(error)
+      } else if let results = results {
+        cityResult = results.first
+      }
+      wait.signal()
+    }
+    wait.wait()
+    return cityResult
+  }
+
+  public static func getCities() -> [DBCitiesModel]? {
+    let wait = DispatchSemaphore(value: 0)
+    var cities: [DBCitiesModel]?
+
+    DBCitiesModel.findAll { results, error in
+      if let error = error {
+        print(error)
+      } else if let results = results {
+        cities = results
+      }
+      wait.signal()
+    }
+    wait.wait()
+    return cities
+  }
 }
