@@ -128,9 +128,9 @@ extension Backend {
                                     timestamp: Date().millisecondsSince1970)
 
     dbPhoto.save { result, error in
-      if var dbUser = DBUserModel.getUserWith(email: email) {
+      if var dbUser = DBUserModel.getUserWith(email: email), let id = dbUser.id {
         dbUser.avatar = fileName
-        dbUser.update(id: dbUser.id) { result, error in
+        dbUser.update(id: id) { result, error in
           response.send("Success")
           next()
         }

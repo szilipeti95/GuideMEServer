@@ -42,8 +42,9 @@ class DBUser : Table {
 
 struct DBUserModel: Model {
   static var tableName = "User"
+  static var idKeypath: IDKeyPath = \DBUserModel.id
 
-  var id: Int
+  var id: Int?
   var username: String
   var password: String
   var salt: String
@@ -75,15 +76,25 @@ extension DBUserModel: TableFinder {
 }
 
 extension DBUserModel {
-  struct Filter: QueryParams {
+  private struct GetUserFilter: QueryParams {
     let email: String
+  }
+
+  private struct GetUsersWithFilter: QueryParams {
+    let firstName: String
+    let lastName: String
+
+    enum CodingKeys: String, CodingKey {
+      case firstName = "first_name"
+      case lastName = "last_name"
+    }
   }
 
   public static func getUserWith(email: String) -> DBUserModel? {
     let wait = DispatchSemaphore(value: 0)
     var userWithEmail: DBUserModel?
 
-    let filter = Filter(email: email)
+    let filter = GetUserFilter(email: email)
     DBUserModel.findAll(matching: filter) { results, error in
       guard let results = results,
         let firstResult = results.first else {
@@ -99,6 +110,25 @@ extension DBUserModel {
 
     wait.wait()
     return userWithEmail
+  }
+
+  public static func getUsersWith(firstName: String, lastName: String) -> [DBUserModel]? {
+    let wait = DispatchSemaphore(value: 0)
+    var users: [DBUserModel]?
+
+    let filter = GetUsersWithFilter(firstName: firstName, lastName: lastName)
+    DBUserModel.findAll(matching: filter) { results, error in
+      if let error = error {
+        print(error)
+      } else if let results = results {
+        users = results
+      }
+      wait.signal()
+      return
+    }
+
+    wait.wait()
+    return users
   }
 
   public static func getOtherUsers(from email: String) -> [DBUserModel]? {
