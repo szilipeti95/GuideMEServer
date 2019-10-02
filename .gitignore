@@ -1,4 +1,8 @@
 /.build
+Packages/
+Package.pins
+Package.resolved
+*.xcodeproj
 
 #built application files
 *.apk

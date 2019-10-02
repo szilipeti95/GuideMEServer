@@ -7,9 +7,9 @@ let package = Package(
     name: "guidemeserver",
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-            .package(url: "https://github.com/IBM-Swift/Kitura.git", from: "2.5.0"),
-            .package(url: "https://github.com/IBM-Swift/Swift-Kuery-ORM.git", from: "0.3.1"),
-            .package(url: "https://github.com/IBM-Swift/SwiftKueryMySQL.git", from: "1.2.0"),
+            .package(url: "https://github.com/IBM-Swift/Kitura.git", from: "2.7.0"),
+            .package(url: "https://github.com/IBM-Swift/Swift-Kuery-ORM.git", from: "0.6.1"),
+            .package(url: "https://github.com/IBM-Swift/SwiftKueryMySQL.git", from: "2.0.0"),
             .package(url: "https://github.com/IBM-Swift/Swift-JWT.git", from: "3.0.0"),
             .package(url: "https://github.com/IBM-Swift/Kitura-WebSocket.git", from: "2.1.1"),
             .package(url: "https://github.com/IBM-Swift/Kitura-Session.git", from: "3.2.0"),

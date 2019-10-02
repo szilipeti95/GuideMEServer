@@ -4,6 +4,7 @@ import Kitura
 import SwiftJWT
 import SwiftKuery
 import SwiftKueryMySQL
+import SwiftKueryORM
 import KituraWebSocket
 import Credentials
 import CredentialsGoogle
@@ -33,8 +34,8 @@ public class Backend {
   public init() throws {
     pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!,
                                       poolOptions: ConnectionPoolOptions(initialCapacity: 10,
-                                                                         maxCapacity: 50,
-                                                                         timeout: 10000))
+                                                                         maxCapacity: 50))
+    Database.default = Database(pool)
     tokenCredentials = Credentials()
     tokenCredentials.register(plugin: CredentialsJWTToken())
     tokenCredentials.register(plugin: CredentialsGoogleToken())
@@ -45,6 +46,8 @@ public class Backend {
   }
 
   func postInit() throws {
+    checkTables()
+
     addAdminRoutes(app: self)
     addAuthRoutes(app: self)
     addUserRoutes(app: self)
@@ -52,7 +55,17 @@ public class Backend {
     addImagesRoutes(app: self)
     addGuideRoutes(app: self)
   }
-  
+
+  private func checkTables() {
+    DBUserModel.tryCreateTableSync()
+    DBUserPhotosModel.tryCreateTableSync()
+    DBMessageModel.tryCreateTableSync()
+    DBConversationModel.tryCreateTableSync()
+    DBCitiesModel.tryCreateTableSync()
+    DBGuidesModel.tryCreateTableSync()
+    DBGuidePreferencesModel.tryCreateTableSync()
+  }
+
   public func run() throws {
     try postInit()
 
@@ -66,43 +79,14 @@ public class Backend {
                                  usingSelfSignedCerts: true)
 
 
-    Kitura.addHTTPServer(onPort: 8004, with: router, withSSL: mySSLConfig)
+    Kitura.addHTTPServer(onPort: 8044, with: router, withSSL: mySSLConfig)
     #else
 
-    Kitura.addHTTPServer(onPort: 8004, with: router)
+    Kitura.addHTTPServer(onPort: 8044, with: router)
     #endif
 
     Kitura.addHTTPServer(onPort: 8084, with: adminRouter)
 
     Kitura.run()
-  }
-
-  func map(dicts: [[String: Any?]], key: String, columns: [String]) -> [[String: Any?]] {
-    var mappedDicts = [[String: Any?]]()
-    var addedString = [Int32]()
-    for dict in dicts {
-      let skey = dict[key] as! Int32
-      print(skey)
-      if !addedString.contains(skey) {
-        var newDict = dict
-        for column in columns {
-          var newArray = [Int]()
-          newArray.append(Int(newDict[column] as! Int32))
-          newDict[column] = newArray
-        }
-        mappedDicts.append(newDict)
-        addedString.append(skey)
-      } else {
-        var appendDict = mappedDicts.first { $0[key] as! Int32 == dict[key] as! Int32 }
-        let index = mappedDicts.index(where: { $0[key] as! Int32 == dict[key] as! Int32  })
-        for column in columns {
-          var newArray = appendDict?[column] as! [Int]
-          newArray.append(Int(dict[column] as! Int32))
-          appendDict?[column] = newArray
-        }
-        mappedDicts[index!] = appendDict!
-      }
-    }
-    return mappedDicts
   }
 }
