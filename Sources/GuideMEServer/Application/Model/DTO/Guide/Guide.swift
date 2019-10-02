@@ -7,42 +7,34 @@
 
 import Foundation
 
-class Guide: Codable {
+struct Guide: Codable {
   var city: City
   var type: Int
   var from: Int?
   var to: Int?
   var preferenceType: [Int]
 
-  init(city: City, type: Int, from: Int?, to: Int?, preferenceType: [Int]) {
-    self.city = city
-    self.type = type
-    self.from = from
-    self.to = to
-    self.preferenceType = preferenceType
+  enum CodingKeys: String, CodingKey {
+    case city
+    case type
+    case from
+    case to
+    case preferenceType = "preference_type"
   }
+}
 
-  convenience init(dict: [String: Any?]) {
-    print("Decoding type")
-    print("\(dict["type"])")
+extension Guide {
+  init(dict: [String: Any?]) {
     let type = Int(dict["type"] as! Int)
     var from: Int? = nil
     var to: Int? = nil
-    print("Decoding from")
-    print("\(dict["from"])")
     if dict["from"] as? Int != nil {
       from = Int(dict["from"] as! Int)
     }
-    print("Decoding to")
-    print("\(dict["to"])")
     if dict["to"] as? Int != nil {
       to = Int(dict["to"] as! Int)
     }
-    print("Decoding city")
-    print("\(dict["city"])")
     let city = City(dict: dict["city"] as! [String: Any?])
-    print("Decoding preference_type")
-    print("\(dict["preference_type"])")
     let preferenceType = dict["preference_type"] as! [Int]
     self.init(city: city,
               type: type,
@@ -52,7 +44,7 @@ class Guide: Codable {
 
   }
 
-  convenience init(dict: [String: Any?], city: City, preferenceType: [Int]) {
+  init(dict: [String: Any?], city: City, preferenceType: [Int]) {
     let type = Int(dict["type"] as! Int32)
     var from: Int? = nil
     var to: Int? = nil
@@ -67,13 +59,14 @@ class Guide: Codable {
               from: from,
               to: to,
               preferenceType: preferenceType)
-    
+
   }
-  enum CodingKeys: String, CodingKey {
-    case city
-    case type
-    case from
-    case to
-    case preferenceType = "preference_type"
+
+  init(dbGuide: DBGuidesModel, dbCity: DBCitiesModel, prefTypes: [DBGuidePreferencesModel]) {
+    self.city = City(dbCity: dbCity)
+    self.type = dbGuide.type
+    self.from = dbGuide.from
+    self.to = dbGuide.to
+    self.preferenceType = prefTypes.map({ $0.prefTypeId })
   }
 }

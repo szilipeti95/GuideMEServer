@@ -18,6 +18,7 @@ class Paths {
   static let userSelfUpdate = "/user/self/update"
   static let userRandom = "/user/random"
   static let usersData = "/users/:email"
+  static let userAvatar = "/user/avatar"
   // MARK: Message
   static let message = "/message/:conversationId"
   static let messagesRead = "/messages/read/:conversationId"
@@ -25,7 +26,13 @@ class Paths {
   static let approveConversation = "/conversation/approve/:conversationId"
   static let denyConversation = "/conversation/deny/:conversationId"
   static let createConversation = "/conversation/:email"
-
-  //Admin
+  // MARK: Images
+  static let image = "/image"
+  static let imageWithId = "/image/:imageId"
+  // MARK: Guides
+  static let guidesEmail = "/guides/:email"
+  static let cities = "/cities"
+  static let guide = "/guide"
+  // MARK: Admin
   static let shutdown = "/shutdown"
 }
