@@ -21,6 +21,13 @@ class Message : Codable {
     self.read = read
   }
 
+  init(dbMessage: DBMessageModel) {
+    self.message = dbMessage.messageBody
+    self.timestamp = dbMessage.timestamp
+    self.sender = dbMessage.senderEmail
+    self.read = dbMessage.read == 1
+  }
+
   convenience init(dict: [String: Any?]) {
     let message = dict[DBMessageColumnNames.messageBody] as! String
     let timestamp = Int(dict[DBMessageColumnNames.timestamp] as! Int64) / 1000

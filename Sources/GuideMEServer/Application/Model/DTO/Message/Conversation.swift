@@ -22,6 +22,14 @@ class Conversation : Codable {
     self.read = read
   }
 
+  init(dbConversation: DBConversationModel, user: User, dbLastMessage: DBMessageModel) {
+    self.id = dbConversation.id ?? -1 // TODO: REMOVE?
+    self.user = user
+    self.lastMessage = Message(dbMessage: dbLastMessage)
+    self.approved = dbConversation.approved == 1
+    self.read = self.lastMessage.read
+  }
+
   enum CodingKeys: String, CodingKey {
     case id
     case user
