@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "guidemeserver::GuideME-Server"
-               BuildableName = "GuideME-Server"
-               BlueprintName = "GuideME-Server"
+               BlueprintIdentifier = "guidemeserver::Application"
+               BuildableName = "Application.framework"
+               BlueprintName = "Application"
                ReferencedContainer = "container:guidemeserver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "guidemeserver::Application"
-               BuildableName = "Application.framework"
-               BlueprintName = "Application"
+               BlueprintIdentifier = "guidemeserver::GuideME-Server"
+               BuildableName = "GuideME-Server"
+               BlueprintName = "GuideME-Server"
                ReferencedContainer = "container:guidemeserver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -59,9 +59,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "guidemeserver::GuideME-Server"
-            BuildableName = "GuideME-Server"
-            BlueprintName = "GuideME-Server"
+            BlueprintIdentifier = "guidemeserver::Application"
+            BuildableName = "Application.framework"
+            BlueprintName = "Application"
             ReferencedContainer = "container:guidemeserver.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

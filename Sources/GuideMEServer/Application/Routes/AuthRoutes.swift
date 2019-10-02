@@ -32,106 +32,64 @@ extension Backend {
     let saltHash = randomString(length: 64)
     let saltArray: Array<UInt8> = Array(saltHash.utf8)
     let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
-    let user = DBUser()
     let username = generateUsernameFromName(firstName: register.firstName, lastName: register.lastName)
     print("Generated username: \(username)")
-    let insertQuery = Insert(into: user, valueTuples: (user.username, username),
-                             (user.password, key),
-                             (user.salt, saltHash),
-                             (user.email, register.email),
-                             (user.firstName, register.firstName),
-                             (user.lastName, register.lastName),
-                             (user.regDate, regDate))
 
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: insertQuery) { insertResult in
-        if let error = insertResult.asError {
-          print(error)
-          respondWith(nil, .internalServerError)
-        } else {
-          respondWith(nil, nil)
-        }
+    let dbUser = DBUserModel(id: nil,
+                             username: username,
+                             password: key,
+                             salt: saltHash,
+                             email: register.email,
+                             firstName: register.firstName,
+                             lastName: register.lastName,
+                             regDate: regDate,
+                             avatar: nil,
+                             backgroundAvatar: nil)
+
+    dbUser.save { result, error in
+      if let error = error {
+        print(error)
+        respondWith(nil, .internalServerError)
+      } else {
+        respondWith(nil, nil)
       }
     }
   }
 
   fileprivate func checkHandler(check: RegisterRequest, respondWith: @escaping (User?, RequestError?) -> Void) {
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email == check.email)
-
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        guard let rowCount = selectResult.getRows?.count else {
-          respondWith(nil, .internalServerError)
-          return
-        }
-        if rowCount == 0 {
-          self.registerHandler(register: check, respondWith: respondWith)
-          return
-        } else {
-          respondWith(nil, nil)
-          return
-        }
-      }
+    if DBUserModel.getUserWith(email: check.email) != nil {
+      respondWith(nil, nil)
+    } else {
+      self.registerHandler(register: check, respondWith: respondWith)
     }
   }
 
   private func generateUsernameFromName(firstName: String, lastName: String) -> String {
-    let userTable = DBUser()
-    var username = "\(firstName.lowercased())_\(lastName.lowercased())"
-    let selectQuery = Select(from: userTable).where(userTable.firstName == firstName && userTable.lastName == userTable.lastName)
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        if let number = selectResult.getRows?.count {
-          username = "\(username)\(number+1)"
-        }
-      }
+    let username = "\(firstName.lowercased())_\(lastName.lowercased())"
+
+    guard let users = DBUserModel.getUsersWith(firstName: firstName, lastName: lastName) else {
+      return username
     }
-    return username
+    return "\(username)\(users.count + 1)"
   }
 
   fileprivate func loginHandler(login: LoginRequest, respondWith: @escaping (LoginResponse?, RequestError?) -> Void) {
     let passwordHash = login.password.sha256()
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
 
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email == login.email)
-
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        print(selectResult)
-        selectResult.asRows { rows, error in
-            guard selectResult.success, let selected = rows?.first else {
-                respondWith(nil, .badRequest)
-                return
-            }
-            print(selected)
-            let userPassword = selected["password"] as! String
-            let userSalt = selected["salt"] as! String
-
-            let saltArray: Array<UInt8> = Array(userSalt.utf8)
-            do {
-                let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
-                if key == userPassword {
-                    var jwt = JWT(header: Header([.typ:"JWT"]),
-                                  claims: Claims([.email: login.email]))
-                    guard let signedJWT = try jwt.sign(using: .rs256(self.privateKey, .privateKey)) else {
-                        respondWith(nil, .internalServerError)
-                        return
-                    }
-                    respondWith(LoginResponse(jwt: signedJWT), nil)
-                } else {
-                    respondWith(nil, .badRequest)
-                    return
-                }
-            } catch _ {
-                respondWith(nil, .internalServerError)
-            }
+    if let user = DBUserModel.getUserWith(email: login.email) {
+      let saltArray: Array<UInt8> = Array(user.salt.utf8)
+      let key = PKCS5.generatePassword(passwordArray: passwordArray, saltArray: saltArray)
+      if key == user.password {
+        var jwt = JWT(header: Header([.typ: "JWT"]), claims: Claims([.email: user.email]))
+        guard let signedJWT = try? jwt.sign(using: .rs256(self.privateKey, .privateKey)),
+          let strongSignedJWT = signedJWT else {
+          respondWith(nil, .internalServerError)
+          return
         }
+        respondWith(LoginResponse(jwt: strongSignedJWT), nil)
+      } else {
+        respondWith(nil, .badRequest)
       }
     }
   }

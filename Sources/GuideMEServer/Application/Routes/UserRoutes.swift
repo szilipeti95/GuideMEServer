@@ -25,193 +25,113 @@ func addUserRoutes(app: Backend) {
   app.router.put(Paths.userSelfUpdate, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.put(Paths.userSelfUpdate, handler: app.updateUserInfoHandler)
 
-  app.router.post("/user/avatar", middleware: BodyParser())
-  app.router.post("/user/avatar", allowPartialMatch: false, middleware: app.tokenCredentials)
-  app.router.post("/user/avatar", handler: app.uploadProfileImage)
-
+  app.router.post(Paths.userAvatar, middleware: BodyParser())
+  app.router.post(Paths.userAvatar, allowPartialMatch: false, middleware: app.tokenCredentials)
+  app.router.post(Paths.userAvatar, handler: app.uploadProfileImage)
 }
 
 extension Backend {
   fileprivate func getUserHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else {
-      return
-    }
+    guard let email = request.authorizedUser else { return }
 
     if let userData = getUserData(for: email) {
-      try? response.send(userData.toJson()).end()
+      try response.send(json: userData).end(); next()
     } else {
-      response.send("").status(.badRequest); next()
-      return
+      try response.send(status: .badRequest).end(); next()
     }
   }
 
   fileprivate func getUsersDataHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard request.authorizedUser != nil else {
-      response.send("").status(.unauthorized); next()
-      return
-    }
+    guard request.authorizedUser != nil else { return }
     guard let email = request.parameters["email"] else {
       response.send("").status(.badRequest); next()
       return
     }
 
     if let userData = getUserData(for: email) {
-      try? response.send(userData.toJson()).end()
+      try response.send(json: userData).end(); next()
     } else {
-      response.send("").status(.badRequest); next()
-      return
+      try response.send(status: .badRequest).end(); next()
     }
   }
 
   internal func getUserData(for email: String) -> User? {
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email == email)
-    var user: User? = nil
+    guard let user = DBUserModel.getUserWith(email: email) else { return nil }
 
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        guard selectResult.success, let selected = selectResult.getRows?.first else {
-          print(selectResult.asError as Any)
-          return
-        }
-        let userResponse = User(dict: selected)
-        let photosTable = DBUserPhotos()
-        let selectPhotosQuery = Select(from: photosTable).where(photosTable.userEmail == email).order(by: .DESC(photosTable.timestamp))
-        connection.execute(query: selectPhotosQuery) { selectPhotosResult in
-          guard let rows = selectPhotosResult.getRows else {
-            return
-          }
-          if rows.count != 0 {
-            var photos = [Photo]()
-            for row in rows {
-              if (row["photo_uri"] as! String).contains("image") {
-                photos.append(Photo(dict: row))
-              }
-            }
-            userResponse.photos = photos
-          }
-          let conversaionTable = DBConversation()
-          let selectFriendsQuery = Select(from: conversaionTable).where((conversaionTable.user1 == email || conversaionTable.user2 == email) &&
-                                                                        conversaionTable.approved == 1)
-          connection.execute(query: selectFriendsQuery) { selectFriendsResult in
-            guard let count = selectFriendsResult.getRows?.count else {
-              return
-            }
-            userResponse.friendCount = count
-          }
-          let citiesTable = DBCities()
-          let guidesTable = DBGuides()
-          let selectLocal = Select(from: guidesTable).leftJoin(citiesTable).on(guidesTable.cityId == citiesTable.citiesId).where(guidesTable.type == 0 && guidesTable.userEmail == email)
-          connection.execute(query: selectLocal) { selectLocalResult in
-            if let rows = selectLocalResult.getRows {
-              if rows.count > 0 {
-                let row = rows[0]
-                let city = City(dict: row)
-                userResponse.local = city
-              }
-            }
+    var userResponse = User(dbUser: user)
+    userResponse.photos = DBUserPhotosModel.getUploadedPhotosFor(userEmail: email)?.map({ Photo(photo: $0) })
+    userResponse.friendCount = DBConversationModel.getFriendCount(for: email)
 
-          }
-          let selectNext = Select(from: guidesTable).leftJoin(citiesTable).on(guidesTable.cityId == citiesTable.citiesId).where(guidesTable.type == 1 && guidesTable.userEmail == email).order(by: .ASC(guidesTable.from))
-          connection.execute(query: selectNext) { selectNextResult in
-            if let rows = selectNextResult.getRows {
-              if rows.count > 0 {
-                let row = rows[0]
-                let city = City(dict: row)
-                userResponse.next = city
-              }
-            }
-          }
-          user = userResponse
-        }
-      }
+    if let selectLocal = DBGuidesModel.getLocalGuide(for: email),
+      let localCity = DBCitiesModel.getCity(with: selectLocal.cityId) {
+      userResponse.local = City(dbCity: localCity)
+
     }
-    return user
+    if let selectNext = DBGuidesModel.getNextGuide(for: email),
+      let nextCity = DBCitiesModel.getCity(with: selectNext.cityId) {
+      userResponse.next = City(dbCity: nextCity)
+    }
+
+    return userResponse
   }
 
   fileprivate func getFourRandomHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let email = request.authorizedUser else {
       return
     }
-    let userTable = DBUser()
-    let selectQuery = Select(from: userTable).where(userTable.email != email)
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        guard let rows = selectResult.getRows else {
-          response.send("").status(.internalServerError); next()
-          return
-        }
-        let length = UInt32(rows.count)
-        var users = [User]()
-        for _ in 1...4 {
-          #if os(Linux)
-          let rand = Int(random() % Int(length))
-          #else
-          let rand =  arc4random_uniform(length)
-          #endif
-          let email = rows[Int(rand)]["email"] as! String
-          if let user = self.getUserData(for: email) {
-            users.append(user)
-          }
-        }
-        guard let jsonData = try? JSONEncoder().encode(users) else {
-          print("Error during JSON decoding")
-          response.send("").status(.internalServerError)
-          next()
-          return
-        }
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        response.send(jsonString)
-        next()
+
+    if let otherUsers = DBUserModel.getOtherUsers(from: email) {
+      let randomNumbers = uniqueRandoms(numberOfRandoms: 4, minNum: 0, maxNum: otherUsers.count - 1)
+      var users = [User]()
+      for index in randomNumbers {
+        let otherUser = otherUsers[index]
+        guard let otherUserData = getUserData(for: otherUser.email) else { return }
+        users.append(otherUserData)
       }
+      try response.send(json: users).end(); next()
+    } else {
+      try response.send(status: .internalServerError).end(); next()
     }
+  }
+
+  fileprivate func uniqueRandoms(numberOfRandoms: Int, minNum: Int, maxNum: Int) -> [Int] {
+    var uniqueNumbers = Set<Int>()
+    while uniqueNumbers.count < numberOfRandoms {
+      #if os(Linux)
+      uniqueNumbers.insert(Int(random() % Int(maxNum+1) + minNum))
+      #else
+      uniqueNumbers.insert(Int(arc4random_uniform(UInt32(maxNum + 1))) + minNum)
+      #endif
+    }
+    return Array(uniqueNumbers)
   }
 
   fileprivate func uploadProfileImage(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let parts = request.body?.asMultiPart,
-      let email = request.authorizedUser else {
+      let email = request.authorizedUser,
+      let imageData = parts.filter({ $0.type.contains("image") }).first?.body.asRaw,
+      let count = DBUserPhotosModel.getUploadedPhotosCount() else {
         return
     }
-    let imagePart = parts.filter { $0.type.contains("image") }.first
-    let descriptionPart = parts.filter { $0.name == "description" }.first
-    let userPhotosTable = DBUserPhotos()
-    let selectQuery = Select(from: userPhotosTable)
-    pool.getConnection() { connection, error in
-      guard let connection = connection else { return }
-      connection.execute(query: selectQuery) { selectResult in
-        guard let count = selectResult.getRows?.count,
-          let data = imagePart?.body.asRaw else {
-            return
-        }
-        let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-        let fileName = "profile-\(email)-\(count)"
-        let fileURL = dir.appendingPathComponent(fileName)
-        let description = descriptionPart?.body.asText
-        do {
-          try data.write(to: fileURL, options: .atomic)
-        }
-        catch let error {
-          print(error)
-        }
-        var valueTuples: [(Column, Any)] = [(userPhotosTable.userEmail, email),
-                                            (userPhotosTable.photoUri, fileName),
-                                            (userPhotosTable.timestamp, Date().millisecondsSince1970)]
-        if let description = description {
-          valueTuples.append((userPhotosTable.description, description))
-        }
-        let insertQuery = Insert(into: userPhotosTable, valueTuples: valueTuples)
-        connection.execute(query: insertQuery) { insertResult in
-          let userTable = DBUser()
-          let tuples: [(Column, Any)] = [(userTable.avatar, fileName)]
-          let updateQuery = Update(userTable, set: tuples).where(userTable.email == email)
-          connection.execute(query: updateQuery) { updateQueryResult in
 
-          }
-          print(insertResult)
-          response.send("Success")
-          next()
+    let description = parts.filter { $0.name == "description" }.first?.body.asText
+    let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+    let fileName = "profile-\(email)-\(count)"
+    let fileURL = dir.appendingPathComponent(fileName)
+    try imageData.write(to: fileURL, options: .atomic)
+
+    let dbPhoto = DBUserPhotosModel(id: nil,
+                                    userEmail: email,
+                                    photoUri: fileName,
+                                    description: description,
+                                    likeCount: 0,
+                                    timestamp: Date().millisecondsSince1970)
+
+    dbPhoto.save { result, error in
+      if var dbUser = DBUserModel.getUserWith(email: email), let id = dbUser.id {
+        dbUser.avatar = fileName
+        dbUser.update(id: id) { result, error in
+          try? response.send("Success").end(); next()
         }
       }
     }
@@ -221,6 +141,6 @@ extension Backend {
     guard let email = request.authorizedUser else {
       return
     }
-    
+    print(email)
   }
 }
