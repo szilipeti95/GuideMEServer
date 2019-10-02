@@ -51,12 +51,12 @@ extension DBConversationModel {
     let approved: Int?
   }
 
-  public static func getConversations(forEmail userEmail: String, approved: Int? = nil) -> [DBConversationModel]? {
+  public static func getConversations(forEmail userEmail: String, otherEmail: String? = nil, approved: Int? = nil) -> [DBConversationModel]? {
     let wait = DispatchSemaphore(value: 0)
     var conversations: [DBConversationModel]?
 
-    let filter1 = Filter(user_1: nil, user_2: userEmail, approved: approved)
-    let filter2 = Filter(user_1: userEmail, user_2: nil, approved: approved)
+    let filter1 = Filter(user_1: otherEmail, user_2: userEmail, approved: approved)
+    let filter2 = Filter(user_1: userEmail, user_2: otherEmail, approved: approved)
     DBConversationModel.findAll(matching: filter1) { results, error in
       if let error = error {
         print(error)
@@ -70,14 +70,18 @@ extension DBConversationModel {
       if let error = error {
         print(error)
       } else if let results = results {
-        conversations?.append(contentsOf: results)
+        if conversations == nil {
+          conversations = results
+        } else {
+          conversations?.append(contentsOf: results)
+        }
       }
       wait.signal()
     }
     wait.wait()
     return conversations
   }
-
+  
   public static func getUnapprovedConversation(conversationId: Int, email: String) -> DBConversationModel? {
     var unapprovedConversation: DBConversationModel?
     let dbConversations = getConversations(forEmail: email, approved: 0)
