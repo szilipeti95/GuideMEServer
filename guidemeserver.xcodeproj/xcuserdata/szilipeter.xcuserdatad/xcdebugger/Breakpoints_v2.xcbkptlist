@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Model/Database/DBUser.swift"
-            timestampString = "562016401.561236"
+            timestampString = "591654154.94345"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "foo()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Sources/GuideMEServer/Application/Routes/AuthRoutes.swift"
-            timestampString = "561897873.629234"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "registerHandler(register:respondWith:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Model/DTO/Message/Message.swift"
-            timestampString = "562012075.4788001"
+            timestampString = "591476279.72291"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
@@ -154,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-            timestampString = "562016401.562862"
+            timestampString = "591624090.804521"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "downloadImage(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,13 +154,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-            timestampString = "562016401.5629309"
+            timestampString = "591624090.804595"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "27"
             endingLineNumber = "27"
             landmarkName = "uploadImage(request:response:next:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Application.Backend.(uploadImage in _2E792D7652BC62B866B86F577180626F)(request: Kitura.RouterRequest, response: Kitura.RouterResponse, next: () -&gt; ()) throws -&gt; ()"
+                  moduleName = "Application"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/szilipeter/Documents/GitHub/GuideMEServer/Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
+                  timestampString = "591653486.299323"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "695">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Kitura.Part) -&gt; Swift.Bool in Application.Backend.(uploadImage in _2E792D7652BC62B866B86F577180626F)(request: Kitura.RouterRequest, response: Kitura.RouterResponse, next: () -&gt; ()) throws -&gt; ()"
+                  moduleName = "Application"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/szilipeter/Documents/GitHub/GuideMEServer/Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
+                  timestampString = "591653486.30151"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "22">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -186,13 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-            timestampString = "562016401.562995"
+            timestampString = "591624090.8046401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "getUploadedImageInfos(request:response:next:)"
-            landmarkType = "7">
+            startingLineNumber = "81"
+            endingLineNumber = "81">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -202,13 +216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-            timestampString = "562016401.563056"
+            timestampString = "591624090.804684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "getUploadedImageInfos(request:response:next:)"
-            landmarkType = "7">
+            startingLineNumber = "81"
+            endingLineNumber = "81">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -218,13 +230,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-            timestampString = "562016401.5631239"
+            timestampString = "591624090.804721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "getUploadedImageInfos(request:response:next:)"
-            landmarkType = "7">
+            startingLineNumber = "81"
+            endingLineNumber = "81">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -234,13 +244,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-            timestampString = "562016401.563205"
+            timestampString = "591624090.80476"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "getUploadedImageInfos(request:response:next:)"
-            landmarkType = "7">
+            startingLineNumber = "81"
+            endingLineNumber = "81">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -250,12 +258,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/GuideRoutes.swift"
-            timestampString = "562016401.563267"
+            timestampString = "591624209.758219"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "getCities(request:response:next:)"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "getGuides(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -266,12 +274,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/GuideRoutes.swift"
-            timestampString = "562016401.5639189"
+            timestampString = "591624209.758274"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "39"
             endingLineNumber = "39"
-            landmarkName = "getGuides(request:response:next:)"
+            landmarkName = "newGetGuides(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -282,12 +290,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/GuideRoutes.swift"
-            timestampString = "562016401.564445"
+            timestampString = "591624209.758317"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
             endingLineNumber = "53"
-            landmarkName = "getGuides(request:response:next:)"
+            landmarkName = "newGetGuides(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -298,12 +306,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/GuideRoutes.swift"
-            timestampString = "562016401.564899"
+            timestampString = "591624209.758359"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
             endingLineNumber = "64"
-            landmarkName = "getGuides(request:response:next:)"
+            landmarkName = "newGetGuides(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -314,12 +322,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/GuideRoutes.swift"
-            timestampString = "562016401.56539"
+            timestampString = "591624209.758401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "70"
             endingLineNumber = "70"
-            landmarkName = "getGuides(request:response:next:)"
+            landmarkName = "newGetGuides(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -330,11 +338,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/ImageRoutes.swift"
-            timestampString = "562016401.565855"
+            timestampString = "591624090.80502"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "downloadImage(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,12 +354,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/GuideRoutes.swift"
-            timestampString = "562016401.565915"
+            timestampString = "591624209.758458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "postGuide(request:response:next:)"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "getGuides(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -362,11 +370,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/MessageRoutes.swift"
-            timestampString = "562016401.566393"
+            timestampString = "591638580.337672"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "createConversation(request:response:next:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -378,12 +386,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sources/GuideMEServer/Application/Routes/MessageRoutes.swift"
-            timestampString = "562016401.566702"
+            timestampString = "591638580.3377351"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "createConversation(request:response:next:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;SwiftKuery.ConnectionPoolConnection&gt;, Swift.Optional&lt;SwiftKuery.QueryError&gt;) -&gt; () in Application.Backend.(createConversation in _486FB8CD2F55952C20FF1CFE876B8B7D)(request: Kitura.RouterRequest, response: Kitura.RouterResponse, next: () -&gt; ()) throws -&gt; ()"
+                  moduleName = "Application"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/szilipeter/Documents/GitHub/GuideMEServer/Sources/GuideMEServer/Application/Routes/MessageRoutes.swift"
+                  timestampString = "591653486.315915"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "273"
+                  endingLineNumber = "273"
+                  offsetFromSymbolStart = "605">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (SwiftKuery.QueryResult) -&gt; () in closure #1 (Swift.Optional&lt;SwiftKuery.ConnectionPoolConnection&gt;, Swift.Optional&lt;SwiftKuery.QueryError&gt;) -&gt; () in Application.Backend.(createConversation in _486FB8CD2F55952C20FF1CFE876B8B7D)(request: Kitura.RouterRequest, response: Kitura.RouterResponse, next: () -&gt; ()) throws -&gt; ()"
+                  moduleName = "Application"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/szilipeter/Documents/GitHub/GuideMEServer/Sources/GuideMEServer/Application/Routes/MessageRoutes.swift"
+                  timestampString = "591653486.3185329"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "274"
+                  endingLineNumber = "274"
+                  offsetFromSymbolStart = "290">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sources/GuideMEServer/Application/Model/Database/DBUserPhotos.swift"
+            timestampString = "591653747.937727"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "getUploadedPhotosFor(userEmail:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sources/GuideMEServer/Application/Model/Database/DBUser.swift"
+            timestampString = "591654154.9438519"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "getOtherUsers(from:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
