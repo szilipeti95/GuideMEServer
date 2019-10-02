@@ -81,7 +81,7 @@ extension Backend {
                                   type: guide.type,
                                   from: nil, to: nil)
       if dbGuide.type == 1 {
-        guard let from = dbGuide.from, let to = dbGuide.to else {
+        guard let from = guide.from, let to = guide.to else {
           try response.send(status: .badRequest).end(); next()
           return
         }
@@ -95,6 +95,7 @@ extension Backend {
             let dbPrefType = DBGuidePreferencesModel(id: nil, guideId: guideId, prefTypeId: prefType)
             dbPrefType.save { result, error in }
           }
+          try? response.send(status: .OK).end(); next()
         } else {
           try? response.send(status: .internalServerError).end(); next()
         }
@@ -119,7 +120,7 @@ extension Backend {
       let updatedGuide = DBGuidesModel(guideId: dbGuideId,
                                        userEmail: email,
                                        cityId: dbCity.citiesId,
-                                       type: guide.type, from: nil, to: nil)
+                                       type: dbGuide.type, from: dbGuide.from, to: dbGuide.to)
       if let from = guide.from, let to = guide.to { guide.from = from*1000; guide.to = to*1000 }
       updatedGuide.update(id: dbGuideId) { result, error in
         guard error == nil,

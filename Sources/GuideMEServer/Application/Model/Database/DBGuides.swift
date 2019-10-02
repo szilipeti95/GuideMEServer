@@ -31,6 +31,7 @@ class DBGuides: Table {
 
 struct DBGuidesModel: Model {
   static var tableName = "Guides"
+  static var idColumnName = "guide_id"
   static var idKeypath: IDKeyPath = \DBGuidesModel.guideId
 
   var guideId: Int?

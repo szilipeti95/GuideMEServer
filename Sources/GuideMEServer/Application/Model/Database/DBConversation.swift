@@ -28,6 +28,7 @@ class DBConversation: Table {
 
 struct DBConversationModel: Model {
   static var tableName = "Conversation"
+  static var idColumnName = "conversation_id"
   static var idKeypath = \DBConversationModel.id
 
   var id: Int?
