@@ -5,25 +5,8 @@
 //  Created by Szili Péter on 2019. 09. 29..
 //
 
-import Foundation
-import Kitura
 import SwiftKuery
 import SwiftKueryORM
-import SwiftKueryMySQL
-
-extension QueryResult {
-  var getRows: [[String: Any?]]? {
-//    let wait = DispatchSemaphore(value: 0)
-    var rows: [[String: Any?]]?
-    asRows { rowsResult, error in
-      rows = rowsResult
-//      wait.signal()
-      return
-    }
-//    wait.wait()
-    return rows
-  }
-}
 
 enum PSKueryException: Error {
   case noColumnExists(named: String)
@@ -35,9 +18,18 @@ extension Table {
   }
 }
 
+extension Model {
+  public static func tryCreateTableSync() {
+    do {
+      try createTableSync()
+    } catch let error {
+      print(error)
+    }
+  }
+}
+
 protocol TableFinder {
   associatedtype CodingEnum: (CodingKey)
-
   static func getColumn(_ enumValue: CodingEnum) throws -> Column
 }
 

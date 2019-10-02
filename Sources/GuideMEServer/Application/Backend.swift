@@ -57,34 +57,13 @@ public class Backend {
   }
 
   private func checkTables() {
-    do {
-      try DBUserModel.createTableSync()
-    } catch let error {
-      print(error)
-    }
-
-    do {
-//      try User.createTableSync()
-      try DBUserPhotosModel.createTableSync()
-    } catch let error {
-      print(error)
-    }
-
-    do {
-      try DBConversationModel.createTableSync()
-    } catch let error {
-      print(error)
-    }
-    do {
-      try DBCitiesModel.createTableSync()
-    } catch let error {
-      print(error)
-    }
-    do {
-      try DBGuidesModel.createTableSync()
-    } catch let error {
-      print(error)
-    }
+    DBUserModel.tryCreateTableSync()
+    DBUserPhotosModel.tryCreateTableSync()
+    DBMessageModel.tryCreateTableSync()
+    DBConversationModel.tryCreateTableSync()
+    DBCitiesModel.tryCreateTableSync()
+    DBGuidesModel.tryCreateTableSync()
+    DBGuidePreferencesModel.tryCreateTableSync()
   }
 
   public func run() throws {
@@ -109,47 +88,5 @@ public class Backend {
     Kitura.addHTTPServer(onPort: 8084, with: adminRouter)
 
     Kitura.run()
-  }
-
-  func startConnection(response: RouterResponse, _  closure: @escaping ((ConnectionPoolConnection) -> Void)) {
-    pool.getConnection { connection, error in
-      if let error = error {
-        print(error)
-        response.send(nil).status(.internalServerError)
-      } else if let connection = connection {
-        closure(connection)
-      } else {
-        response.send(nil).status(.internalServerError)
-      }
-    }
-  }
-
-  func map(dicts: [[String: Any?]], key: String, columns: [String]) -> [[String: Any?]] {
-    var mappedDicts = [[String: Any?]]()
-    var addedString = [Int32]()
-    for dict in dicts {
-      let skey = dict[key] as! Int32
-      print(skey)
-      if !addedString.contains(skey) {
-        var newDict = dict
-        for column in columns {
-          var newArray = [Int]()
-          newArray.append(Int(newDict[column] as! Int32))
-          newDict[column] = newArray
-        }
-        mappedDicts.append(newDict)
-        addedString.append(skey)
-      } else {
-        var appendDict = mappedDicts.first { $0[key] as! Int32 == dict[key] as! Int32 }
-        let index = mappedDicts.index(where: { $0[key] as! Int32 == dict[key] as! Int32  })
-        for column in columns {
-          var newArray = appendDict?[column] as! [Int]
-          newArray.append(Int(dict[column] as! Int32))
-          appendDict?[column] = newArray
-        }
-        mappedDicts[index!] = appendDict!
-      }
-    }
-    return mappedDicts
   }
 }

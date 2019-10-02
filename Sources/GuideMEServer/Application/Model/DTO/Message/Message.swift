@@ -46,17 +46,3 @@ class Message : Codable {
     case read
   }
 }
-
-extension Message {
-  static func arrayFrom(queryResult: QueryResult) -> [Message]? {
-    guard let rows = queryResult.getRows else {
-      return nil
-    }
-    var messageArray = [Message]()
-    for row in rows {
-      let message = Message(dict: row)
-      messageArray.append(message)
-    }
-    return messageArray
-  }
-}
