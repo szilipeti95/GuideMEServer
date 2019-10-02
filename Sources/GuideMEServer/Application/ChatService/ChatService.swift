@@ -66,7 +66,8 @@ public class ChatService: WebSocketService {
       for connectionData in receivers {
         let message = ServiceObject(type: MessageType.becameOffline.rawValue,
                                     sender: senderEmail,
-                                    timestamp: Int(Date().timeIntervalSince1970))
+                                    timestamp: Int(Date().timeIntervalSince1970),
+                                    payload: nil)
         if let data = try? JSONEncoder().encode(message) {
           connectionData.connection.send(message: data)
         }
@@ -121,7 +122,8 @@ public class ChatService: WebSocketService {
     let onlineFriendsData = getOnlineFriends(forEmail: email)
     let serviceObject = ServiceObject(type: MessageType.becomeOnline.rawValue,
                                       sender: email,
-                                      timestamp: Int(Date().timeIntervalSince1970))
+                                      timestamp: Int(Date().timeIntervalSince1970),
+                                      payload: nil)
     guard let serviceData = try? JSONEncoder().encode(serviceObject) else {
       return
     }
@@ -132,9 +134,10 @@ public class ChatService: WebSocketService {
 
   private func onlinePeopleHandler(email: String, from connection: WebSocketConnection) {
     let onlineFriendsData = getOnlineFriends(forEmail: email)
-    let responseObject = ServiceObject(type: MessageType.onlinePeople.rawValue,
+    var responseObject = ServiceObject(type: MessageType.onlinePeople.rawValue,
                                        sender: email,
-                                       timestamp: Int(Date().timeIntervalSince1970))
+                                       timestamp: Int(Date().timeIntervalSince1970),
+                                       payload: nil)
     responseObject.payload = generatePayloadString(array: onlineFriendsData)
     guard let responseData = try? JSONEncoder().encode(responseObject) else {
       return
@@ -163,7 +166,8 @@ public class ChatService: WebSocketService {
     let otherConnectionData = getConnectionByEmail(email: otherEmail)
     let serviceObject = ServiceObject(type: MessageType.openedChat.rawValue,
                                       sender: senderEmail,
-                                      timestamp: Int(Date().timeIntervalSince1970))
+                                      timestamp: Int(Date().timeIntervalSince1970),
+                                      payload: nil)
     if let serviceData = try? JSONEncoder().encode(serviceObject) {
       otherConnectionData?.connection.send(message: serviceData)
     }
@@ -177,7 +181,8 @@ public class ChatService: WebSocketService {
     let otherConnectionData = getConnectionByEmail(email: otherEmail)
     let serviceObject = ServiceObject(type: MessageType.startedWriting.rawValue,
                                       sender: senderEmail,
-                                      timestamp: Int(Date().timeIntervalSince1970))
+                                      timestamp: Int(Date().timeIntervalSince1970),
+                                      payload: nil)
     if let data = try? JSONEncoder().encode(serviceObject) {
       otherConnectionData?.connection.send(message: data)
     }
@@ -192,7 +197,8 @@ public class ChatService: WebSocketService {
     let otherConnectionData = getConnectionByEmail(email: otherEmail)
     let serviceObject = ServiceObject(type: MessageType.stoppedWriting.rawValue,
                                       sender: senderEmail,
-                                      timestamp: Int(Date().timeIntervalSince1970))
+                                      timestamp: Int(Date().timeIntervalSince1970),
+                                      payload: nil)
     if let data = try? JSONEncoder().encode(serviceObject) {
       otherConnectionData?.connection.send(message: data)
     }
@@ -210,7 +216,8 @@ public class ChatService: WebSocketService {
     let otherConnectionData = getConnectionByEmail(email: otherEmail)
     let serviceObject = ServiceObject(type: MessageType.closedChat.rawValue,
                                       sender: senderEmail,
-                                      timestamp: Int(Date().timeIntervalSince1970))
+                                      timestamp: Int(Date().timeIntervalSince1970),
+                                      payload: nil)
     if let data = try? JSONEncoder().encode(serviceObject) {
       otherConnectionData?.connection.send(message: data)
     }
@@ -240,7 +247,10 @@ public class ChatService: WebSocketService {
     }
     
     if let connectionData = otherConnectionData {
-      let serviceObject = ServiceObject(type: MessageType.wroteMessage.rawValue, sender: senderEmail, timestamp: Int(Date().timeIntervalSince1970))
+      var serviceObject = ServiceObject(type: MessageType.wroteMessage.rawValue,
+                                        sender: senderEmail,
+                                        timestamp: Int(Date().timeIntervalSince1970),
+                                        payload: nil)
       serviceObject.payload = message
       if let data = try? JSONEncoder().encode(serviceObject) {
         connectionData.connection.send(message: data)

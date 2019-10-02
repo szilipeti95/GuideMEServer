@@ -7,12 +7,8 @@
 
 import Foundation
 
-class LoginResponse: Codable {
+struct LoginResponse: Codable {
   var jwt: String
-
-  init(jwt: String) {
-    self.jwt = jwt
-  }
 
   enum CodingKeys: String, CodingKey {
     case jwt

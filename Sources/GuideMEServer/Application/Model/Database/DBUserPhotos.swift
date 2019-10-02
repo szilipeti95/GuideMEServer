@@ -9,25 +9,6 @@ import Foundation
 import SwiftKuery
 import SwiftKueryORM
 
-struct DBUserPhotosColumnNames {
-  static let userphotoId = "userphoto_id"
-  static let userEmail = "user_email"
-  static let photoUri = "photo_uri"
-  static let description = "description"
-  static let likeCount = "like_count"
-  static let timestamp = "timestamp"
-}
-
-class DBUserPhotos: Table {
-  let tableName = "UserPhotos"
-  let id = Column(DBUserPhotosColumnNames.userphotoId, Int32.self, primaryKey: true, notNull: true)
-  let userEmail = Column(DBUserPhotosColumnNames.userEmail, String.self, notNull: true)
-  let photoUri = Column(DBUserPhotosColumnNames.photoUri, String.self, notNull: true)
-  let description = Column(DBUserPhotosColumnNames.description, String.self, notNull: false)
-  let likeCount = Column(DBUserPhotosColumnNames.likeCount, Int64.self, notNull: true)
-  let timestamp = Column(DBUserPhotosColumnNames.timestamp, Int64.self, notNull: true)
-}
-
 struct DBUserPhotosModel: Model {
   static var tableName = "UserPhotos"
   static var idColumnName = "userphoto_id"
@@ -42,6 +23,7 @@ struct DBUserPhotosModel: Model {
   var timestamp: Int
 
   enum CodingKeys: String, CodingKey {
+    case id = "userphoto_id"
     case userEmail = "user_email"
     case photoUri = "photo_uri"
     case description
@@ -51,30 +33,22 @@ struct DBUserPhotosModel: Model {
 }
 
 extension DBUserPhotosModel {
-  struct Filter: QueryParams {
+  private struct PhotoUserFilter: QueryParams {
     let user_email: String
   }
 
   public static func getUploadedPhotosFor(userEmail: String) -> [DBUserPhotosModel]? {
     let wait = DispatchSemaphore(value: 0)
     var photosForUser: [DBUserPhotosModel]?
-    //TODO: Select(from: photosTable).where(photosTable.userEmail == email).order(by: .DESC(photosTable.timestamp))
-    //    let query = Select(from: table).where("\(CodingKeys.userEmail.rawValue) = \(userEmail)")
-    let filter = Filter(user_email: userEmail)
+
+    let filter = PhotoUserFilter(user_email: userEmail)
     DBUserPhotosModel.findAll(matching: filter) { results, error in
-      guard let results = results else {
-        wait.signal()
-        return
+      if let error = error {
+        print(error)
       }
-
-      photosForUser = results.filter { $0.photoUri.contains("image") }
+      photosForUser = results?.filter { $0.photoUri.contains("image") }
       wait.signal()
-      return
     }
-
-    //    DBUserPhotosModel.executeQuery(query: query) { results, error in
-    //
-    //    }
     wait.wait()
     return photosForUser
   }
@@ -96,19 +70,4 @@ extension DBUserPhotosModel {
     wait.wait()
     return count
   }
-}
-
-extension DBUserPhotos {
-  /*
-   class func createUpdateUser(fromJson: [String: Any], with oldUser: DBUser) -> [(Column, Any)] {
-   let user = DBUser()
-   return [(user.username, fromJson["username"]),
-   (user.password, fromJson["password"]),
-   (user.email, fromJson["email"]),
-   (user.firstName, fromJson["first_name"]),
-   (user.lastLame, fromJson["last_name"]),
-   (user.avatar, fromJson["avatar"]),
-   (user.backgroundAvatar, fromJson["background_avatar"])]
-   }
-   */
 }

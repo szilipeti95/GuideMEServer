@@ -112,7 +112,7 @@ extension Backend {
         return
     }
 
-    let guide = Guide(dict: data)
+    var guide = Guide(dict: data)
 
     if let dbCity = DBCitiesModel.getCity(city: guide.city.city, country: guide.city.country),
       let dbGuide = DBGuidesModel.getGuides(for: email, cityId: dbCity.citiesId)?.first,
@@ -121,7 +121,7 @@ extension Backend {
                                        userEmail: email,
                                        cityId: dbCity.citiesId,
                                        type: dbGuide.type, from: dbGuide.from, to: dbGuide.to)
-      if let from = guide.from, let to = guide.to { guide.from = from*1000; guide.to = to*1000 }
+      if let from = guide.from, let to = guide.to { guide.from = from * 1000; guide.to = to * 1000 }
       updatedGuide.update(id: dbGuideId) { result, error in
         guard error == nil,
               DBGuidePreferencesModel.deleteAll(guideId: dbGuideId) == nil else {

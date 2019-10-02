@@ -46,7 +46,7 @@ struct DBConversationModel: Model {
 }
 
 extension DBConversationModel {
-  struct Filter: QueryParams {
+  private struct ConversationFilter: QueryParams {
     let user_1: String?
     let user_2: String?
     let approved: Int?
@@ -56,8 +56,8 @@ extension DBConversationModel {
     let wait = DispatchSemaphore(value: 0)
     var conversations: [DBConversationModel]?
 
-    let filter1 = Filter(user_1: otherEmail, user_2: userEmail, approved: approved)
-    let filter2 = Filter(user_1: userEmail, user_2: otherEmail, approved: approved)
+    let filter1 = ConversationFilter(user_1: otherEmail, user_2: userEmail, approved: approved)
+    let filter2 = ConversationFilter(user_1: userEmail, user_2: otherEmail, approved: approved)
     DBConversationModel.findAll(matching: filter1) { results, error in
       if let error = error {
         print(error)

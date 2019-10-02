@@ -42,7 +42,7 @@ struct DBCitiesModel: Model {
 }
 
 extension DBCitiesModel {
-  private struct Filter: QueryParams {
+  private struct GetCityFilter: QueryParams {
     let cities_id: Int
   }
 
@@ -50,17 +50,14 @@ extension DBCitiesModel {
     let wait = DispatchSemaphore(value: 0)
     var cityWithId: DBCitiesModel?
 
-    let filter = Filter(cities_id: cityId)
+    let filter = GetCityFilter(cities_id: cityId)
     DBCitiesModel.findAll(matching: filter) { results, error in
-      guard let results = results,
-        let firstResult = results.first else {
-          print(error)
-          wait.signal()
-          return
+      if let error = error {
+        print(error)
+      } else if let results = results {
+        cityWithId = results.first
       }
-      cityWithId = firstResult
       wait.signal()
-      return
     }
 
     wait.wait()

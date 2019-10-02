@@ -7,31 +7,24 @@
 
 import Foundation
 
-class Guide: Codable {
+struct Guide: Codable {
   var city: City
   var type: Int
   var from: Int?
   var to: Int?
   var preferenceType: [Int]
 
-  init(dbGuide: DBGuidesModel, dbCity: DBCitiesModel, prefTypes: [DBGuidePreferencesModel]) {
-    self.city = City(dbCity: dbCity)
-    self.type = dbGuide.type
-    self.from = dbGuide.from
-    self.to = dbGuide.to
-    self.preferenceType = prefTypes.map({ $0.prefTypeId })
+  enum CodingKeys: String, CodingKey {
+    case city
+    case type
+    case from
+    case to
+    case preferenceType = "preference_type"
   }
+}
 
-
-  init(city: City, type: Int, from: Int?, to: Int?, preferenceType: [Int]) {
-    self.city = city
-    self.type = type
-    self.from = from
-    self.to = to
-    self.preferenceType = preferenceType
-  }
-
-  convenience init(dict: [String: Any?]) {
+extension Guide {
+  init(dict: [String: Any?]) {
     let type = Int(dict["type"] as! Int)
     var from: Int? = nil
     var to: Int? = nil
@@ -51,7 +44,7 @@ class Guide: Codable {
 
   }
 
-  convenience init(dict: [String: Any?], city: City, preferenceType: [Int]) {
+  init(dict: [String: Any?], city: City, preferenceType: [Int]) {
     let type = Int(dict["type"] as! Int32)
     var from: Int? = nil
     var to: Int? = nil
@@ -66,13 +59,14 @@ class Guide: Codable {
               from: from,
               to: to,
               preferenceType: preferenceType)
-    
+
   }
-  enum CodingKeys: String, CodingKey {
-    case city
-    case type
-    case from
-    case to
-    case preferenceType = "preference_type"
+
+  init(dbGuide: DBGuidesModel, dbCity: DBCitiesModel, prefTypes: [DBGuidePreferencesModel]) {
+    self.city = City(dbCity: dbCity)
+    self.type = dbGuide.type
+    self.from = dbGuide.from
+    self.to = dbGuide.to
+    self.preferenceType = prefTypes.map({ $0.prefTypeId })
   }
 }

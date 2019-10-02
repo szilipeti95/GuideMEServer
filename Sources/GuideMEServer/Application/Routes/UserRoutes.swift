@@ -141,6 +141,6 @@ extension Backend {
     guard let email = request.authorizedUser else {
       return
     }
-    
+    print(email)
   }
 }

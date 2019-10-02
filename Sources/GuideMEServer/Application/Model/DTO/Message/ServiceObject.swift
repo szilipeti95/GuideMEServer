@@ -7,22 +7,16 @@
 
 import Foundation
 
-class ServiceObject: Codable {
+struct ServiceObject: Codable {
   var type: String
   var sender: String
   var timestamp: Int
   var payload: String?
 
   var description: String {
-    return "type: \(type) sender: \(sender) timestamp: \(timestamp) payload: \(payload)"
+    return "type: \(type) sender: \(sender) timestamp: \(timestamp) payload: \(payload ?? "empty")"
   }
-
-  init(type: String, sender: String, timestamp: Int) {
-    self.type = type
-    self.sender = sender
-    self.timestamp = timestamp
-  }
-
+  
   enum CodingKeys: String, CodingKey {
     case type
     case sender
