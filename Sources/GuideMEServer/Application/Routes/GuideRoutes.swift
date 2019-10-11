@@ -40,10 +40,10 @@ extension Backend {
 
     if let dbGuides = DBGuidesModel.getGuides(for: email) {
       var guides: [GuideDTO] = []
-      for guide in dbGuides {
-        let dbGuidePrefs = DBGuidePreferencesModel.getPreferences(guideId: guide.guideId) ?? []
-        if let dbCity = DBCitiesModel.getCity(with: guide.cityId) {
-          guides.append(GuideDTO(dbGuide: guide, dbCity: dbCity, prefTypes: dbGuidePrefs))
+      try dbGuides.forEach { dbGuide in
+        let dbGuidePrefs = DBGuidePreferencesModel.getPreferences(guideId: dbGuide.guideId) ?? []
+        if let dbCity = DBCitiesModel.getCity(with: dbGuide.cityId) {
+          guides.append(GuideDTO(dbGuide: dbGuide, dbCity: dbCity, prefTypes: dbGuidePrefs))
         } else {
           try response.send(status: .internalServerError).end(); next()
           return
@@ -90,7 +90,7 @@ extension Backend {
 
       dbGuide.save { (guideId: Int?, result: DBGuidesModel?, error: RequestError?) in
         if let guideId = guideId {
-          for prefType in guide.preferenceType {
+          guide.preferenceType.forEach { prefType in
             let dbPrefType = DBGuidePreferencesModel(id: nil, guideId: guideId, prefTypeId: prefType)
             dbPrefType.save { result, error in }
           }
@@ -125,7 +125,7 @@ extension Backend {
           try? response.send(status: .internalServerError).end(); next()
           return
         }
-        for prefType in guide.preferenceType {
+        guide.preferenceType.forEach { prefType in
           let dbPrefType = DBGuidePreferencesModel(id: nil, guideId: dbGuideId, prefTypeId: prefType)
           dbPrefType.save { result, error in }
         }

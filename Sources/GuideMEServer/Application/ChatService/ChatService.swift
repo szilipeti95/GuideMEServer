@@ -63,11 +63,11 @@ public class ChatService: WebSocketService {
     let receivers = getOnlineFriends(forEmail: senderEmail)
     lockConnectionsLock()
     if connections.removeValue(forKey: connection.id) != nil {
-      for connectionData in receivers {
+      receivers.forEach { connectionData in
         let message = ServiceObjectDTO(type: MessageType.becameOffline.rawValue,
-                                    sender: senderEmail,
-                                    timestamp: Int(Date().timeIntervalSince1970),
-                                    payload: nil)
+                                       sender: senderEmail,
+                                       timestamp: Int(Date().timeIntervalSince1970),
+                                       payload: nil)
         if let data = try? JSONEncoder().encode(message) {
           connectionData.connection.send(message: data)
         }
@@ -127,7 +127,7 @@ public class ChatService: WebSocketService {
     guard let serviceData = try? JSONEncoder().encode(serviceObject) else {
       return
     }
-    for connectionData in onlineFriendsData {
+    onlineFriendsData.forEach { connectionData in
       connectionData.connection.send(message: serviceData)
     }
   }
@@ -262,7 +262,7 @@ public class ChatService: WebSocketService {
 
   public func echo(message: String) {
     lockConnectionsLock()
-    for connection in connections {
+    connections.forEach { connection in
       connection.value.connection.send(message: message)
     }
     unlockConnectionsLock()
@@ -296,14 +296,11 @@ public class ChatService: WebSocketService {
 
   private func getConnectionByEmail(email: String) -> ChatConnectionData? {
     lockConnectionsLock()
-    for data in connections {
-      if email == data.value.email {
-        unlockConnectionsLock()
-        return data.value
-      }
-    }
+    let chatConnection = connections.first { (key: String, connection: ChatConnectionData) -> Bool in
+      connection.email == email
+    }?.value
     unlockConnectionsLock()
-    return nil
+    return chatConnection
   }
 
   public func lockConnectionsLock() {

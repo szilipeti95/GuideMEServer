@@ -69,7 +69,7 @@ extension Backend {
 
     if let dbConversations = DBConversationModel.getConversations(forEmail: email, approved: nil) {
       var conversations: [ConversationDTO] = []
-      for dbConversation in dbConversations {
+      try dbConversations.forEach { dbConversation in
         let otherEmail = dbConversation.user1 == email ? dbConversation.user2 : dbConversation.user1
         guard let otherUser = self.getUserData(for: otherEmail),
           let conversationId = dbConversation.id,

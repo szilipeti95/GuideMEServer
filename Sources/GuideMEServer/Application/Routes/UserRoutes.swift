@@ -83,8 +83,8 @@ extension Backend {
     if let otherUsers = DBUserModel.getOtherUsers(from: email) {
       let randomNumbers = uniqueRandoms(numberOfRandoms: 4, minNum: 0, maxNum: otherUsers.count - 1)
       var users = [UserDTO]()
-      for index in randomNumbers {
-        let otherUser = otherUsers[index]
+      randomNumbers.forEach { randomNumber in
+        let otherUser = otherUsers[randomNumber]
         guard let otherUserData = getUserData(for: otherUser.email) else { return }
         users.append(otherUserData)
       }
