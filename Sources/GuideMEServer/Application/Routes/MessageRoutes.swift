@@ -68,7 +68,7 @@ extension Backend {
     }
 
     if let dbConversations = DBConversationModel.getConversations(forEmail: email, approved: nil) {
-      var conversations: [Conversation] = []
+      var conversations: [ConversationDTO] = []
       for dbConversation in dbConversations {
         let otherEmail = dbConversation.user1 == email ? dbConversation.user2 : dbConversation.user1
         guard let otherUser = self.getUserData(for: otherEmail),
@@ -77,7 +77,7 @@ extension Backend {
             try response.send(status: .internalServerError).end(); next()
             return
         }
-        let conversation = Conversation(dbConversation: dbConversation, user: otherUser, dbLastMessage: lastMessage)
+        let conversation = ConversationDTO(dbConversation: dbConversation, user: otherUser, dbLastMessage: lastMessage)
         conversations.append(conversation)
       }
       conversations.sort(by: { $0.lastMessage.timestamp > $1.lastMessage.timestamp })
@@ -146,7 +146,7 @@ extension Backend {
       return
     }
     guard let otherEmail = request.parameters["email"],
-      let message: Message = request.body?.asObject() else {
+      let message: MessageDTO = request.body?.asObject() else {
         response.send("").status(.badRequest); next()
         return
     }

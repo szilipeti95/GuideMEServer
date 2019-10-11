@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RegisterRequest: Codable {
+struct RegisterRequestDTO: Codable {
   var firstName: String
   var lastName: String
   var email: String
@@ -21,7 +21,7 @@ struct RegisterRequest: Codable {
   }
 }
 
-extension RegisterRequest {
+extension RegisterRequestDTO {
   var isValid: Bool {
     get {
       if firstName.isEmpty ||

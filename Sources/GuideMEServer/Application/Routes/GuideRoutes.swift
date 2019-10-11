@@ -39,11 +39,11 @@ extension Backend {
     }
 
     if let dbGuides = DBGuidesModel.getGuides(for: email) {
-      var guides: [Guide] = []
+      var guides: [GuideDTO] = []
       for guide in dbGuides {
         let dbGuidePrefs = DBGuidePreferencesModel.getPreferences(guideId: guide.guideId) ?? []
         if let dbCity = DBCitiesModel.getCity(with: guide.cityId) {
-          guides.append(Guide(dbGuide: guide, dbCity: dbCity, prefTypes: dbGuidePrefs))
+          guides.append(GuideDTO(dbGuide: guide, dbCity: dbCity, prefTypes: dbGuidePrefs))
         } else {
           try response.send(status: .internalServerError).end(); next()
           return
@@ -61,14 +61,14 @@ extension Backend {
       try response.send(status: .internalServerError).end(); next()
       return
     }
-    let cities = dbCities.map({ City(dbCity: $0) })
+    let cities = dbCities.map({ CityDTO(dbCity: $0) })
     try response.send(json: cities).end(); next()
   }
 
 
   fileprivate func postGuide(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let email = request.authorizedUser,
-      let guide: Guide = request.body?.asObject() else {
+      let guide: GuideDTO = request.body?.asObject() else {
       response.send("").status(.unauthorized); next()
       return
     }
@@ -106,7 +106,7 @@ extension Backend {
 
   fileprivate func putGuide(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let email = request.authorizedUser,
-      let guide: Guide = request.body?.asObject() else {
+      let guide: GuideDTO = request.body?.asObject() else {
         response.send("").status(.unauthorized); next()
         return
     }
@@ -138,7 +138,7 @@ extension Backend {
 
   fileprivate func deleteGuide(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let email = request.authorizedUser,
-      let city: City = request.body?.asObject() else {
+      let city: CityDTO = request.body?.asObject() else {
         response.send("").status(.unauthorized); next()
         return
     }

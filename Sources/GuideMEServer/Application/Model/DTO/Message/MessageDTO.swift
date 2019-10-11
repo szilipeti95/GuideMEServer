@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import SwiftKuery
 
-struct Message: Codable {
+struct MessageDTO: Codable {
   var message: String
   var timestamp: Int
   var sender: String
@@ -20,7 +19,7 @@ struct Message: Codable {
   }
 }
 
-extension Message {
+extension MessageDTO {
   init(dbMessage: DBMessageModel) {
     self.message = dbMessage.messageBody
     self.timestamp = dbMessage.timestamp / 1000

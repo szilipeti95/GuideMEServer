@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CheckRequest: Codable {
+struct CheckRequestDTO: Codable {
   var email: String
 
   enum CodingKeys: String, CodingKey {

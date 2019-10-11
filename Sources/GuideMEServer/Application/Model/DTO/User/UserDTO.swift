@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Codable {
+struct UserDTO: Codable {
   var username: String
   var email: String
   var firstName: String
@@ -15,10 +15,10 @@ struct User: Codable {
   var regDate: Int
   var avatar: String?
   var backgroundAvatar: String?
-  var photos: [Photo]?
+  var photos: [PhotoDTO]?
   var bio: String?
-  var local: City?
-  var next: City?
+  var local: CityDTO?
+  var next: CityDTO?
   var friendCount: Int
 
   enum CodingKeys: String, CodingKey {
@@ -37,7 +37,7 @@ struct User: Codable {
   }
 }
 
-extension User {
+extension UserDTO {
   init(dbUser: DBUserModel) {
     self.username = dbUser.username
     self.email = dbUser.email

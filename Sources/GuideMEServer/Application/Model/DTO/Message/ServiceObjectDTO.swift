@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ServiceObject: Codable {
+struct ServiceObjectDTO: Codable {
   var type: String
   var sender: String
   var timestamp: Int

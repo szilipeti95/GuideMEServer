@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct Conversation: Codable {
+struct ConversationDTO: Codable {
   var id: Int
-  var user: User
-  var lastMessage: Message
+  var user: UserDTO
+  var lastMessage: MessageDTO
   var approved: Bool
   var read: Bool
 
@@ -23,11 +23,11 @@ struct Conversation: Codable {
   }
 }
 
-extension Conversation {
-  init(dbConversation: DBConversationModel, user: User, dbLastMessage: DBMessageModel) {
+extension ConversationDTO {
+  init(dbConversation: DBConversationModel, user: UserDTO, dbLastMessage: DBMessageModel) {
     self.id = dbConversation.id ?? -1 // TODO: REMOVE?
     self.user = user
-    self.lastMessage = Message(dbMessage: dbLastMessage)
+    self.lastMessage = MessageDTO(dbMessage: dbLastMessage)
     self.approved = dbConversation.approved == 1
     self.read = dbLastMessage.read == 1
   }

@@ -64,7 +64,7 @@ public class ChatService: WebSocketService {
     lockConnectionsLock()
     if connections.removeValue(forKey: connection.id) != nil {
       for connectionData in receivers {
-        let message = ServiceObject(type: MessageType.becameOffline.rawValue,
+        let message = ServiceObjectDTO(type: MessageType.becameOffline.rawValue,
                                     sender: senderEmail,
                                     timestamp: Int(Date().timeIntervalSince1970),
                                     payload: nil)
@@ -77,7 +77,7 @@ public class ChatService: WebSocketService {
   }
 
   public func received(message: Data, from connection: WebSocketConnection) {
-    guard let serviceObject = try? JSONDecoder().decode(ServiceObject.self, from: message) else {
+    guard let serviceObject = try? JSONDecoder().decode(ServiceObjectDTO.self, from: message) else {
       print("Error decoding object")
       return
     }
@@ -120,7 +120,7 @@ public class ChatService: WebSocketService {
                                                     connection: connection)
     unlockConnectionsLock()
     let onlineFriendsData = getOnlineFriends(forEmail: email)
-    let serviceObject = ServiceObject(type: MessageType.becomeOnline.rawValue,
+    let serviceObject = ServiceObjectDTO(type: MessageType.becomeOnline.rawValue,
                                       sender: email,
                                       timestamp: Int(Date().timeIntervalSince1970),
                                       payload: nil)
@@ -134,7 +134,7 @@ public class ChatService: WebSocketService {
 
   private func onlinePeopleHandler(email: String, from connection: WebSocketConnection) {
     let onlineFriendsData = getOnlineFriends(forEmail: email)
-    var responseObject = ServiceObject(type: MessageType.onlinePeople.rawValue,
+    var responseObject = ServiceObjectDTO(type: MessageType.onlinePeople.rawValue,
                                        sender: email,
                                        timestamp: Int(Date().timeIntervalSince1970),
                                        payload: nil)
@@ -164,7 +164,7 @@ public class ChatService: WebSocketService {
       return
     }
     let otherConnectionData = getConnectionByEmail(email: otherEmail)
-    let serviceObject = ServiceObject(type: MessageType.openedChat.rawValue,
+    let serviceObject = ServiceObjectDTO(type: MessageType.openedChat.rawValue,
                                       sender: senderEmail,
                                       timestamp: Int(Date().timeIntervalSince1970),
                                       payload: nil)
@@ -179,7 +179,7 @@ public class ChatService: WebSocketService {
         return
     }
     let otherConnectionData = getConnectionByEmail(email: otherEmail)
-    let serviceObject = ServiceObject(type: MessageType.startedWriting.rawValue,
+    let serviceObject = ServiceObjectDTO(type: MessageType.startedWriting.rawValue,
                                       sender: senderEmail,
                                       timestamp: Int(Date().timeIntervalSince1970),
                                       payload: nil)
@@ -195,7 +195,7 @@ public class ChatService: WebSocketService {
     }
 
     let otherConnectionData = getConnectionByEmail(email: otherEmail)
-    let serviceObject = ServiceObject(type: MessageType.stoppedWriting.rawValue,
+    let serviceObject = ServiceObjectDTO(type: MessageType.stoppedWriting.rawValue,
                                       sender: senderEmail,
                                       timestamp: Int(Date().timeIntervalSince1970),
                                       payload: nil)
@@ -214,7 +214,7 @@ public class ChatService: WebSocketService {
     unlockConnectionsLock()
 
     let otherConnectionData = getConnectionByEmail(email: otherEmail)
-    let serviceObject = ServiceObject(type: MessageType.closedChat.rawValue,
+    let serviceObject = ServiceObjectDTO(type: MessageType.closedChat.rawValue,
                                       sender: senderEmail,
                                       timestamp: Int(Date().timeIntervalSince1970),
                                       payload: nil)
@@ -247,7 +247,7 @@ public class ChatService: WebSocketService {
     }
     
     if let connectionData = otherConnectionData {
-      var serviceObject = ServiceObject(type: MessageType.wroteMessage.rawValue,
+      var serviceObject = ServiceObjectDTO(type: MessageType.wroteMessage.rawValue,
                                         sender: senderEmail,
                                         timestamp: Int(Date().timeIntervalSince1970),
                                         payload: nil)

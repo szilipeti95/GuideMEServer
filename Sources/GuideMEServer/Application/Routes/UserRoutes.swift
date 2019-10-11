@@ -55,21 +55,21 @@ extension Backend {
     }
   }
 
-  internal func getUserData(for email: String) -> User? {
+  internal func getUserData(for email: String) -> UserDTO? {
     guard let user = DBUserModel.getUserWith(email: email) else { return nil }
 
-    var userResponse = User(dbUser: user)
-    userResponse.photos = DBUserPhotosModel.getUploadedPhotosFor(userEmail: email)?.map({ Photo(photo: $0) })
+    var userResponse = UserDTO(dbUser: user)
+    userResponse.photos = DBUserPhotosModel.getUploadedPhotosFor(userEmail: email)?.map({ PhotoDTO(dbPhoto: $0) })
     userResponse.friendCount = DBConversationModel.getFriendCount(for: email)
 
     if let selectLocal = DBGuidesModel.getLocalGuide(for: email),
       let localCity = DBCitiesModel.getCity(with: selectLocal.cityId) {
-      userResponse.local = City(dbCity: localCity)
+      userResponse.local = CityDTO(dbCity: localCity)
 
     }
     if let selectNext = DBGuidesModel.getNextGuide(for: email),
       let nextCity = DBCitiesModel.getCity(with: selectNext.cityId) {
-      userResponse.next = City(dbCity: nextCity)
+      userResponse.next = CityDTO(dbCity: nextCity)
     }
 
     return userResponse
@@ -82,7 +82,7 @@ extension Backend {
 
     if let otherUsers = DBUserModel.getOtherUsers(from: email) {
       let randomNumbers = uniqueRandoms(numberOfRandoms: 4, minNum: 0, maxNum: otherUsers.count - 1)
-      var users = [User]()
+      var users = [UserDTO]()
       for index in randomNumbers {
         let otherUser = otherUsers[index]
         guard let otherUserData = getUserData(for: otherUser.email) else { return }

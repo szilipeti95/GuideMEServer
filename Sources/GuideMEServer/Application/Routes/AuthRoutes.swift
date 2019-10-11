@@ -22,7 +22,7 @@ func addAuthRoutes(app: Backend) {
 extension Backend {
 
   //MARK: Register
-  fileprivate func registerHandler(register: RegisterRequest, respondWith: @escaping (User?, RequestError?) -> Void) {
+  fileprivate func registerHandler(register: RegisterRequestDTO, respondWith: @escaping (UserDTO?, RequestError?) -> Void) {
     guard register.isValid else {
       return
     }
@@ -56,7 +56,7 @@ extension Backend {
     }
   }
 
-  fileprivate func checkHandler(check: RegisterRequest, respondWith: @escaping (User?, RequestError?) -> Void) {
+  fileprivate func checkHandler(check: RegisterRequestDTO, respondWith: @escaping (UserDTO?, RequestError?) -> Void) {
     if DBUserModel.getUserWith(email: check.email) != nil {
       respondWith(nil, nil)
     } else {
@@ -73,7 +73,7 @@ extension Backend {
     return "\(username)\(users.count + 1)"
   }
 
-  fileprivate func loginHandler(login: LoginRequest, respondWith: @escaping (LoginResponse?, RequestError?) -> Void) {
+  fileprivate func loginHandler(login: LoginRequestDTO, respondWith: @escaping (LoginResponseDTO?, RequestError?) -> Void) {
     let passwordHash = login.password.sha256()
     let passwordArray: Array<UInt8> = Array(passwordHash.utf8)
 
@@ -87,7 +87,7 @@ extension Backend {
           respondWith(nil, .internalServerError)
           return
         }
-        respondWith(LoginResponse(jwt: strongSignedJWT), nil)
+        respondWith(LoginResponseDTO(jwt: strongSignedJWT), nil)
       } else {
         respondWith(nil, .badRequest)
       }

@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import SwiftKuery
 import SwiftKueryORM
 
-struct Photo: Codable {
+struct PhotoDTO: Codable {
   var photoUri: String
   var description: String?
   var likeCount: Int
@@ -23,11 +22,11 @@ struct Photo: Codable {
   }
 }
 
-extension Photo {
-  init(photo: DBUserPhotosModel) {
-    self.photoUri = photo.photoUri
-    self.description = photo.description
-    self.likeCount = photo.likeCount
-    self.timestamp = photo.timestamp
+extension PhotoDTO {
+  init(dbPhoto: DBUserPhotosModel) {
+    self.photoUri = dbPhoto.photoUri
+    self.description = dbPhoto.description
+    self.likeCount = dbPhoto.likeCount
+    self.timestamp = dbPhoto.timestamp
   }
 }

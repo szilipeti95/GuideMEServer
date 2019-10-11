@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Guide: Codable {
-  var city: City
+struct GuideDTO: Codable {
+  var city: CityDTO
   var type: Int
   var from: Int?
   var to: Int?
@@ -23,9 +23,9 @@ struct Guide: Codable {
   }
 }
 
-extension Guide {
+extension GuideDTO {
   init(dbGuide: DBGuidesModel, dbCity: DBCitiesModel, prefTypes: [DBGuidePreferencesModel]) {
-    self.city = City(dbCity: dbCity)
+    self.city = CityDTO(dbCity: dbCity)
     self.type = dbGuide.type
     if let from = dbGuide.from, let to = dbGuide.to {
       self.from = from / 1000
