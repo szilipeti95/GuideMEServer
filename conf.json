@@ -1,0 +1,9 @@
+{
+  "sqlUser": "internalAPI",
+  "sqlPassword": "IPAlanretni",
+  "sqlHost": "127.0.0.1",
+  "sqlDatabase": "guideme_new",
+  "sqlPort": 4306,
+  "publicPort": 8044,
+  "privatePort": 8084
+}

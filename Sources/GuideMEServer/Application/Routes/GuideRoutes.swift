@@ -14,7 +14,6 @@ func addGuideRoutes(app: Backend) {
   app.router.get(Paths.guidesEmail, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.guidesEmail, handler: app.getGuides)
 
-  app.router.get(Paths.cities, allowPartialMatch: false, middleware: app.tokenCredentials)
   app.router.get(Paths.cities, handler: app.getCities)
 
   app.router.post(Paths.guide, middleware: BodyParser())

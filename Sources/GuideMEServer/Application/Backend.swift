@@ -30,8 +30,15 @@ public class Backend {
   static var publicKey: Data!
   let privateKeyPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/privateKey.key")
   let privateKey: Data!
+  let configurationDataPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/conf.json")
+  let configurationData: ConfigurationData!
   let tokenCredentials: Credentials!
   public init() throws {
+    print(publicKeyPath)
+    Backend.publicKey = try Data(contentsOf: publicKeyPath, options: .alwaysMapped)
+    privateKey = try Data(contentsOf: privateKeyPath, options: .alwaysMapped)
+    configurationData = try JSONDecoder().decode(ConfigurationData.self, from: Data(contentsOf: configurationDataPath, options: .alwaysMapped))
+
     pool = MySQLConnection.createPool(url: URL(string: "mysql://\(sqlUser):\(sqlPassword)@\(sqlHost):\(sqlPort)/\(sqlDatabase)")!,
                                       poolOptions: ConnectionPoolOptions(initialCapacity: 10,
                                                                          maxCapacity: 50))
@@ -40,9 +47,6 @@ public class Backend {
     tokenCredentials.register(plugin: CredentialsJWTToken())
     tokenCredentials.register(plugin: CredentialsGoogleToken())
     tokenCredentials.register(plugin: CredentialsFacebookToken(options: ["fields": "name,email"]))
-    print(publicKeyPath)
-    Backend.publicKey = try Data(contentsOf: publicKeyPath, options: .alwaysMapped)
-    privateKey = try Data(contentsOf: privateKeyPath, options: .alwaysMapped)
   }
 
   func postInit() throws {
