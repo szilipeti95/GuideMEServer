@@ -40,7 +40,7 @@ extension DBMessageModel {
     }
   }
 
-  public static func getMessagesAscending(for conversationId: Int) -> [DBMessageModel]? {
+  public static func getMessages(for conversationId: Int) -> [DBMessageModel]? {
     let wait = DispatchSemaphore(value: 0)
     var messagesForConversation: [DBMessageModel]?
 
@@ -49,7 +49,7 @@ extension DBMessageModel {
       if let error = error {
         print(error)
       } else if let results = results {
-        messagesForConversation = results.sorted(by: { $0.timestamp < $1.timestamp })
+        messagesForConversation = results
       }
       wait.signal()
     }
@@ -68,7 +68,7 @@ extension DBMessageModel {
   }
 
   public static func updateReadMessages(for conversationId: Int, email: String) -> Bool {
-    if var messages = DBMessageModel.getMessagesAscending(for: conversationId) {
+    if var messages = DBMessageModel.getMessages(for: conversationId) {
       messages = messages.filter({ $0.senderEmail != email })
       messages.forEach { (message) in
         if let messageId = message.messageId {
@@ -86,7 +86,8 @@ extension DBMessageModel {
   public static func getLastMessage(for conversationId: Int) -> DBMessageModel? {
     var lastMessage: DBMessageModel?
 
-    if let messages = getMessagesAscending(for: conversationId) {
+    if var messages = getMessages(for: conversationId) {
+      messages.sort(by: { $0.timestamp < $1.timestamp })
       lastMessage = messages.last
     }
 

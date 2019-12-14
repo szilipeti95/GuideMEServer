@@ -22,13 +22,3 @@ struct ConversationDTO: Codable {
     case read
   }
 }
-
-extension ConversationDTO {
-  init(dbConversation: DBConversationModel, user: UserDTO, dbLastMessage: DBMessageModel) {
-    self.id = dbConversation.id ?? -1 // TODO: REMOVE?
-    self.user = user
-    self.lastMessage = MessageDTO(dbMessage: dbLastMessage)
-    self.approved = dbConversation.approved == 1
-    self.read = dbLastMessage.read == 1
-  }
-}

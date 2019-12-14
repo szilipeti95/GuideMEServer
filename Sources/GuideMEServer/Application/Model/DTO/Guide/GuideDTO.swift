@@ -22,15 +22,3 @@ struct GuideDTO: Codable {
     case preferenceType = "preference_type"
   }
 }
-
-extension GuideDTO {
-  init(dbGuide: DBGuidesModel, dbCity: DBCitiesModel, prefTypes: [DBGuidePreferencesModel]) {
-    self.city = CityDTO(dbCity: dbCity)
-    self.type = dbGuide.type
-    if let from = dbGuide.from, let to = dbGuide.to {
-      self.from = from / 1000
-      self.to = to / 1000
-    }
-    self.preferenceType = prefTypes.map({ $0.prefTypeId })
-  }
-}

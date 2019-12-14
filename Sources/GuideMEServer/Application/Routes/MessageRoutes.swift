@@ -33,15 +33,19 @@ func addMessageRoutes(app: Backend) {
 }
 
 extension Backend {
-
   fileprivate func getMessages(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard request.authorizedUser != nil,
-      let conversationId = request.parameters["conversationId"],
-      let conversationIdInt = Int(conversationId) else {
+    guard let user = request.authorizedUser,
+      let conversationId = Int(request.parameters["conversationId"] ?? "error") else {
         return
     }
-    //TODO: ELLENŐRZÉS HOGY A SAJÁT CONVOJA E AZ EMAILNEK
-    if let messages = DBMessageModel.getMessagesAscending(for: conversationIdInt) {
+
+    guard let conversations = DBConversationModel.getConversations(forEmail: user.email),
+          conversations.first(where: { $0.id == conversationId }) != nil else {
+      try response.send(status: .badRequest).end(); next()
+      return
+    }
+    if let dbMessages = DBMessageModel.getMessages(for: conversationId) {
+      let messages = dbMessages.map { MessageDTO.builder(dbMessage: $0) }.sorted(by: { $0.timestamp < $1.timestamp })
       try response.send(json: messages).end(); next()
     } else {
       try response.send(status: .internalServerError).end(); next()
@@ -49,13 +53,11 @@ extension Backend {
   }
 
   fileprivate func readMessages(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser,
-      let conversationIdString = request.parameters["conversationId"],
-      let conversationId = Int(conversationIdString) else {
+    guard let user = request.authorizedUser,
+      let conversationId = Int(request.parameters["conversationId"] ?? "error") else {
         return
     }
-
-    if DBMessageModel.updateReadMessages(for: conversationId, email: email) {
+    if DBMessageModel.updateReadMessages(for: conversationId, email: user.email) {
       try response.send("Success").end(); next()
     } else {
       try response.send(status: .internalServerError).end(); next()
@@ -63,21 +65,12 @@ extension Backend {
   }
 
   fileprivate func getConversations(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else {
-      return
-    }
+    guard let user = request.authorizedUser else { return }
 
-    if let dbConversations = DBConversationModel.getConversations(forEmail: email, approved: nil) {
+    if let dbConversations = DBConversationModel.getConversations(forEmail: user.email, approved: nil) {
       var conversations: [ConversationDTO] = []
       try dbConversations.forEach { dbConversation in
-        let otherEmail = dbConversation.user1 == email ? dbConversation.user2 : dbConversation.user1
-        guard let otherUser = self.getUserData(for: otherEmail),
-          let conversationId = dbConversation.id,
-          let lastMessage = DBMessageModel.getLastMessage(for: conversationId) else {
-            try response.send(status: .internalServerError).end(); next()
-            return
-        }
-        let conversation = ConversationDTO(dbConversation: dbConversation, user: otherUser, dbLastMessage: lastMessage)
+        let conversation = try ConversationDTO.builder(dbConversation: dbConversation, forUser: user)
         conversations.append(conversation)
       }
       conversations.sort(by: { $0.lastMessage.timestamp > $1.lastMessage.timestamp })
@@ -88,17 +81,16 @@ extension Backend {
   }
 
   fileprivate func approveConversation(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else {
+    guard let user = request.authorizedUser else {
       response.send("").status(.unauthorized); next()
       return
     }
-    guard let conversationIdString = request.parameters["conversationId"],
-      let conversationId = Int(conversationIdString) else {
+    guard let conversationId = Int(request.parameters["conversationId"] ?? "error") else {
       response.send("").status(.badRequest); next()
       return
     }
 
-    if var unapprovedConversation = DBConversationModel.getUnapprovedConversation(conversationId: conversationId, email: email),
+    if var unapprovedConversation = DBConversationModel.getUnapprovedConversation(conversationId: conversationId, email: user.email),
       let conversationId = unapprovedConversation.id {
       unapprovedConversation.approved = 1
       unapprovedConversation.update(id: conversationId) { result, error in
@@ -115,21 +107,20 @@ extension Backend {
   }
 
   fileprivate func denyConversation(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else {
+    guard let user = request.authorizedUser else {
       response.send("").status(.unauthorized); next()
       return
     }
-    guard let conversationIdString = request.parameters["conversationId"],
-      let conversationId = Int(conversationIdString) else {
+    guard let conversationId = Int(request.parameters["conversationId"] ?? "error") else {
         response.send("").status(.badRequest); next()
         return
     }
 
-    if let unapprovedConversation = DBConversationModel.getUnapprovedConversation(conversationId: conversationId, email: email),
+    if let unapprovedConversation = DBConversationModel.getUnapprovedConversation(conversationId: conversationId, email: user.email),
       let conversationId = unapprovedConversation.id {
       DBConversationModel.delete(id: conversationId) { error in
         if let error = error {
-          print(error)
+          print(error.reason)
           try? response.send(status: .internalServerError).end(); next()
         } else {
           try? response.send(status: .OK).end(); next()
@@ -141,7 +132,7 @@ extension Backend {
   }
 
   fileprivate func createConversation(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else {
+    guard let user = request.authorizedUser else {
       response.send("").status(.unauthorized); next()
       return
     }
@@ -151,15 +142,15 @@ extension Backend {
         return
     }
 
-    let dbConversation = DBConversationModel(id: nil, user1: email, user2: otherEmail, approved: 0)
+    let dbConversation = DBConversationModel(id: nil, user1: user.email, user2: otherEmail, approved: 0)
     dbConversation.save { (id: Int?, result: DBConversationModel?, error: RequestError?) in
       if let error = error {
-        print(error)
+        print(error.reason)
         try? response.send(status: .internalServerError).end(); next()
       } else if let id = id {
         let dbMessage = DBMessageModel(messageId: nil,
                                        conversationId: id,
-                                       senderEmail: email,
+                                       senderEmail: user.email,
                                        messageBody: message.message,
                                        timestamp: Date().millisecondsSince1970,
                                        read: 0)

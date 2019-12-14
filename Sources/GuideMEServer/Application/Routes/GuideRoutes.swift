@@ -41,13 +41,7 @@ extension Backend {
     if let dbGuides = DBGuidesModel.getGuides(for: email) {
       var guides: [GuideDTO] = []
       try dbGuides.forEach { dbGuide in
-        let dbGuidePrefs = DBGuidePreferencesModel.getPreferences(guideId: dbGuide.guideId) ?? []
-        if let dbCity = DBCitiesModel.getCity(with: dbGuide.cityId) {
-          guides.append(GuideDTO(dbGuide: dbGuide, dbCity: dbCity, prefTypes: dbGuidePrefs))
-        } else {
-          try response.send(status: .internalServerError).end(); next()
-          return
-        }
+        try guides.append(GuideDTO.builder(dbGuide: dbGuide))
       }
       guides.sort(by: { first, second in first.from ?? 0 < second.to ?? 1 })
       try response.send(json: guides).end(); next()
@@ -61,13 +55,13 @@ extension Backend {
       try response.send(status: .internalServerError).end(); next()
       return
     }
-    let cities = dbCities.map({ CityDTO(dbCity: $0) })
+    let cities = dbCities.map({ CityDTO.builder(dbCity: $0) })
     try response.send(json: cities).end(); next()
   }
 
 
   fileprivate func postGuide(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser,
+    guard let user = request.authorizedUser,
       let guide: GuideDTO = request.body?.asObject() else {
       response.send("").status(.unauthorized); next()
       return
@@ -75,7 +69,7 @@ extension Backend {
 
     if let dbCity = DBCitiesModel.getCity(city: guide.city.city, country: guide.city.country) {
       var dbGuide = DBGuidesModel(guideId: nil,
-                                  userEmail: email,
+                                  userEmail: user.email,
                                   cityId: dbCity.citiesId,
                                   type: guide.type,
                                   from: nil, to: nil)
@@ -105,11 +99,12 @@ extension Backend {
   }
 
   fileprivate func putGuide(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser,
+    guard let user = request.authorizedUser,
       let guide: GuideDTO = request.body?.asObject() else {
         response.send("").status(.unauthorized); next()
         return
     }
+    let email = user.email //!!!!
 
     if let dbCity = DBCitiesModel.getCity(city: guide.city.city, country: guide.city.country),
       let dbGuide = DBGuidesModel.getGuides(for: email, cityId: dbCity.citiesId)?.first,
@@ -137,11 +132,12 @@ extension Backend {
   }
 
   fileprivate func deleteGuide(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser,
+    guard let user = request.authorizedUser,
       let city: CityDTO = request.body?.asObject() else {
         response.send("").status(.unauthorized); next()
         return
     }
+    let email = user.email //!!!!
 
     if let dbCity = DBCitiesModel.getCity(city: city.city, country: city.country),
       let dbGuideId = DBGuidesModel.getGuides(for: email, cityId: dbCity.citiesId)?.first?.guideId {

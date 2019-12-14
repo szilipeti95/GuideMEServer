@@ -9,6 +9,7 @@ import Foundation
 import SwiftKuery
 import SwiftKueryORM
 import SwiftKueryMySQL
+import KituraContracts
 
 struct DBGuidesModel: Model {
   static var tableName = "Guides"

@@ -18,11 +18,3 @@ struct MessageDTO: Codable {
     case sender
   }
 }
-
-extension MessageDTO {
-  init(dbMessage: DBMessageModel) {
-    self.message = dbMessage.messageBody
-    self.timestamp = dbMessage.timestamp / 1000
-    self.sender = dbMessage.senderEmail
-  }
-}

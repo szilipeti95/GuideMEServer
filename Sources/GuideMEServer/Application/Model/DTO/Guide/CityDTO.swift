@@ -18,11 +18,3 @@ struct CityDTO: Codable {
     case imageUri = "image_uri"
   }
 }
-
-extension CityDTO {
-  init(dbCity: DBCitiesModel) {
-    self.city = dbCity.city
-    self.country = dbCity.country
-    self.imageUri = dbCity.imageUri
-  }
-}

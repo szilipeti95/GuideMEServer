@@ -9,9 +9,12 @@ import Foundation
 import Kitura
 
 extension RouterRequest {
-  var authorizedUser: String? {
+  var authorizedUser: UserDTO? {
     get {
-      return self.userProfile?.emails?[0].value ?? self.userProfile?.id
+      guard let email = self.userProfile?.emails?[0].value else {
+        return nil
+      }
+      return UserDTO.builder(email: email)
     }
   }
 }

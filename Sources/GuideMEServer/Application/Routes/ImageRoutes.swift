@@ -23,7 +23,7 @@ extension Backend {
     guard let parts = request.body?.asMultiPart,
           let imagePart = parts.filter({ $0.type.contains("image") }).first,
           let imageData = imagePart.body.asRaw,
-          let email = request.authorizedUser else {
+          let user = request.authorizedUser else {
       return
     }
 
@@ -36,14 +36,14 @@ extension Backend {
       try imageData.write(to: fileURL, options: .atomic)
 
       let dbPhoto = DBUserPhotosModel(id: nil,
-                                      userEmail: email,
+                                      userEmail: user.email,
                                       photoUri: fileName,
                                       description: description,
                                       likeCount: 0,
                                       timestamp: Date().millisecondsSince1970)
       dbPhoto.save { result, error in
         if let error = error {
-          print(error)
+          print(error.reason)
           try? response.send(status: .internalServerError).end(); next()
         } else if result != nil {
           try? response.send("Success").end(); next()

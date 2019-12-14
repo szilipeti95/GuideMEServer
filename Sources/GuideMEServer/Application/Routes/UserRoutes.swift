@@ -32,13 +32,8 @@ func addUserRoutes(app: Backend) {
 
 extension Backend {
   fileprivate func getUserHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else { return }
-
-    if let userData = getUserData(for: email) {
-      try response.send(json: userData).end(); next()
-    } else {
-      try response.send(status: .badRequest).end(); next()
-    }
+    guard let user = request.authorizedUser else { return }
+    try response.send(json: user).end(); next()
   }
 
   fileprivate func getUsersDataHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
@@ -48,44 +43,24 @@ extension Backend {
       return
     }
 
-    if let userData = getUserData(for: email) {
+    if let userData = UserDTO.builder(email: email) {
       try response.send(json: userData).end(); next()
     } else {
       try response.send(status: .badRequest).end(); next()
     }
   }
 
-  internal func getUserData(for email: String) -> UserDTO? {
-    guard let user = DBUserModel.getUserWith(email: email) else { return nil }
-
-    var userResponse = UserDTO(dbUser: user)
-    userResponse.photos = DBUserPhotosModel.getUploadedPhotosFor(userEmail: email)?.map({ PhotoDTO(dbPhoto: $0) })
-    userResponse.friendCount = DBConversationModel.getFriendCount(for: email)
-
-    if let selectLocal = DBGuidesModel.getLocalGuide(for: email),
-      let localCity = DBCitiesModel.getCity(with: selectLocal.cityId) {
-      userResponse.local = CityDTO(dbCity: localCity)
-
-    }
-    if let selectNext = DBGuidesModel.getNextGuide(for: email),
-      let nextCity = DBCitiesModel.getCity(with: selectNext.cityId) {
-      userResponse.next = CityDTO(dbCity: nextCity)
-    }
-
-    return userResponse
-  }
-
   fileprivate func getFourRandomHandler(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
-    guard let email = request.authorizedUser else {
+    guard let user = request.authorizedUser else {
       return
     }
 
-    if let otherUsers = DBUserModel.getOtherUsers(from: email) {
+    if let otherUsers = DBUserModel.getOtherUsers(from: user.email) {
       let randomNumbers = uniqueRandoms(numberOfRandoms: 4, minNum: 0, maxNum: otherUsers.count - 1)
       var users = [UserDTO]()
       randomNumbers.forEach { randomNumber in
         let otherUser = otherUsers[randomNumber]
-        guard let otherUserData = getUserData(for: otherUser.email) else { return }
+        guard let otherUserData = UserDTO.builder(email: otherUser.email) else { return }
         users.append(otherUserData)
       }
       try response.send(json: users).end(); next()
@@ -108,11 +83,12 @@ extension Backend {
 
   fileprivate func uploadProfileImage(request: RouterRequest, response: RouterResponse, next: @escaping (() -> Void)) throws {
     guard let parts = request.body?.asMultiPart,
-      let email = request.authorizedUser,
+      let user = request.authorizedUser,
       let imageData = parts.filter({ $0.type.contains("image") }).first?.body.asRaw,
       let count = DBUserPhotosModel.getUploadedPhotosCount() else {
         return
     }
+    let email = user.email //!!!!
 
     let description = parts.filter { $0.name == "description" }.first?.body.asText
     let dir = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)

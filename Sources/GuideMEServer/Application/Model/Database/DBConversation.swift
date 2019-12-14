@@ -80,3 +80,7 @@ extension DBConversationModel {
     return friendCount
   }
 }
+
+enum BuilderError: Error {
+  case unknownError
+}
